@@ -1,0 +1,161 @@
+import React from "react";
+import classes from "./homePage.module.css";
+import Icon from "../../commonComponents/Icon";
+import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
+import Tag from "../../commonComponents/Tag";
+import { AiFillStar } from "@react-icons/all-files/ai/AiFillStar";
+import Button from "../../commonComponents/Button";
+
+function HomePage(props) {
+  const settings = {
+    dots: false,
+    infinite: true,
+    autoplay: false,
+    slidesToShow: 10,
+    slidesToScroll: 10,
+  };
+
+  return (
+    <section className={classes.root}>
+      <div className={classes.topPage}>
+        <h2 className={classes.title}>Bạn sẽ dạy gì hôm nay</h2>
+        <div className={classes.inputContainer}>
+          <input
+            type={"text"}
+            name={"search"}
+            placeholder={"Tìm kiếm quiz về bất kỳ chủ đề nào"}
+          />
+          <Icon>
+            <AiOutlineRight />
+          </Icon>
+        </div>
+        <div className={classes.listSubject}>
+          <Slider {...settings}>
+            {new Array(10).fill(null).map((current, index) => (
+              <SubjectItem
+                key={index}
+                src={
+                  "https://cf.quizizz.com/img/course-assets/title_imgs/bts_templates.png"
+                }
+                alt={"Ice breaker"}
+                label={"Ice breaker"}
+              />
+            ))}
+          </Slider>
+        </div>
+      </div>
+      <div className={classes.mainPage}>
+        <SliderLesson title={"Ice breaker"} lessons={[]} />
+        <SliderLesson title={"Ice breaker"} lessons={[]} />
+        <SliderLesson title={"Ice breaker"} lessons={[]} />
+        <SliderLesson title={"Ice breaker"} lessons={[]} />
+      </div>
+    </section>
+  );
+}
+
+function SubjectItem(props) {
+  const { src, alt, label, ...restProps } = props;
+  return (
+    <li {...restProps} className={classes.subjectRoot}>
+      <div className={classes.subjectContainer}>
+        <div className={classes.subjectImageContainer}>
+          <img src={src} alt={alt} className={classes.subjectImage} />
+        </div>
+        <span className={classes.subjectLabel}>{label}</span>
+      </div>
+    </li>
+  );
+}
+
+function SliderLesson(props) {
+  const { lessons = [], title, to, restProps } = props;
+  const settings = {
+    dots: false,
+    infinite: false,
+    autoplay: false,
+    slidesToShow: 6,
+    slidesToScroll: 6,
+  };
+  return (
+    <div className={classes.lessonRoot}>
+      <div className={classes.lessonTitle}>
+        <div className={classes.left}>
+          <Icon>
+            <AiFillStar />
+          </Icon>
+          <h2>{title}</h2>
+        </div>
+        <div className={classes.right}>
+          <Button to={to} endIcon={<AiOutlineRight />}>
+            Xem thêm
+          </Button>
+        </div>
+      </div>
+      <div className={classes.listLesson}>
+        <Slider {...settings}>
+          {/*{lessons.map((lesson) => (*/}
+          {/*  <Lesson key={lesson.key} {...lesson} />*/}
+          {/*))}*/}
+          {new Array(10).fill(null).map((current, index) => (
+            <Lesson
+              key={index}
+              src={
+                "https://quizizz.com/media/resource/gs/quizizz-media/quizzes/4bcf5a95-a02f-417d-9cff-49d2c4d10f25?w=400&h=400"
+              }
+              alt={"Quiz image"}
+              to={"/lesson1"}
+              type={"QUIZZ"}
+              isNew={true}
+              name={"Vòng quanh thế giới"}
+              numberOfQuestion={10}
+              numberOfPlayed={160}
+            />
+          ))}
+        </Slider>
+      </div>
+    </div>
+  );
+}
+
+function Lesson(props) {
+  const {
+    src,
+    alt,
+    to,
+    type,
+    isNew,
+    name,
+    numberOfQuestion,
+    numberOfPlayed,
+    ...restProps
+  } = props;
+  return (
+    <div className={classes.lessonRoot} {...restProps}>
+      <Link to={to} className={classes.lessonContainer}>
+        <div className={classes.lessonImageContainer}>
+          <img src={src} alt={alt} />
+        </div>
+        <div className={classes.lessonBody}>
+          <div className={classes.tagContainer}>
+            <Tag>QUIZZ</Tag>
+          </div>
+          <h3>Vòng quanh thế giới</h3>
+        </div>
+        <div className={classes.lessonFooter}>
+          <span>8 câu hỏi</span>
+          <span>•</span>
+          <span>
+            <span>{numberOfPlayed}</span> lần chơi
+          </span>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+export default HomePage;
