@@ -1,14 +1,16 @@
 import React from "react";
 import classes from "./rootApp.module.css";
-import Header from "../Header";
-import RouterMain from "../RouterMain/routerMain";
-import Footer from "../Footer";
-import NotificationContainer from "../NotificationContainer";
-import ModalContainer from "../ModalContainer";
-import { NotificationProvider } from "../NotificationContainer/NotificationContext/notificationContext";
-import { ModalProvider } from "../ModalContainer/ModalContext/modalContext";
-import { BrowserRouter } from "react-router-dom";
-import LeftNav from "../LeftNav";
+import AdminHeader from "../admin/AdminHeader";
+import AdminRouter from "../admin/AdminRouter";
+import Footer from "../common/Footer";
+import NotificationContainer from "../common/NotificationContainer";
+import ModalContainer from "../common/ModalContainer";
+import { NotificationProvider } from "../common/NotificationContainer/NotificationContext/notificationContext";
+import { ModalProvider } from "../common/ModalContainer/ModalContext/modalContext";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LeftNav from "../admin/LeftNav";
+import JoinHeader from "../join/Joinheader";
+import JoinRouter from "../join/JoinRouter/joinRouter";
 
 function RootApp(props) {
   return (
@@ -16,14 +18,35 @@ function RootApp(props) {
       <ModalProvider>
         <BrowserRouter>
           <section className={classes.root}>
-            <section className={classes.leftNav}>
-              <LeftNav />
-            </section>
-            <section className={classes.mainContent}>
-              <Header />
-              <RouterMain />
-              <Footer />
-            </section>
+            <Routes>
+              <Route
+                path={"/admin/*"}
+                element={
+                  <>
+                    <section className={classes.leftNav}>
+                      <LeftNav />
+                    </section>
+                    <section className={classes.mainContent}>
+                      <AdminHeader />
+                      <AdminRouter />
+                      <Footer />
+                    </section>
+                  </>
+                }
+              />
+              <Route
+                path={"/join/*"}
+                element={
+                  <>
+                    <section className={classes.joinContent}>
+                      <JoinHeader />
+                      <JoinRouter />
+                      <Footer />
+                    </section>
+                  </>
+                }
+              />
+            </Routes>
             <NotificationContainer />
             <ModalContainer />
           </section>

@@ -1,9 +1,9 @@
 import React from "react";
 import classes from "./leftNav.module.css";
-import Button from "../../commonComponents/Button";
+import Button from "../../../commonComponents/Button";
 import { BiAlarmAdd } from "@react-icons/all-files/bi/BiAlarmAdd";
 import { GrMapLocation } from "@react-icons/all-files/gr/GrMapLocation";
-import Icon from "../../commonComponents/Icon";
+import Icon from "../../../commonComponents/Icon";
 
 function LeftNav(props) {
   return (

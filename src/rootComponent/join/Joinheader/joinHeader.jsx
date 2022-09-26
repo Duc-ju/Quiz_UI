@@ -1,18 +1,27 @@
 import React from "react";
-import classes from "./header.module.css";
-import Button from "../../commonComponents/Button";
+import classes from "./joinHeader.module.css";
+import Button from "../../../commonComponents/Button";
 import { FcSearch } from "@react-icons/all-files/fc/FcSearch";
+import { Link } from "react-router-dom";
 
-function Header(props) {
+function JoinHeader(props) {
   return (
     <section className={classes.root}>
       <div className={classes.container}>
+        <Link to={"/"} className={classes.logo}>
+          <img
+            src={
+              "https://cf.quizizz.com/img/quizizz_logos/purple-brandmark-600x164.png"
+            }
+            alt={"logo"}
+          />
+        </Link>
         <div className={classes.searchInput}>
           <div className={classes.leftNav}>
             <span className={classes.searchIcon}>
               <FcSearch />
             </span>
-            <input type={"text"} name={"search"} placeholder={"Tìm kiếm"} />
+            <input type={"text"} name={"search"} placeholder={"Tìm quizz"} />
           </div>
           <div className={classes.selectContainer}>
             <select>
@@ -33,4 +42,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default JoinHeader;

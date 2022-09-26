@@ -1,76 +1,11 @@
-import React from "react";
-import classes from "./homePage.module.css";
+import classes from "./sliderLesson.module.css";
 import Icon from "../../commonComponents/Icon";
-import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Link } from "react-router-dom";
-import Tag from "../../commonComponents/Tag";
 import { AiFillStar } from "@react-icons/all-files/ai/AiFillStar";
 import Button from "../../commonComponents/Button";
-
-function HomePage(props) {
-  const settings = {
-    dots: false,
-    infinite: true,
-    autoplay: false,
-    slidesToShow: 10,
-    slidesToScroll: 10,
-  };
-
-  return (
-    <section className={classes.root}>
-      <div className={classes.topPage}>
-        <h2 className={classes.title}>Bạn sẽ dạy gì hôm nay</h2>
-        <div className={classes.inputContainer}>
-          <input
-            type={"text"}
-            name={"search"}
-            placeholder={"Tìm kiếm quiz về bất kỳ chủ đề nào"}
-          />
-          <Icon>
-            <AiOutlineRight />
-          </Icon>
-        </div>
-        <div className={classes.listSubject}>
-          <Slider {...settings}>
-            {new Array(10).fill(null).map((current, index) => (
-              <SubjectItem
-                key={index}
-                src={
-                  "https://cf.quizizz.com/img/course-assets/title_imgs/bts_templates.png"
-                }
-                alt={"Ice breaker"}
-                label={"Ice breaker"}
-              />
-            ))}
-          </Slider>
-        </div>
-      </div>
-      <div className={classes.mainPage}>
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-      </div>
-    </section>
-  );
-}
-
-function SubjectItem(props) {
-  const { src, alt, label, ...restProps } = props;
-  return (
-    <li {...restProps} className={classes.subjectRoot}>
-      <div className={classes.subjectContainer}>
-        <div className={classes.subjectImageContainer}>
-          <img src={src} alt={alt} className={classes.subjectImage} />
-        </div>
-        <span className={classes.subjectLabel}>{label}</span>
-      </div>
-    </li>
-  );
-}
+import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
+import Slider from "react-slick";
+import { Link } from "react-router-dom";
+import Tag from "../../commonComponents/Tag";
 
 function SliderLesson(props) {
   const { lessons = [], title, to, restProps } = props;
@@ -158,4 +93,4 @@ function Lesson(props) {
   );
 }
 
-export default HomePage;
+export default SliderLesson;
