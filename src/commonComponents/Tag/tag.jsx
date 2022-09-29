@@ -1,13 +1,22 @@
 import React from "react";
 import classes from "./tag.module.css";
 import Icon from "../Icon";
+import mergeClassNames from "merge-class-names";
 
 function Tag(props) {
-  const { children, preIcon, endIcon, className = "", ...restProps } = props;
+  const {
+    children,
+    tag,
+    preIcon,
+    endIcon,
+    className = "",
+    ...restProps
+  } = props;
+  const mergedClass = mergeClassNames(classes.root, className);
   return (
-    <div className={classes.root + " " + className}>
+    <div className={mergedClass}>
       {!!preIcon && <Icon>{preIcon}</Icon>}
-      {children}
+      {children || tag}
       {endIcon && <Icon>{endIcon}</Icon>}
     </div>
   );

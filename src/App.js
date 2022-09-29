@@ -1,5 +1,5 @@
 import React from "react";
-import RootApp from "./rootComponent/RootApp";
+import RootApp from "./rootComponent/App";
 
 function App() {
   return (

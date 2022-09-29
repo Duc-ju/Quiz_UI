@@ -1,11 +1,13 @@
 import React from "react";
 import classes from "./icon.module.css";
+import mergeClassNames from "merge-class-names";
 
 function Icon(props) {
-  const { children, className = "", ...restProps } = props;
+  const { children, icon, className = "", ...restProps } = props;
+  const mergedClass = mergeClassNames(classes.root, className);
   return (
-    <span className={classes.root + " " + className} {...restProps}>
-      {children}
+    <span className={mergedClass} {...restProps}>
+      {children || icon}
     </span>
   );
 }

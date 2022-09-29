@@ -8,6 +8,7 @@
     --border-dark: 1px solid rgb(229 229 229 / var(--tw-border-opacity));
     --tw-ring-offset-width: 0px;
     --tw-ring-offset-color: #fff;
+    --room-button-dark: hsla(0, 0%, 100%, .2);
     font-family: Open Sans, sans-serif, Helvetica, Arial, Symbola;
     color: rgb(34 34 34 / var(--tw-text-opacity));
     background-color: var(--main-bg);

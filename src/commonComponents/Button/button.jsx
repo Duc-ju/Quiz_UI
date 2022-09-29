@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./button.module.css";
 import { Link } from "react-router-dom";
+import mergeClassNames from "merge-class-names";
 
 function LinkButton(props) {
   const { children, ...restProps } = props;
@@ -19,20 +20,21 @@ function Button(props) {
     endIcon,
     className = "",
     children,
+    title,
+    fullWidth,
     to,
     ...restProps
   } = props;
   const RootTag = to ? LinkButton : NormalButton;
+  const mergedClass = mergeClassNames(
+    classes.root,
+    classes["button-" + type],
+    fullWidth ? classes.fullWidth : ""
+  );
   return (
-    <RootTag
-      {...restProps}
-      className={
-        classes.root + " " + classes["button-" + type] + " " + className
-      }
-      to={to}
-    >
+    <RootTag {...restProps} className={mergedClass} to={to}>
       {!!preIcon && <span className={classes.icon}>{preIcon}</span>}
-      <span className={classes.innerButton}>{children}</span>
+      <span className={classes.innerButton}>{children || title}</span>
       {!!endIcon && <span className={classes.icon}>{endIcon}</span>}
     </RootTag>
   );

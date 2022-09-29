@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./rootApp.module.css";
+import classes from "./app.module.css";
 import AdminHeader from "../admin/AdminHeader";
 import AdminRouter from "../admin/AdminRouter";
 import Footer from "../common/Footer";
@@ -11,8 +11,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LeftNav from "../admin/LeftNav";
 import JoinHeader from "../join/Joinheader";
 import JoinRouter from "../join/JoinRouter/joinRouter";
+import NotFoundPage from "../common/NotFoundPage";
+import RoomRouter from "../room/RoomRouter";
 
-function RootApp(props) {
+function App(props) {
   return (
     <NotificationProvider>
       <ModalProvider>
@@ -34,6 +36,7 @@ function RootApp(props) {
                   </>
                 }
               />
+              <Route path={"/join/game/*"} element={<RoomRouter />} />
               <Route
                 path={"/join/*"}
                 element={
@@ -46,6 +49,7 @@ function RootApp(props) {
                   </>
                 }
               />
+              <Route path={"*"} element={<NotFoundPage />} />
             </Routes>
             <NotificationContainer />
             <ModalContainer />
@@ -56,4 +60,4 @@ function RootApp(props) {
   );
 }
 
-export default RootApp;
+export default App;
