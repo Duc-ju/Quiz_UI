@@ -1,10 +1,26 @@
 import React, { useContext } from "react";
 import { ModalContext } from "./ModalContext/modalContext";
+import classes from "./modalContainer.module.css";
+import mergeClassNames from "merge-class-names";
+import Icon from "../../../commonComponents/Icon";
+import { GrClose } from "@react-icons/all-files/gr/GrClose";
 
 function ModalContainer(props) {
-  const { modalContent } = useContext(ModalContext);
-  if (modalContent === null) return null;
-  return <div>{modalContent}</div>;
+  const { open, modalContent, closeModal } = useContext(ModalContext);
+  const mergedClass = mergeClassNames(classes.root, !open && classes.close);
+  return (
+    <aside className={mergedClass}>
+      <button className={classes.bgButton} onClick={() => closeModal()} />
+      <div className={classes.container}>
+        <Icon
+          className={classes.closeButton}
+          icon={<GrClose />}
+          onClick={() => closeModal()}
+        />
+        {modalContent}
+      </div>
+    </aside>
+  );
 }
 
 export default ModalContainer;

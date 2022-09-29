@@ -3,7 +3,8 @@
     padding: 16px;
     border-radius: 8px;
     background-color: #f2f2f2;
-    border-left: 8px solid rgb(0, 201, 133);;
+    border-left: 8px solid rgb(0, 201, 133);
+    cursor: pointer;
 }
 
 .root.error {

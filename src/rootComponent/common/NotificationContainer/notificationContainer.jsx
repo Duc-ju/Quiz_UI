@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { NotificationContext } from "./NotificationContext/notificationContext";
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function NotificationContainer(props) {
-  const { notificationContent } = useContext(NotificationContext);
-  if (notificationContent === null) return null;
-  return <div>{notificationContent}</div>;
+  return <ToastContainer autoClose={6000} draggable={true} />;
 }
 
 export default NotificationContainer;
