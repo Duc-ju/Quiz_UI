@@ -52,11 +52,14 @@
     top: calc(50vh);
 }
 
-.closeButton svg {
-    font-size: 16px;
+.closeButton {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 13px;
     padding: 8px;
     cursor: pointer;
+}
+
+.closeButton svg {
+    font-size: 16px;
 }

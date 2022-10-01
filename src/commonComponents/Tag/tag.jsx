@@ -14,7 +14,7 @@ function Tag(props) {
   } = props;
   const mergedClass = mergeClassNames(classes.root, className);
   return (
-    <div className={mergedClass}>
+    <div className={mergedClass} {...restProps}>
       {!!preIcon && <Icon>{preIcon}</Icon>}
       {children || tag}
       {endIcon && <Icon>{endIcon}</Icon>}

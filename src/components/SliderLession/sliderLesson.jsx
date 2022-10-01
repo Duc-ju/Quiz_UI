@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import Tag from "../../commonComponents/Tag";
 
 function SliderLesson(props) {
-  const { lessons = [], title, to, restProps } = props;
+  const { lessons = [], title, to, ...restProps } = props;
   const settings = {
     dots: false,
     infinite: false,
@@ -17,7 +17,7 @@ function SliderLesson(props) {
     slidesToScroll: 6,
   };
   return (
-    <div className={classes.lessonRoot}>
+    <div className={classes.lessonRoot} {...restProps}>
       <div className={classes.lessonTitle}>
         <div className={classes.left}>
           <Icon>
