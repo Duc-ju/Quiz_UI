@@ -33,9 +33,6 @@ function SliderLesson(props) {
       </div>
       <div className={classes.listLesson}>
         <Slider {...settings}>
-          {/*{lessons.map((lesson) => (*/}
-          {/*  <Lesson key={lesson.key} {...lesson} />*/}
-          {/*))}*/}
           {new Array(10).fill(null).map((current, index) => (
             <Lesson
               key={index}

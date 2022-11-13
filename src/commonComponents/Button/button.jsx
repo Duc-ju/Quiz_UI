@@ -29,6 +29,7 @@ function Button(props) {
   const mergedClass = mergeClassNames(
     classes.root,
     classes["button-" + type],
+    className,
     fullWidth ? classes.fullWidth : ""
   );
   return (
