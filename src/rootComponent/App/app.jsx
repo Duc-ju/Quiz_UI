@@ -34,7 +34,7 @@ function App(props) {
                 </>
               }
             />
-            <Route path={"/join/game/*"} element={<RoomRouter />} />
+            <Route path={"/join/game/:lessonId/*"} element={<RoomRouter />} />
             <Route
               path={"/join/*"}
               element={

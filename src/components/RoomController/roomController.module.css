@@ -85,6 +85,10 @@
     transform: translateY(100%);
 }
 
+.pickStatus {
+    transform: unset;
+}
+
 .correct {
     background-color: #00c985;
 }

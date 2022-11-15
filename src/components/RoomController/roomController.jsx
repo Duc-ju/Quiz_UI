@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./roomController.module.css";
 import Button from "../../commonComponents/Button";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
@@ -8,9 +8,26 @@ import { BsFullscreen } from "@react-icons/all-files/bs/BsFullscreen";
 import { AiFillSetting } from "@react-icons/all-files/ai/AiFillSetting";
 import { RiArrowGoBackFill } from "@react-icons/all-files/ri/RiArrowGoBackFill";
 import { RiArrowGoForwardFill } from "@react-icons/all-files/ri/RiArrowGoForwardFill";
+import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
+import mergeClassNames from "merge-class-names";
 
 function RoomController(props) {
   const { children } = props;
+  const { count, resultTime, checkLastQuestionResult } =
+    useContext(RoomContext);
+  const lastResult = checkLastQuestionResult();
+  console.log({
+    count,
+    resultTime,
+  });
+  const rightClass = mergeClassNames(
+    classes.correct,
+    count === 0 && resultTime > 0 && lastResult ? classes.pickStatus : ""
+  );
+  const wrongClass = mergeClassNames(
+    classes.wrong,
+    count === 0 && resultTime > 0 && !lastResult ? classes.pickStatus : ""
+  );
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -48,13 +65,13 @@ function RoomController(props) {
             <RiArrowGoForwardFill />
           </Button>
         </div>
-        <div className={classes.correct}>
+        <div className={rightClass}>
           <div className={classes.correctContent}>
             <span>Điểm trả lời</span>
             <span>+960</span>
           </div>
         </div>
-        <div className={classes.wrong}>
+        <div className={wrongClass}>
           <div className={classes.wrongContent}>
             <span>Câu trả lời chưa chính xác</span>
           </div>
