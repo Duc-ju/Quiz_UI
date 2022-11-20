@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import lessonApi from "../../../../api/lessonApi";
 import { useParams } from "react-router-dom";
 
@@ -46,8 +45,6 @@ function RoomProvider({ children }) {
         };
       }
       return lesson.questions[currentQuestionIdx];
-    } else {
-      toast.error("Lấy câu hỏi không thành công");
     }
   };
   const handleSubmit = () => {};

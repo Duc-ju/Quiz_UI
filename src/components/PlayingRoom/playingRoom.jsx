@@ -25,31 +25,33 @@ function PlayingRoom(props) {
     if (currentQuestion) {
       setCount(currentQuestion.duration);
     }
-  }, [currentQuestion]);
+  }, [currentQuestion.id, setCount]);
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCount((old) => {
-        if (old === 1 || old === 0) {
+        if (old === 1) {
           setAnswered(true);
           handleAddAnswer({
             right: false,
           });
           setResultTime(15);
+          console.log("setResultTime 15");
           clearInterval(intervalId);
           return 0;
         }
+        if (old === 0) return old;
         return old - 1;
       });
     }, 1000);
     return () => clearInterval(intervalId);
-  }, [currentQuestion, answered]);
+  }, [currentQuestion, answered, handleAddAnswer, setCount, setResultTime]);
   useEffect(() => {
     if (!lesson) {
       console.log(params.lessonId);
       navigate(`/join/game/${params.lessonId}/pre-game`);
       toast.error("Bạn cần tham gia bài kiểm tra từ đầu!");
     }
-  }, [currentQuestion]);
+  }, [currentQuestion, params.lessonId, lesson, navigate]);
   const handleSelectAnswer = (answer) => {
     console.log(answer);
     setAnswered(true);
@@ -65,6 +67,7 @@ function PlayingRoom(props) {
     });
     setCount(0);
     setResultTime(15);
+    console.log("setResultTime 15");
   };
   useEffect(() => {
     let timeoutId = -1;
@@ -79,12 +82,18 @@ function PlayingRoom(props) {
       }, 1000);
     } else if (resultTime > 1) {
       timeoutId = setTimeout(() => {
-        setResultTime((old) => old - 1);
+        setResultTime(resultTime - 1);
       }, 1000);
     }
-    console.log(resultTime);
     return () => clearTimeout(timeoutId);
-  }, [resultTime, currentQuestion]);
+  }, [
+    resultTime,
+    currentQuestion,
+    handleNextQuestion,
+    lesson.id,
+    navigate,
+    setResultTime,
+  ]);
 
   if (!lesson) return null;
   return (
