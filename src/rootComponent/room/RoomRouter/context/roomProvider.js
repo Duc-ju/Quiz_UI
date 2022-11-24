@@ -18,7 +18,6 @@ function RoomProvider({ children }) {
       lessonApi
         .getById(lessonId)
         .then((lesson) => {
-          console.log(lesson);
           setLesson(lesson.data);
           setFetching(false);
         })
@@ -29,7 +28,9 @@ function RoomProvider({ children }) {
     }
   }, [lessonId]);
   const handleAddAnswer = (data) => {
-    setAnswerList((old) => [...old, data]);
+    setAnswerList((old) => {
+      return [...old, data];
+    });
   };
   const getCurrentQuestion = () => {
     if (
@@ -55,7 +56,11 @@ function RoomProvider({ children }) {
   };
   const checkLastQuestionResult = () => {
     if (answerList.length === 0) return false;
-    return answerList[answerList.length - 1].right;
+    return (
+      answerList[answerList.length - 1].questionAnswerParts.filter(
+        (questionAnswerPart) => !questionAnswerPart.rightAnswer
+      ).length === 0
+    );
   };
   return (
     <RoomContext.Provider

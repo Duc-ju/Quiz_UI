@@ -3,8 +3,25 @@ import classes from "./playingRoom.module.css";
 import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { PENDING_TIME } from "../../constant/gameConstant";
+import answerTimeApi from "../../api/answerTimeApi";
 
 function PlayingRoom(props) {
+  const { children } = props;
+  const { lesson } = useContext(RoomContext);
+  const params = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!lesson) {
+      navigate(`/join/game/${params.lessonId}/pre-game`);
+      toast.error("Bạn cần tham gia bài kiểm tra từ đầu!");
+    }
+  }, [params.lessonId, navigate, lesson]);
+  if (!lesson) return null;
+  return <PlayingRoomContent />;
+}
+
+function PlayingRoomContent(props) {
   const [answered, setAnswered] = useState(false);
   const {
     lesson,
@@ -16,8 +33,8 @@ function PlayingRoom(props) {
     handleNextQuestion,
     handleAddAnswer,
     currentQuestionIdx,
+    answerList,
   } = useContext(RoomContext);
-  const params = useParams();
   const navigate = useNavigate();
   const currentQuestion = getCurrentQuestion();
 
@@ -34,8 +51,7 @@ function PlayingRoom(props) {
           handleAddAnswer({
             right: false,
           });
-          setResultTime(15);
-          console.log("setResultTime 15");
+          setResultTime(PENDING_TIME);
           clearInterval(intervalId);
           return 0;
         }
@@ -45,29 +61,21 @@ function PlayingRoom(props) {
     }, 1000);
     return () => clearInterval(intervalId);
   }, [currentQuestion, answered, handleAddAnswer, setCount, setResultTime]);
-  useEffect(() => {
-    if (!lesson) {
-      console.log(params.lessonId);
-      navigate(`/join/game/${params.lessonId}/pre-game`);
-      toast.error("Bạn cần tham gia bài kiểm tra từ đầu!");
-    }
-  }, [currentQuestion, params.lessonId, lesson, navigate]);
+
   const handleSelectAnswer = (answer) => {
-    console.log(answer);
     setAnswered(true);
     handleAddAnswer({
-      lesson: {
-        id: lesson.id,
-      },
-      question: {
-        id: currentQuestion.id,
-      },
-      id: answer.id,
-      right: answer.answerKey,
+      questionId: currentQuestion.id,
+      questionAnswerParts: [
+        {
+          answerId: answer.id,
+          rightAnswer: answer.answerKey,
+        },
+      ],
+      duration: count,
     });
     setCount(0);
-    setResultTime(15);
-    console.log("setResultTime 15");
+    setResultTime(PENDING_TIME);
   };
   useEffect(() => {
     let timeoutId = -1;
@@ -77,6 +85,20 @@ function PlayingRoom(props) {
           handleNextQuestion();
         } else {
           handleNextQuestion();
+          const dataObject = {
+            lessonId: lesson.id,
+            userId: null,
+            socketId: null,
+            nickName: null,
+            room: null,
+            questionAnswers: answerList,
+          };
+          answerTimeApi
+            .add(dataObject)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((e) => console.log(e));
           navigate(`/join/game/${lesson.id}/scored-game`);
         }
       }, 1000);
