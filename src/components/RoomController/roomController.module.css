@@ -9,7 +9,7 @@
 }
 
 .timeProgress {
-    display: none;
+    width: calc(100% - 24px);
     position: absolute;
     top: -6px;
     left: 0;
@@ -23,7 +23,7 @@
     background-color: white;
     height: 4px;
     border-radius: 8px;
-    width: 100%;
+    width: var(--progress-time);
 }
 
 .header {
@@ -128,4 +128,3 @@
 .wrongContent span {
     font-size: 14px;
 }
-

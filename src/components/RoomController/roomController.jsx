@@ -13,13 +13,10 @@ import mergeClassNames from "merge-class-names";
 
 function RoomController(props) {
   const { children } = props;
-  const { count, resultTime, checkLastQuestionResult } =
+  const { count, resultTime, checkLastQuestionResult, getCurrentQuestion } =
     useContext(RoomContext);
   const lastResult = checkLastQuestionResult();
-  console.log({
-    count,
-    resultTime,
-  });
+  const currentQuestion = getCurrentQuestion();
   const rightClass = mergeClassNames(
     classes.correct,
     count === 0 && resultTime > 0 && lastResult ? classes.pickStatus : ""
@@ -28,8 +25,16 @@ function RoomController(props) {
     classes.wrong,
     count === 0 && resultTime > 0 && !lastResult ? classes.pickStatus : ""
   );
+  const progressStyle = {
+    "--progress-time": `${
+      currentQuestion && count > 0
+        ? 100 -
+          ((currentQuestion.duration - count) / currentQuestion.duration) * 100
+        : 0
+    }%`,
+  };
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={progressStyle}>
       <div className={classes.header}>
         <div className={classes.timeProgress}>
           <span />
