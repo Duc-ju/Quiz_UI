@@ -1,1 +1,6 @@
 @import "reset-css";
+
+:root {
+    --right-primary-color: #62c370;
+    --wrong-primary-color: #e63946;
+}

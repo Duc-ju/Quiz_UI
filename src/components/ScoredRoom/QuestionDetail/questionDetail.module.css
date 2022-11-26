@@ -17,14 +17,29 @@
     font-weight: 400;
 }
 
-.check {
-    background-color: #e63946;
+.check span {
     width: 32px;
     height: 32px;
     border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.check svg {
+    font-size: 24px;
+}
+
+.check .right svg {
+    fill: white;
+}
+
+.check .right {
+    background-color: var(--right-primary-color);
+}
+
+.check .wrong {
+    background-color: var(--wrong-primary-color);
 }
 
 .check svg path {
@@ -96,7 +111,6 @@
 .answers li .yourAnswer {
     position: absolute;
     font-size: 11px;
-    color: #e63946;
     background-color: #f2f2f2;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -109,12 +123,20 @@
     padding-right: 8px;
 }
 
+.answers li .yourAnswer.rightColor {
+    color: var(--right-primary-color);
+}
+
+.answers li .yourAnswer.wrongColor {
+    color: var(--wrong-primary-color);
+}
+
 .answers li > span {
     font-size: 14px;
 }
 
 .root .answers .checked svg {
-    fill: #62c370;
+    fill: var(--right-primary-color);
 }
 
 .answers span[class*="icon_root"] svg {

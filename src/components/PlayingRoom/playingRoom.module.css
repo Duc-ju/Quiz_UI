@@ -42,11 +42,39 @@
     cursor: pointer;
 }
 
-.answer:hover {
+.answer.showPreKey {
+
+}
+
+.answer.showOnKeyRight {
+    background-color: var(--right-primary-color);
+    border-color: white;
+}
+
+.answer.showOnKeyWrong {
+    background-color: var(--wrong-primary-color);
+    border-color: white;
+}
+
+.answer.showRealKey {
+    background-color: var(--right-primary-color);
+}
+
+.answer:not(.showPreKey):not(.showOnKeyRight):not(.showOnKeyWrong):not(.showRealKey):hover {
     background-color: #347ac2;
     border: 3px solid #347ac2;
 }
 
 .answer span {
     text-align: center;
+}
+
+.loading {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    column-gap: 16px;
 }

@@ -14,7 +14,7 @@ function RoomRouter(props) {
         <Routes>
           <Route path={"/pre-game"} element={<WaitingRoom />} />
           <Route path={"/playing-game"} element={<PlayingRoom />} />
-          <Route path={"/scored-game"} element={<ScoredRoom />} />
+          <Route path={"/scored-game/:answerTimeId"} element={<ScoredRoom />} />
           <Route path={"*"} element={<NotFoundPage />} />
         </Routes>
       </RoomController>

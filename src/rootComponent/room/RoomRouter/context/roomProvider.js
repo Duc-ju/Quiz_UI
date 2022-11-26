@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import lessonApi from "../../../../api/lessonApi";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export const RoomContext = React.createContext();
 
 function RoomProvider({ children }) {
   const [lesson, setLesson] = useState();
+  const [started, setStarted] = useState(false);
+  const [answerTime, setAnswerTime] = useState();
   const [fetching, setFetching] = useState(false);
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [answerList, setAnswerList] = useState([]);
   const [count, setCount] = useState(-1);
   const [resultTime, setResultTime] = useState(-1);
+  const [point, setPoint] = useState();
   const { lessonId } = useParams();
+  const location = useLocation();
   useEffect(() => {
     if (lessonId) {
       setFetching(true);
@@ -19,14 +23,23 @@ function RoomProvider({ children }) {
         .getById(lessonId)
         .then((lesson) => {
           setLesson(lesson.data);
-          setFetching(false);
         })
         .catch((e) => {
           console.error(e);
+        })
+        .finally(() => {
           setFetching(false);
         });
     }
   }, [lessonId]);
+  useEffect(() => {
+    setAnswerTime();
+    setCurrentQuestionIdx(0);
+    setAnswerList([]);
+    setCount(-1);
+    setResultTime(-1);
+    setStarted(false);
+  }, [location.pathname]);
   const handleAddAnswer = (data) => {
     setAnswerList((old) => {
       return [...old, data];
@@ -55,11 +68,17 @@ function RoomProvider({ children }) {
     setCount(-1);
   };
   const checkLastQuestionResult = () => {
-    if (answerList.length === 0) return false;
+    const currentQuestion = getCurrentQuestion();
+    if (
+      answerList.length === 0 ||
+      !currentQuestion ||
+      !currentQuestion.numberOfKeys
+    )
+      return false;
     return (
       answerList[answerList.length - 1].questionAnswerParts.filter(
-        (questionAnswerPart) => !questionAnswerPart.rightAnswer
-      ).length === 0
+        (questionAnswerPart) => questionAnswerPart.rightAnswer
+      ).length === currentQuestion.numberOfKeys
     );
   };
   return (
@@ -79,6 +98,13 @@ function RoomProvider({ children }) {
         setResultTime,
         checkLastQuestionResult,
         currentQuestionIdx,
+        answerTime,
+        setAnswerTime,
+        setFetching,
+        setStarted,
+        started,
+        point,
+        setPoint,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./scoredRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { BsFillPersonFill } from "@react-icons/all-files/bs/BsFillPersonFill";
@@ -7,8 +7,36 @@ import { ImDatabase } from "@react-icons/all-files/im/ImDatabase";
 import Button from "../../commonComponents/Button";
 import Question from "./Question";
 import Suggestion from "./Suggestion";
+import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
+import { useParams } from "react-router-dom";
+import answerTimeApi from "../../api/answerTimeApi";
 
 function ScoredRoom(props) {
+  const { answerTimeId } = useParams();
+  const { lesson, answerTime, setFetching } = useContext(RoomContext);
+  const [answerTimeState, setAnswerTimeState] = useState(answerTime);
+  useEffect(() => {
+    if (answerTimeId && !answerTime) {
+      setFetching(true);
+      answerTimeApi
+        .getById(answerTimeId)
+        .then((answerTime) => {
+          setAnswerTimeState(answerTime.data);
+          setFetching(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          setFetching(false);
+        });
+    }
+  }, [answerTimeId]);
+  if (!lesson || !answerTimeState) return null;
+  return <ScoredRoomBody lesson={lesson} answerTime={answerTimeState} />;
+}
+
+function ScoredRoomBody(props) {
+  const { lesson, answerTime } = props;
+  console.log(lesson, answerTime);
   return (
     <section className={classes.root}>
       <div className={classes.row}>
@@ -40,15 +68,17 @@ function ScoredRoom(props) {
             <div className={classes.accuracy}>
               <h4>Chính xác</h4>
               <div className={classes.progress}>
-                <progress id="file" value="32" max="100">
-                  32%
-                </progress>
+                <progress
+                  id="file"
+                  value={answerTime.accuracy * 100}
+                  max="100"
+                ></progress>
               </div>
             </div>
             <div className={classes.score}>
               <div className={classes.scoreLeft}>
                 <h4>Điểm số</h4>
-                <span>9530</span>
+                <span>{answerTime.point}</span>
               </div>
               <div className={classes.scoreRight}>
                 <Button>
@@ -65,15 +95,15 @@ function ScoredRoom(props) {
             <h3>Thống kê hiệu suất</h3>
             <div className={classes.statisticRow}>
               <div>
-                <span>10</span>
+                <span>{answerTime.numberOfRight}</span>
                 <span>Chính xác</span>
               </div>
               <div>
-                <span>8</span>
+                <span>{answerTime.numberOfWrong}</span>
                 <span>Không chính xác</span>
               </div>
               <div>
-                <span>41.9s</span>
+                <span>{`${answerTime.averageDuration.toFixed(2)}s`}</span>
                 <span>Thời gian / ques.</span>
               </div>
             </div>
@@ -82,10 +112,14 @@ function ScoredRoom(props) {
             <h2>Xem lại câu hỏi</h2>
             <p>Nhấp vào các câu hỏi để xem câu trả lời</p>
             <div className={classes.questions}>
-              <Question />
-              <Question />
-              <Question />
-              <Question />
+              {lesson.questions.map((question, index) => (
+                <Question
+                  key={question.id}
+                  question={question}
+                  questionAnswer={answerTime.questionAnswers[index]}
+                  questionIndex={index + 1}
+                />
+              ))}
             </div>
           </div>
         </div>

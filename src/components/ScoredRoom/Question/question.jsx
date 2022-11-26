@@ -7,36 +7,36 @@ import { ModalContext } from "../../../rootComponent/common/ModalContainer/Modal
 import QuestionDetail from "../QuestionDetail";
 
 function Question(props) {
-  const { className } = props;
-  const mergedClass = mergeClassNames(classes.root, className);
+  const { className, question, questionAnswer, questionIndex } = props;
+  const mergedClass = mergeClassNames(
+    classes.root,
+    className,
+    questionAnswer.rightAnswer ? classes.right : classes.wrong
+  );
   const { openModal } = useContext(ModalContext);
   const handleOpenQuestion = () => {
-    openModal(<QuestionDetail />);
+    openModal(
+      <QuestionDetail
+        question={question}
+        questionAnswer={questionAnswer}
+        questionIndex={questionIndex}
+      />
+    );
   };
   return (
     <div className={mergedClass} onClick={handleOpenQuestion}>
       <div className={classes.container}>
         <h2>
-          <span>1.</span>
-          <span> Từ trái nghĩa với mưa là:</span>
+          <span>{`${questionIndex}.`}</span>
+          <span>{question.title}</span>
         </h2>
         <ul className={classes.answers}>
-          <li>
-            <Icon icon={<FaDotCircle />} />
-            <span>gió</span>
-          </li>
-          <li>
-            <Icon icon={<FaDotCircle />} />
-            <span>bão</span>
-          </li>
-          <li>
-            <Icon icon={<FaDotCircle />} />
-            <span>khô</span>
-          </li>
-          <li>
-            <Icon icon={<FaDotCircle />} />
-            <span>nắng</span>
-          </li>
+          {question.answers.map((answer) => (
+            <li key={answer.id}>
+              <Icon icon={<FaDotCircle />} />
+              <span>{answer.title}</span>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

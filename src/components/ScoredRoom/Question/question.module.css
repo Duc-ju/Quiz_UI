@@ -3,12 +3,12 @@
     padding: 16px;
     border-radius: 8px;
     background-color: #f2f2f2;
-    border-left: 8px solid rgb(0, 201, 133);
+    border-left: 8px solid var(--right-primary-color);
     cursor: pointer;
 }
 
-.root.error {
-    border-left: 8px solid rgb(236, 11, 67);
+.root.wrong {
+    border-left: 8px solid var(--wrong-primary-color);
 }
 
 .root * {

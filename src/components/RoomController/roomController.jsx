@@ -10,11 +10,18 @@ import { RiArrowGoBackFill } from "@react-icons/all-files/ri/RiArrowGoBackFill";
 import { RiArrowGoForwardFill } from "@react-icons/all-files/ri/RiArrowGoForwardFill";
 import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
 import mergeClassNames from "merge-class-names";
+import RoomLoading from "./RoomLoading";
 
 function RoomController(props) {
   const { children } = props;
-  const { count, resultTime, checkLastQuestionResult, getCurrentQuestion } =
-    useContext(RoomContext);
+  const {
+    count,
+    resultTime,
+    checkLastQuestionResult,
+    getCurrentQuestion,
+    fetching,
+    point,
+  } = useContext(RoomContext);
   const lastResult = checkLastQuestionResult();
   const currentQuestion = getCurrentQuestion();
   const rightClass = mergeClassNames(
@@ -59,7 +66,9 @@ function RoomController(props) {
           </Button>
         </div>
       </div>
-      <div className={classes.main}>{children}</div>
+      <div className={classes.main}>
+        {fetching ? <RoomLoading /> : children}
+      </div>
       <div className={classes.footer}>
         <div className={classes.left}></div>
         <div className={classes.right}>
@@ -73,7 +82,7 @@ function RoomController(props) {
         <div className={rightClass}>
           <div className={classes.correctContent}>
             <span>Điểm trả lời</span>
-            <span>+960</span>
+            <span>{`+${point}`}</span>
           </div>
         </div>
         <div className={wrongClass}>
