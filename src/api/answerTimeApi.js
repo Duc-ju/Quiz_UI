@@ -1,13 +1,13 @@
-import axiosBase from "./axiosBase";
+import axiosClient from "./axiosClient";
 
 const answerTimeApi = {
   add: (data) => {
     const url = `/test/answer-times/`;
-    return axiosBase.post(url, data);
+    return axiosClient.post(url, data);
   },
   getById: (id) => {
     const url = `/test/answer-times/${id}/`;
-    return axiosBase.get(url);
+    return axiosClient.get(url);
   },
 };
 

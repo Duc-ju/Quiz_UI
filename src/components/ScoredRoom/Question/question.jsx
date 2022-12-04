@@ -11,7 +11,7 @@ function Question(props) {
   const mergedClass = mergeClassNames(
     classes.root,
     className,
-    questionAnswer.rightAnswer ? classes.right : classes.wrong
+    questionAnswer && questionAnswer.rightAnswer ? classes.right : classes.wrong
   );
   const { openModal } = useContext(ModalContext);
   const handleOpenQuestion = () => {

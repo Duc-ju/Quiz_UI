@@ -36,7 +36,6 @@ function ScoredRoom(props) {
 
 function ScoredRoomBody(props) {
   const { lesson, answerTime } = props;
-  console.log(lesson, answerTime);
   return (
     <section className={classes.root}>
       <div className={classes.row}>
@@ -88,8 +87,10 @@ function ScoredRoomBody(props) {
             </div>
           </div>
           <div className={classes.action}>
-            <Button fullWidth>Bắt đầu lại</Button>
-            <Button fullWidth>Xem lại</Button>
+            <Button fullWidth={true} to={`/join/game/${lesson.id}/pre-game`}>
+              Bắt đầu lại
+            </Button>
+            <Button fullWidth={true}>Xem lại</Button>
           </div>
           <div className={classes.statistic}>
             <h3>Thống kê hiệu suất</h3>

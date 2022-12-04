@@ -4,15 +4,13 @@ import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomPro
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PENDING_TIME } from "../../constant/gameConstant";
-import answerTimeApi from "../../api/answerTimeApi";
 import mergeClassNames from "merge-class-names";
 import LoadingIcon from "../../commonComponents/LoadingIcon";
 
 function PlayingRoom(props) {
-  const { lesson, getCurrentQuestion, started } = useContext(RoomContext);
+  const { lesson, currentQuestion, started } = useContext(RoomContext);
   const params = useParams();
   const navigate = useNavigate();
-  const currentQuestion = getCurrentQuestion();
   useEffect(() => {
     if (!lesson || !started) {
       navigate(`/join/game/${params.lessonId}/pre-game`);
@@ -42,6 +40,7 @@ function PlayingRoomContent(props) {
     setFetching,
     setPoint,
     answerTime,
+    submitAnswerTime,
   } = useContext(RoomContext);
   const navigate = useNavigate();
 
@@ -108,30 +107,7 @@ function PlayingRoomContent(props) {
           handleNextQuestion();
         } else {
           handleNextQuestion();
-          const dataObject = {
-            lessonId: lesson.id,
-            userId: null,
-            socketId: null,
-            nickName: null,
-            room: null,
-            questionAnswers: answerList,
-          };
-          setFetching(true);
-          answerTimeApi
-            .add(dataObject)
-            .then((response) => {
-              setAnswerTime(response.data);
-              navigate(
-                `/join/game/${lesson.id}/scored-game/${response.data.id}`
-              );
-              toast.info("Bạn đã hoàn thành bài kiểm tra!");
-            })
-            .catch((e) => {
-              toast.error("Có lỗi xảy ra");
-              console.log(e);
-              navigate(`/join/game/${lesson.id}/pre-game`);
-            })
-            .finally(() => setFetching(false));
+          submitAnswerTime();
         }
       }, 1000);
     } else if (resultTime > 1) {

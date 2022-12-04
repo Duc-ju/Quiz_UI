@@ -75,7 +75,7 @@
     padding: 16px;
 }
 
-.body > h3 {
+.body .titleContainer h3 {
     padding: 8px;
     background-color: #f2f2f2;
     border-radius: 4px;
@@ -108,6 +108,15 @@
     border-radius: 4px;
 }
 
+.titleContainer {
+    position: relative;
+}
+
+.titleContainer:not(.hasAnswer) {
+    margin-top: 16px;
+}
+
+.titleContainer .yourAnswer,
 .answers li .yourAnswer {
     position: absolute;
     font-size: 11px;
@@ -127,6 +136,7 @@
     color: var(--right-primary-color);
 }
 
+.titleContainer .yourAnswer.wrongColor,
 .answers li .yourAnswer.wrongColor {
     color: var(--wrong-primary-color);
 }

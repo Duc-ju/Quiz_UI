@@ -56,17 +56,17 @@ function WaitingRoom(props) {
               <FaFlagCheckered />
             </div>
             <div className={classes.progress}>
-              <progress id="file" value="32" max="100">
-                32%
+              <progress id="file" value="0" max="100">
+                0%
               </progress>
             </div>
             <div className={classes.bottom}>
               <span>Bắt đầu</span>
               <span>Kết thúc</span>
             </div>
-            <h2>13 slide còn lại</h2>
+            <h2>{`${lesson.numberOfQuestion} slide còn lại`}</h2>
             <Button fullWidth onClick={handleStart}>
-              Tiếp tục thử
+              Bắt đầu thôi
             </Button>
           </div>
         </div>

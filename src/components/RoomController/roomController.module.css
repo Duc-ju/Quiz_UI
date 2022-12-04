@@ -42,6 +42,7 @@
     font-size: 14px;
 }
 
+.root a[class*="button_root"],
 .root button {
     background-color: var(--room-button-dark);
 }

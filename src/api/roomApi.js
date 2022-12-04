@@ -1,9 +1,9 @@
-import axiosBase from "./axiosBase";
+import axiosClient from "./axiosClient";
 
 const roomApi = {
   get: (id) => {
     const url = `/resource/lessons/${id}/`;
-    return axiosBase.get(url);
+    return axiosClient.get(url);
   },
 };
 

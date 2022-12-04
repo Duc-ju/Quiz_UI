@@ -17,7 +17,7 @@ function Suggestion(props) {
       </div>
       <div className={classes.info}>
         <h3>Art Museum</h3>
-        <div>
+        <div className={classes.mainInfo}>
           <span>Played 175 times</span>
           <span>10 questions</span>
         </div>

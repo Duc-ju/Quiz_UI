@@ -10,14 +10,19 @@ import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 
 function QuestionDetail(props) {
-  const { className, question, questionAnswer, questionIndex } = props;
+  const {
+    className,
+    question,
+    questionAnswer = { rightAnswer: false, questionAnswerParts: [] },
+    questionIndex,
+  } = props;
   const mergedClass = mergeClassNames(classes.root, className);
   return (
     <div className={mergedClass}>
       <div className={classes.header}>
         <h2>{`Question ${questionIndex}`}</h2>
         <div className={classes.check}>
-          {questionAnswer.rightAnswer ? (
+          {questionAnswer && questionAnswer.rightAnswer ? (
             <Icon icon={<FaCheck />} className={classes.right} />
           ) : (
             <Icon icon={<GrClose />} className={classes.wrong} />
@@ -26,16 +31,39 @@ function QuestionDetail(props) {
         <div className={classes.result}>
           <div className={classes.time}>
             <Icon icon={<FcAlarmClock />} />
-            <span>{`${questionAnswer.duration}s`}</span>
+            <span>
+              {questionAnswer.duration ? `${questionAnswer.duration}s` : "~"}
+            </span>
           </div>
           <div className={classes.point}>
             <ImDatabase />
-            <span>{`${questionAnswer.point} pts`}</span>
+            <span>{`${
+              questionAnswer.point ? questionAnswer.point : 0
+            } pts`}</span>
           </div>
         </div>
       </div>
       <div className={classes.body}>
-        <h3>{question.title}</h3>
+        <div
+          className={mergeClassNames(
+            classes.titleContainer,
+            questionAnswer.questionAnswerParts.length > 0
+              ? classes.hasAnswer
+              : ""
+          )}
+        >
+          {questionAnswer.questionAnswerParts.length === 0 && (
+            <span
+              className={mergeClassNames(
+                classes.yourAnswer,
+                classes.wrongColor
+              )}
+            >
+              Bạn chưa có câu trả lời cho câu hỏi này
+            </span>
+          )}
+          <h3>{question.title}</h3>
+        </div>
         <span />
         <ul className={classes.answers}>
           {question.answers.map((answer) => {

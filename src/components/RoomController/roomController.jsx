@@ -18,12 +18,13 @@ function RoomController(props) {
     count,
     resultTime,
     checkLastQuestionResult,
-    getCurrentQuestion,
+    currentQuestion,
     fetching,
     point,
+    handleGoToNextQuestion,
+    handleGoToPreviousQuestion,
   } = useContext(RoomContext);
   const lastResult = checkLastQuestionResult();
-  const currentQuestion = getCurrentQuestion();
   const rightClass = mergeClassNames(
     classes.correct,
     count === 0 && resultTime > 0 && lastResult ? classes.pickStatus : ""
@@ -72,10 +73,10 @@ function RoomController(props) {
       <div className={classes.footer}>
         <div className={classes.left}></div>
         <div className={classes.right}>
-          <Button>
+          <Button onClick={handleGoToPreviousQuestion}>
             <RiArrowGoBackFill />
           </Button>
-          <Button>
+          <Button onClick={handleGoToNextQuestion}>
             <RiArrowGoForwardFill />
           </Button>
         </div>

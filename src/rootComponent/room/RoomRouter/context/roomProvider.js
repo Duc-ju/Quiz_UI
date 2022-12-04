@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import lessonApi from "../../../../api/lessonApi";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import answerTimeApi from "../../../../api/answerTimeApi";
 
 export const RoomContext = React.createContext();
 
@@ -16,6 +18,7 @@ function RoomProvider({ children }) {
   const [point, setPoint] = useState();
   const { lessonId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     if (lessonId) {
       setFetching(true);
@@ -26,6 +29,7 @@ function RoomProvider({ children }) {
         })
         .catch((e) => {
           console.error(e);
+          toast.error("Có lỗi xảy ra");
         })
         .finally(() => {
           setFetching(false);
@@ -45,7 +49,7 @@ function RoomProvider({ children }) {
       return [...old, data];
     });
   };
-  const getCurrentQuestion = () => {
+  const currentQuestion = (() => {
     if (
       lesson &&
       lesson.questions &&
@@ -60,15 +64,64 @@ function RoomProvider({ children }) {
       }
       return lesson.questions[currentQuestionIdx];
     }
-  };
+  })();
   const handleSubmit = () => {};
   const handleNextQuestion = () => {
     setCurrentQuestionIdx((old) => old + 1);
     setResultTime(-1);
     setCount(-1);
   };
+  const handleGoToNextQuestion = () => {
+    if (currentQuestionIdx !== lesson.questions.length - 1) {
+      setAnswerList((answers) => [
+        ...answers,
+        {
+          questionId: currentQuestion.id,
+          numberOfRightAnswer: currentQuestion.numberOfKeys,
+          point: 0,
+          questionAnswerParts: [],
+          duration: currentQuestion.duration,
+        },
+      ]);
+      handleNextQuestion();
+    } else {
+      submitAnswerTime();
+    }
+  };
+
+  const submitAnswerTime = () => {
+    const dataObject = {
+      lessonId: lesson.id,
+      userId: null,
+      socketId: null,
+      nickName: null,
+      room: null,
+      questionAnswers: answerList.filter((answers) => !!answers),
+    };
+    setFetching(true);
+    answerTimeApi
+      .add(dataObject)
+      .then((response) => {
+        setAnswerTime(response.data);
+        navigate(`/join/game/${lesson.id}/scored-game/${response.data.id}`);
+        toast.info("Bạn đã hoàn thành bài kiểm tra!");
+      })
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra");
+        console.log(e);
+        navigate(`/join/game/${lesson.id}/pre-game`);
+      })
+      .finally(() => setFetching(false));
+  };
+
+  const handleGoToPreviousQuestion = () => {
+    setCurrentQuestionIdx((old) => old - 1);
+    setAnswerList((answers) => answers.slice(0, answers.length - 1));
+    setResultTime(-1);
+    setCount(-1);
+  };
+
   const checkLastQuestionResult = () => {
-    const currentQuestion = getCurrentQuestion();
     if (
       answerList.length === 0 ||
       !currentQuestion ||
@@ -76,6 +129,8 @@ function RoomProvider({ children }) {
     )
       return false;
     return (
+      answerList[answerList.length - 1] &&
+      answerList[answerList.length - 1].questionAnswerParts &&
       answerList[answerList.length - 1].questionAnswerParts.filter(
         (questionAnswerPart) => questionAnswerPart.rightAnswer
       ).length === currentQuestion.numberOfKeys
@@ -88,7 +143,7 @@ function RoomProvider({ children }) {
         fetching,
         answerList,
         handleAddAnswer,
-        getCurrentQuestion,
+        currentQuestion,
         handleSubmit,
         handleNextQuestion,
         setLesson,
@@ -105,6 +160,9 @@ function RoomProvider({ children }) {
         started,
         point,
         setPoint,
+        handleGoToNextQuestion,
+        handleGoToPreviousQuestion,
+        submitAnswerTime,
       }}
     >
       {children}
