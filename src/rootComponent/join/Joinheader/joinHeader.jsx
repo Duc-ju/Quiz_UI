@@ -8,7 +8,7 @@ function JoinHeader(props) {
   return (
     <section className={classes.root}>
       <div className={classes.container}>
-        <Link to={"/"} className={classes.logo}>
+        <Link to={"/join"} className={classes.logo}>
           <img
             src={
               "https://cf.quizizz.com/img/quizizz_logos/purple-brandmark-600x164.png"
@@ -33,8 +33,8 @@ function JoinHeader(props) {
         <ul className={classes.rightNav}>
           <li>
             <Button to={"/"}>Nhập mã</Button>
-            <Button to={"/blog"}>Đăng nhập</Button>
-            <Button to={"/blog"}>Đăng ký</Button>
+            <Button to={"/join/login"}>Đăng nhập</Button>
+            <Button to={"/join/register"}>Đăng ký</Button>
           </li>
         </ul>
       </div>

@@ -12,47 +12,50 @@ import JoinHeader from "../join/Joinheader";
 import JoinRouter from "../join/JoinRouter/joinRouter";
 import NotFoundPage from "../common/NotFoundPage";
 import RoomRouter from "../room/RoomRouter";
+import AuthProvider from "../context/AuthProvider";
 
 function App(props) {
   return (
     <ModalProvider>
-      <BrowserRouter>
-        <section className={classes.root}>
-          <Routes>
-            <Route
-              path={"/admin/*"}
-              element={
-                <>
-                  <section className={classes.leftNav}>
-                    <LeftNav />
-                  </section>
-                  <section className={classes.mainContent}>
-                    <AdminHeader />
-                    <AdminRouter />
-                    <Footer />
-                  </section>
-                </>
-              }
-            />
-            <Route path={"/join/game/:lessonId/*"} element={<RoomRouter />} />
-            <Route
-              path={"/join/*"}
-              element={
-                <>
-                  <section className={classes.joinContent}>
-                    <JoinHeader />
-                    <JoinRouter />
-                    <Footer />
-                  </section>
-                </>
-              }
-            />
-            <Route path={"*"} element={<NotFoundPage />} />
-          </Routes>
-          <NotificationContainer />
-          <ModalContainer />
-        </section>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <section className={classes.root}>
+            <Routes>
+              <Route
+                path={"/admin/*"}
+                element={
+                  <>
+                    <section className={classes.leftNav}>
+                      <LeftNav />
+                    </section>
+                    <section className={classes.mainContent}>
+                      <AdminHeader />
+                      <AdminRouter />
+                      <Footer />
+                    </section>
+                  </>
+                }
+              />
+              <Route path={"/join/game/:lessonId/*"} element={<RoomRouter />} />
+              <Route
+                path={"/join/*"}
+                element={
+                  <>
+                    <section className={classes.joinContent}>
+                      <JoinHeader />
+                      <JoinRouter />
+                      <Footer />
+                    </section>
+                  </>
+                }
+              />
+              <Route path={"*"} element={<NotFoundPage />} />
+            </Routes>
+            <NotificationContainer />
+            <ModalContainer />
+          </section>
+        </BrowserRouter>
+      </AuthProvider>
     </ModalProvider>
   );
 }

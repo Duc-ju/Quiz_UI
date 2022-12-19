@@ -40,7 +40,7 @@ function SliderLesson(props) {
                 "https://quizizz.com/media/resource/gs/quizizz-media/quizzes/4bcf5a95-a02f-417d-9cff-49d2c4d10f25?w=400&h=400"
               }
               alt={"Quiz image"}
-              to={"/lesson1"}
+              to={"/join/game/5/pre-game"}
               type={"QUIZZ"}
               isNew={true}
               name={"Vòng quanh thế giới"}
