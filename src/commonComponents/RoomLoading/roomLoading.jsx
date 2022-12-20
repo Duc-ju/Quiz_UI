@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./roomLoading.module.css";
-import LoadingIcon from "../../../commonComponents/LoadingIcon";
+import LoadingIcon from "../LoadingIcon";
 
 function RoomLoading(props) {
   return (

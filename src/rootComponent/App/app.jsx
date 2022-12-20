@@ -13,6 +13,7 @@ import JoinRouter from "../join/JoinRouter/joinRouter";
 import NotFoundPage from "../common/NotFoundPage";
 import RoomRouter from "../room/RoomRouter";
 import AuthProvider from "../context/AuthProvider";
+import AdminLiveRoomRouter from "../liveRoom/AdminLiveRoomRouter";
 
 function App(props) {
   return (
@@ -21,6 +22,10 @@ function App(props) {
         <BrowserRouter>
           <section className={classes.root}>
             <Routes>
+              <Route
+                path={"/admin/quizz/:roomId/*"}
+                element={<AdminLiveRoomRouter />}
+              />
               <Route
                 path={"/admin/*"}
                 element={

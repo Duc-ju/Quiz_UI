@@ -10,7 +10,7 @@ import { RiArrowGoBackFill } from "@react-icons/all-files/ri/RiArrowGoBackFill";
 import { RiArrowGoForwardFill } from "@react-icons/all-files/ri/RiArrowGoForwardFill";
 import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
 import mergeClassNames from "merge-class-names";
-import RoomLoading from "./RoomLoading";
+import RoomLoading from "../../commonComponents/RoomLoading";
 
 function RoomController(props) {
   const { children } = props;

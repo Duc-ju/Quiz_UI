@@ -8,3 +8,7 @@
     --shadow-primary: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     --button-primary-shadow: 0 4px 0 0 #6c4298;
 }
+
+* {
+    box-sizing: border-box;
+}
