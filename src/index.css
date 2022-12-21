@@ -1,6 +1,7 @@
 @import "reset-css";
 
 :root {
+    --secondary-text-color: rgb(109, 109, 109);
     --right-primary-color: #62c370;
     --wrong-primary-color: #e63946;
     --tw-bg-opacity: 1;
