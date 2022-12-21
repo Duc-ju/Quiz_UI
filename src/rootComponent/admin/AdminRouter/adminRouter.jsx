@@ -9,10 +9,14 @@ import AdminLessonDetail from "../../../components/AdminLessonDetail";
 function AdminRouter(props) {
   return (
     <Routes>
-      <Route path={"/"} element={<AdminPage />} />
-      <Route path={"/private"} element={<AdminLessonList />} />
-      <Route path={"/quiz/:lesssonId"} element={<AdminLessonDetail />} />
-      <Route path={"/reports"} element={<AdminReportList />} />
+      <Route path={"/home"} exact={true} element={<AdminPage />} />
+      <Route path={"/private"} exact={true} element={<AdminLessonList />} />
+      <Route
+        path={"/quiz/:lesssonId"}
+        exact={true}
+        element={<AdminLessonDetail />}
+      />
+      <Route path={"/reports"} exact={true} element={<AdminReportList />} />
       <Route path={"*"} element={<NotFoundPage />} />
     </Routes>
   );

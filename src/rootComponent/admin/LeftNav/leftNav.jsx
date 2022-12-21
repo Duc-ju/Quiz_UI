@@ -4,6 +4,10 @@ import Button from "../../../commonComponents/Button";
 import { BiAlarmAdd } from "@react-icons/all-files/bi/BiAlarmAdd";
 import { GrMapLocation } from "@react-icons/all-files/gr/GrMapLocation";
 import Icon from "../../../commonComponents/Icon";
+import { NavLink } from "react-router-dom";
+import { GiBookshelf } from "@react-icons/all-files/gi/GiBookshelf";
+import mergeClassNames from "merge-class-names";
+import { IoMdAnalytics } from "@react-icons/all-files/io/IoMdAnalytics";
 
 function LeftNav(props) {
   return (
@@ -25,15 +29,21 @@ function LeftNav(props) {
       </div>
       <div className={classes.menuSection}>
         <ul>
-          <MenuItem active />
-          <MenuItem />
-          <MenuItem />
-          <MenuItem />
-          <MenuItem />
-          <MenuItem />
-          <MenuItem />
-          <MenuItem />
-          <MenuItem />
+          <MenuItem
+            icon={<GrMapLocation />}
+            label={"Khám phá"}
+            to={"/admin/home"}
+          />
+          <MenuItem
+            icon={<GiBookshelf />}
+            label={"Thư viện của tôi"}
+            to={"/admin/private"}
+          />
+          <MenuItem
+            icon={<IoMdAnalytics />}
+            label={"Báo cáo"}
+            to={"/admin/reports"}
+          />
         </ul>
       </div>
     </div>
@@ -41,17 +51,19 @@ function LeftNav(props) {
 }
 
 function MenuItem(props) {
-  const { active, ...restProps } = props;
+  const { icon, label, ...restProps } = props;
   return (
-    <li
-      className={(active ? classes.active : "") + " " + classes.itemRoot}
+    <NavLink
+      className={(navData) =>
+        navData.isActive
+          ? mergeClassNames(classes.itemRoot, classes.active)
+          : classes.itemRoot
+      }
       {...restProps}
     >
-      <Icon className={classes.iconContainer}>
-        <GrMapLocation />
-      </Icon>
-      <span>Khám phá</span>
-    </li>
+      <Icon className={classes.iconContainer}>{icon}</Icon>
+      <span>{label}</span>
+    </NavLink>
   );
 }
 
