@@ -13,7 +13,7 @@ function AdminRouter(props) {
       <Route path={"/home"} exact={true} element={<AdminPage />} />
       <Route path={"/private"} exact={true} element={<AdminLessonList />} />
       <Route
-        path={"/quiz/:lesssonId"}
+        path={"/quiz/:lessonId"}
         exact={true}
         element={<AdminLessonDetail />}
       />

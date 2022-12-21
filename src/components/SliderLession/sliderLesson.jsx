@@ -13,8 +13,8 @@ function SliderLesson(props) {
     dots: false,
     infinite: false,
     autoplay: false,
-    slidesToShow: 6,
-    slidesToScroll: 6,
+    slidesToShow: 4,
+    slidesToScroll: 4,
   };
   return (
     <div className={classes.lessonRoot} {...restProps}>

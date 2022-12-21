@@ -9,6 +9,7 @@ import { HiOutlineMenu } from "@react-icons/all-files/hi/HiOutlineMenu";
 import { FaGraduationCap } from "@react-icons/all-files/fa/FaGraduationCap";
 import { GiBookshelf } from "@react-icons/all-files/gi/GiBookshelf";
 import { FaShare } from "@react-icons/all-files/fa/FaShare";
+import { useNavigate } from "react-router";
 
 const options = [
   { value: "latest", label: "Sắp xếp theo: Gần đây nhất" },
@@ -16,6 +17,12 @@ const options = [
 ];
 
 function AdminLessonList(props) {
+  const navigate = useNavigate();
+
+  const handleSelectLesson = () => {
+    navigate("/admin/quiz/5");
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.leftMenu}>
@@ -34,7 +41,9 @@ function AdminLessonList(props) {
           </div>
           <h3 className={classes.albumTitle}>Bộ sưu tập</h3>
           <div className={classes.albumContainer}>
-            <Button preIcon={<AiFillFolderAdd />}>Bộ sưu tập mới</Button>
+            <Button preIcon={<AiFillFolderAdd />} fullWidth={true}>
+              Bộ sưu tập mới
+            </Button>
           </div>
         </div>
       </div>
@@ -51,7 +60,11 @@ function AdminLessonList(props) {
         </div>
         <div className={classes.lessons}>
           {new Array(5).fill(null).map((x, index) => (
-            <div className={classes.lesson}>
+            <div
+              className={classes.lesson}
+              key={index}
+              onClick={handleSelectLesson}
+            >
               <div className={classes.questionImage} key={index}>
                 <img
                   alt={"lesson-images"}

@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./homePage.module.css";
+import classes from "./adminPage.module.css";
 import Icon from "../../commonComponents/Icon";
 import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
 import Slider from "react-slick";
@@ -12,8 +12,8 @@ function AdminPage(props) {
     dots: false,
     infinite: true,
     autoplay: false,
-    slidesToShow: 10,
-    slidesToScroll: 10,
+    slidesToShow: 6,
+    slidesToScroll: 6,
   };
 
   return (
@@ -32,7 +32,7 @@ function AdminPage(props) {
         </div>
         <div className={classes.listSubject}>
           <Slider {...settings}>
-            {new Array(10).fill(null).map((current, index) => (
+            {new Array(6).fill(null).map((current, index) => (
               <SubjectItem
                 key={index}
                 src={
