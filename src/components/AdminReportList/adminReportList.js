@@ -5,6 +5,7 @@ import Icon from "../../commonComponents/Icon";
 import { BsCardChecklist } from "@react-icons/all-files/bs/BsCardChecklist";
 import Button from "../../commonComponents/Button";
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
+import { useNavigate } from "react-router";
 
 const typeOptions = [
   { value: "all", label: "Tất cả các báo cáo" },
@@ -19,6 +20,10 @@ const statusOptions = [
 ];
 
 function AdminReportList(props) {
+  const navigate = useNavigate();
+  const handleChooseReport = () => {
+    navigate("/admin/reports/1/players");
+  };
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -45,7 +50,11 @@ function AdminReportList(props) {
         </div>
         <div className={classes.reportList}>
           {new Array(5).fill(null).map((x, index) => (
-            <div className={classes.report} key={index}>
+            <div
+              className={classes.report}
+              onClick={handleChooseReport}
+              key={index}
+            >
               <div>
                 <input type={"checkbox"} />
               </div>

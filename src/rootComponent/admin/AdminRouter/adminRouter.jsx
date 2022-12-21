@@ -5,6 +5,7 @@ import NotFoundPage from "../../common/NotFoundPage";
 import AdminLessonList from "../../../components/AdminLessonList";
 import AdminReportList from "../../../components/AdminReportList";
 import AdminLessonDetail from "../../../components/AdminLessonDetail";
+import AdminReportDetail from "../../../components/AdminReportDetail";
 
 function AdminRouter(props) {
   return (
@@ -15,6 +16,11 @@ function AdminRouter(props) {
         path={"/quiz/:lesssonId"}
         exact={true}
         element={<AdminLessonDetail />}
+      />
+      <Route
+        path={"/reports/:roomId/players"}
+        exact={true}
+        element={<AdminReportDetail />}
       />
       <Route path={"/reports"} exact={true} element={<AdminReportList />} />
       <Route path={"*"} element={<NotFoundPage />} />
