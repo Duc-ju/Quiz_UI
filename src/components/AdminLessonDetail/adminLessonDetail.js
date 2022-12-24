@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./adminLessonDetail.module.css";
 import Button from "../../commonComponents/Button";
 import Icon from "../../commonComponents/Icon";
@@ -27,6 +27,8 @@ import { useParams } from "react-router-dom";
 import lessonApi from "../../api/lessonApi";
 import { toast } from "react-toastify";
 import RoomLoading from "../../commonComponents/RoomLoading";
+import { AuthContext } from "../../rootComponent/context/AuthProvider";
+import lessonLikeApi from "../../api/lessonLikeApi";
 
 function AdminLessonDetail(props) {
   const [lesson, setLesson] = useState(null);
@@ -46,7 +48,47 @@ function AdminLessonDetail(props) {
   }, [params.lessonId]);
   if (!lesson && fetching) return <RoomLoading />;
   if (!lesson) return null;
-  console.log(lesson);
+  return <AdminLessonDetailBody lesson={lesson} setLesson={setLesson} />;
+}
+
+function AdminLessonDetailBody(props) {
+  const { lesson, setLesson } = props;
+  const { user } = useContext(AuthContext);
+  const liked = !!lesson.lessonLikes.find(
+    (lessonLike) => lessonLike.userId === user.id
+  );
+  const handleToggleLike = () => {
+    const check = lesson.lessonLikes.find(
+      (lessonLike) => lessonLike.userId === user.id
+    );
+    if (check) {
+      lessonLikeApi
+        .removeLike(check, lesson.id)
+        .then((response) => {
+          setLesson((lesson) => ({
+            ...lesson,
+            lessonLikes: response.data,
+          }));
+        })
+        .catch((e) => {
+          toast.error("Có lỗi xảy ra");
+          console.error(e);
+        });
+    } else {
+      lessonLikeApi
+        .addLike(user.id, lesson.id)
+        .then((response) => {
+          setLesson((lesson) => ({
+            ...lesson,
+            lessonLikes: response.data,
+          }));
+        })
+        .catch((e) => {
+          toast.error("Có lỗi xảy ra");
+          console.error(e);
+        });
+    }
+  };
   return (
     <div className={classes.root}>
       <div className={classes.topBlock}>
@@ -137,12 +179,19 @@ function AdminLessonDetail(props) {
           </div>
           <div className={classes.buttonAction}>
             <Button preIcon={<BsDownload />}>Bảng tính</Button>
-            <Button>
-              <FcLikePlaceholder />
-            </Button>
-            <Button>
-              <FcLike />
-            </Button>
+            {!liked && (
+              <Button
+                onClick={handleToggleLike}
+                preIcon={<FcLikePlaceholder />}
+              >
+                {lesson.lessonLikes.length > 0 ? lesson.lessonLikes.length : ""}
+              </Button>
+            )}
+            {liked && (
+              <Button onClick={handleToggleLike} preIcon={<FcLike />}>
+                {lesson.lessonLikes.length}
+              </Button>
+            )}
             <Button preIcon={<AiOutlineFolderOpen />}>Lưu</Button>
             <Button preIcon={<AiOutlineShareAlt />}>Chia sẻ</Button>
             <Button>Chỉnh sửa</Button>

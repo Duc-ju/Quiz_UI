@@ -3,6 +3,7 @@ import classes from "./joinPage.module.css";
 import Button from "../../commonComponents/Button";
 import { FcPlus } from "@react-icons/all-files/fc/FcPlus";
 import SliderLesson from "../SliderLession";
+import LessonPopup from "./LessonPopup";
 
 function JoinPage(props) {
   return (
@@ -28,8 +29,8 @@ function JoinPage(props) {
         </div>
       </div>
       <div className={classes.lessonContainer}>
-        <SliderLesson title={"Khám phá theo chủ đề"} />
-        <SliderLesson title={"Mathematics"} />
+        <SliderLesson popup={<LessonPopup />} title={"Khám phá theo chủ đề"} />
+        <SliderLesson popup={<LessonPopup />} title={"Mathematics"} />
       </div>
     </section>
   );

@@ -58,7 +58,7 @@
 }
 
 .main {
-    height: calc(100vh - 132px);
+    height: calc(100vh - 66px);
     padding-top: 66px;
     scroll-padding-top: 66px;
     overflow: hidden;

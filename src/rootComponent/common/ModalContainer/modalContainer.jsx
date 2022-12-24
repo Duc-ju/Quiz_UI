@@ -6,8 +6,13 @@ import Icon from "../../../commonComponents/Icon";
 import { GrClose } from "@react-icons/all-files/gr/GrClose";
 
 function ModalContainer(props) {
-  const { open, modalContent, closeModal } = useContext(ModalContext);
-  const mergedClass = mergeClassNames(classes.root, !open && classes.close);
+  const { open, modalContent, closeModal, className } =
+    useContext(ModalContext);
+  const mergedClass = mergeClassNames(
+    classes.root,
+    !open && classes.close,
+    className
+  );
   return (
     <aside className={mergedClass}>
       <button className={classes.bgButton} onClick={() => closeModal()} />

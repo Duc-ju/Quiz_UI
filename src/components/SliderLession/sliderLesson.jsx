@@ -6,15 +6,22 @@ import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import Tag from "../../commonComponents/Tag";
+import { useContext } from "react";
+import { ModalContext } from "../../rootComponent/common/ModalContainer/ModalContext/modalContext";
 
 function SliderLesson(props) {
-  const { lessons = [], title, to, ...restProps } = props;
+  const { lessons = [], title, to, popup, ...restProps } = props;
   const settings = {
     dots: false,
     infinite: false,
     autoplay: false,
     slidesToShow: 4,
     slidesToScroll: 4,
+  };
+  const { openModal, setClassName } = useContext(ModalContext);
+  const handleSelectLesson = (e) => {
+    openModal(popup);
+    setClassName(classes.modal);
   };
   return (
     <div className={classes.lessonRoot} {...restProps}>
@@ -40,18 +47,26 @@ function SliderLesson(props) {
                 "https://quizizz.com/media/resource/gs/quizizz-media/quizzes/4bcf5a95-a02f-417d-9cff-49d2c4d10f25?w=400&h=400"
               }
               alt={"Quiz image"}
-              to={"/join/game/5/pre-game"}
               type={"QUIZZ"}
               isNew={true}
               name={"Vòng quanh thế giới"}
               numberOfQuestion={10}
               numberOfPlayed={160}
+              onClick={handleSelectLesson}
             />
           ))}
         </Slider>
       </div>
     </div>
   );
+}
+
+function LinkLesson({ children, ...restProps }) {
+  return <Link {...restProps}>{children}</Link>;
+}
+
+function DivLesson({ children, ...restProps }) {
+  return <div {...restProps}>{children}</div>;
 }
 
 function Lesson(props) {
@@ -66,8 +81,9 @@ function Lesson(props) {
     numberOfPlayed,
     ...restProps
   } = props;
+  const RootTag = to ? LinkLesson : DivLesson;
   return (
-    <div className={classes.lessonRoot} {...restProps}>
+    <RootTag className={classes.lessonRoot} {...restProps}>
       <Link to={to} className={classes.lessonContainer}>
         <div className={classes.lessonImageContainer}>
           <img src={src} alt={alt} />
@@ -86,7 +102,7 @@ function Lesson(props) {
           </span>
         </div>
       </Link>
-    </div>
+    </RootTag>
   );
 }
 

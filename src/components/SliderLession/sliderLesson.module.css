@@ -72,3 +72,26 @@
     align-items: center;
     column-gap: 0.375rem;
 }
+
+.modal {
+
+}
+
+.modal div[class*="modalContainer_container"] {
+    width: 480px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modal *[class*="closeButton"] {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 0, 0, .6);
+    border-radius: 50%;
+    right: 8px;
+}
+
+.modal *[class*="closeButton"] * {
+    color: white;
+    stroke: white;
+}

@@ -39,13 +39,14 @@
 .container {
     z-index: 10;
     position: relative;
-    height: 50%;
     width: 800px;
     background-color: white;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     transition: top .6s;
     top: 0;
+    height: fit-content;
+    min-height: 50vh;
 }
 
 .root.close .container {
@@ -58,6 +59,7 @@
     top: 13px;
     padding: 8px;
     cursor: pointer;
+    z-index: 9999;
 }
 
 .closeButton svg {

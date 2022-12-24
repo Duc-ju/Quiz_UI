@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./adminPage.module.css";
 import Icon from "../../commonComponents/Icon";
 import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderLesson from "../SliderLession";
+import categoryApi from "../../api/categoryApi";
 
 function AdminPage(props) {
   const settings = {
@@ -15,6 +16,17 @@ function AdminPage(props) {
     slidesToShow: 6,
     slidesToScroll: 6,
   };
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    categoryApi
+      .getAll()
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((e) => console.error(e));
+  }, []);
 
   return (
     <section className={classes.root}>
@@ -32,14 +44,12 @@ function AdminPage(props) {
         </div>
         <div className={classes.listSubject}>
           <Slider {...settings}>
-            {new Array(6).fill(null).map((current, index) => (
+            {categories.map((tag) => (
               <SubjectItem
-                key={index}
-                src={
-                  "https://cf.quizizz.com/img/course-assets/title_imgs/bts_templates.png"
-                }
-                alt={"Ice breaker"}
-                label={"Ice breaker"}
+                key={tag.id}
+                src={tag.image}
+                alt={tag.name}
+                label={tag.name}
               />
             ))}
           </Slider>
