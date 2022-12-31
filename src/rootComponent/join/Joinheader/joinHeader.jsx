@@ -33,8 +33,8 @@ function JoinHeader(props) {
         <ul className={classes.rightNav}>
           <li>
             <Button to={"/"}>Nhập mã</Button>
-            <Button to={"/join/login"}>Đăng nhập</Button>
-            <Button to={"/join/register"}>Đăng ký</Button>
+            {/*<Button to={"/join/login"}>Đăng nhập</Button>*/}
+            {/*<Button to={"/join/register"}>Đăng ký</Button>*/}
           </li>
         </ul>
       </div>

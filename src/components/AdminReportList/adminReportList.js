@@ -19,6 +19,29 @@ const statusOptions = [
   { value: "complete", label: "Hoàn thành" },
 ];
 
+const reportList = [
+  {
+    title: "Những câu đố tiếng Việt hay",
+    count: 10,
+    accuracy: 83,
+  },
+  {
+    title: "Những câu đố tiếng Việt hay",
+    count: 18,
+    accuracy: 67,
+  },
+  {
+    title: "Bài tập địa lý lớp 8",
+    count: 35,
+    accuracy: 59,
+  },
+  {
+    title: "10 vạn câu hỏi vì sao",
+    count: 2,
+    accuracy: 100,
+  },
+];
+
 function AdminReportList(props) {
   const navigate = useNavigate();
   const handleChooseReport = () => {
@@ -49,7 +72,7 @@ function AdminReportList(props) {
           <div></div>
         </div>
         <div className={classes.reportList}>
-          {new Array(5).fill(null).map((x, index) => (
+          {reportList.map((report, index) => (
             <div
               className={classes.report}
               onClick={handleChooseReport}
@@ -67,12 +90,12 @@ function AdminReportList(props) {
                 </div>
               </div>
               <div className={classes.name}>
-                <h3>10 vạn câu hỏi vì sao</h3>
-                <span>started on 20th Dec 22 - Hoàn thành a day ago </span>
+                <h3>{report.title}</h3>
+                <span>Bắt đầu vào 20 tháng 12 - Hoàn thành 2 ngày trước </span>
               </div>
-              <div>2</div>
+              <div>{report.count}</div>
               <div>
-                <span className={classes.label}>83%</span>
+                <span className={classes.label}>{`${report.accuracy}%`}</span>
               </div>
               <div></div>
               <div></div>

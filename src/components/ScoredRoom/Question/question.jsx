@@ -7,7 +7,7 @@ import { ModalContext } from "../../../rootComponent/common/ModalContainer/Modal
 import QuestionDetail from "../QuestionDetail";
 
 function Question(props) {
-  const { className, question, questionAnswer, questionIndex } = props;
+  const { className, questionAnswer, questionIndex } = props;
   const mergedClass = mergeClassNames(
     classes.root,
     className,
@@ -17,7 +17,6 @@ function Question(props) {
   const handleOpenQuestion = () => {
     openModal(
       <QuestionDetail
-        question={question}
         questionAnswer={questionAnswer}
         questionIndex={questionIndex}
       />
@@ -28,10 +27,10 @@ function Question(props) {
       <div className={classes.container}>
         <h2>
           <span>{`${questionIndex}.`}</span>
-          <span>{question.title}</span>
+          <span>{questionAnswer.title}</span>
         </h2>
         <ul className={classes.answers}>
-          {question.answers.map((answer) => (
+          {questionAnswer.questionAnswerParts.map((answer) => (
             <li key={answer.id}>
               <Icon icon={<FaDotCircle />} />
               <span>{answer.title}</span>

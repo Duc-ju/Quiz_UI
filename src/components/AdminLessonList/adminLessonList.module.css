@@ -34,6 +34,10 @@
     cursor: pointer;
 }
 
+.category.active {
+    background-color: white;
+}
+
 .category.active,
 .category:hover {
     background-color: white;
@@ -180,6 +184,7 @@
 .lessonFooter > *:first-child > * {
     display: flex;
     align-items: center;
+    column-gap: 4px;
 }
 
 .lessonFooter > *:first-child * {

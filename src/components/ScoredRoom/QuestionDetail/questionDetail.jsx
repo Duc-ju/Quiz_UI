@@ -10,12 +10,7 @@ import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
 
 function QuestionDetail(props) {
-  const {
-    className,
-    question,
-    questionAnswer = { rightAnswer: false, questionAnswerParts: [] },
-    questionIndex,
-  } = props;
+  const { className, questionAnswer, questionIndex } = props;
   const mergedClass = mergeClassNames(classes.root, className);
   return (
     <div className={mergedClass}>
@@ -62,18 +57,14 @@ function QuestionDetail(props) {
               Bạn chưa có câu trả lời cho câu hỏi này
             </span>
           )}
-          <h3>{question.title}</h3>
+          <h3>{questionAnswer.title}</h3>
         </div>
         <span />
         <ul className={classes.answers}>
-          {question.answers.map((answer) => {
-            const isUserAnswer =
-              questionAnswer.questionAnswerParts.filter(
-                (uAnswer) => uAnswer.answerId === answer.id
-              ).length > 0;
+          {questionAnswer.questionAnswerParts.map((answer) => {
             return (
               <li key={answer.id}>
-                {isUserAnswer && (
+                {answer.selected && (
                   <span
                     className={mergeClassNames(
                       classes.yourAnswer,

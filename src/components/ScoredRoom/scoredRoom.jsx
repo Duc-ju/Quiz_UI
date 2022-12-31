@@ -7,35 +7,36 @@ import { ImDatabase } from "@react-icons/all-files/im/ImDatabase";
 import Button from "../../commonComponents/Button";
 import Question from "./Question";
 import Suggestion from "./Suggestion";
-import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
 import { useParams } from "react-router-dom";
-import answerTimeApi from "../../api/answerTimeApi";
+import statisticApi from "../../api/statisticApi";
+import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
 
 function ScoredRoom(props) {
   const { answerTimeId } = useParams();
-  const { lesson, answerTime, setFetching } = useContext(RoomContext);
-  const [answerTimeState, setAnswerTimeState] = useState(answerTime);
+  const { setFetching } = useContext(RoomContext);
+  const [answerTimeStatistic, setAnswerTimeStatistic] = useState(null);
   useEffect(() => {
-    if (answerTimeId && !answerTime) {
-      setFetching(true);
-      answerTimeApi
-        .getById(answerTimeId)
-        .then((answerTime) => {
-          setAnswerTimeState(answerTime.data);
-          setFetching(false);
+    console.log("re-render");
+    if (answerTimeId) {
+      statisticApi
+        .getLessonTimeStatistic(answerTimeId)
+        .then((response) => {
+          setAnswerTimeStatistic(response.data);
         })
         .catch((e) => {
           console.error(e);
+        })
+        .finally(() => {
           setFetching(false);
         });
     }
   }, [answerTimeId]);
-  if (!lesson || !answerTimeState) return null;
-  return <ScoredRoomBody lesson={lesson} answerTime={answerTimeState} />;
+  if (!answerTimeStatistic) return null;
+  return <ScoredRoomBody answerTimeStatistic={answerTimeStatistic} />;
 }
 
 function ScoredRoomBody(props) {
-  const { lesson, answerTime } = props;
+  const { answerTimeStatistic } = props;
   return (
     <section className={classes.root}>
       <div className={classes.row}>
@@ -69,7 +70,7 @@ function ScoredRoomBody(props) {
               <div className={classes.progress}>
                 <progress
                   id="file"
-                  value={answerTime.accuracy * 100}
+                  value={answerTimeStatistic.accuracy * 100}
                   max="100"
                 ></progress>
               </div>
@@ -77,7 +78,7 @@ function ScoredRoomBody(props) {
             <div className={classes.score}>
               <div className={classes.scoreLeft}>
                 <h4>Điểm số</h4>
-                <span>{answerTime.point}</span>
+                <span>{answerTimeStatistic.point}</span>
               </div>
               <div className={classes.scoreRight}>
                 <Button>
@@ -87,7 +88,10 @@ function ScoredRoomBody(props) {
             </div>
           </div>
           <div className={classes.action}>
-            <Button fullWidth={true} to={`/join/game/${lesson.id}/pre-game`}>
+            <Button
+              fullWidth={true}
+              to={`/join/game/${answerTimeStatistic.id}/pre-game`}
+            >
               Bắt đầu lại
             </Button>
             <Button fullWidth={true}>Xem lại</Button>
@@ -96,15 +100,17 @@ function ScoredRoomBody(props) {
             <h3>Thống kê hiệu suất</h3>
             <div className={classes.statisticRow}>
               <div>
-                <span>{answerTime.numberOfRight}</span>
+                <span>{answerTimeStatistic.numberOfRight}</span>
                 <span>Chính xác</span>
               </div>
               <div>
-                <span>{answerTime.numberOfWrong}</span>
+                <span>{answerTimeStatistic.numberOfWrong}</span>
                 <span>Không chính xác</span>
               </div>
               <div>
-                <span>{`${answerTime.averageDuration.toFixed(2)}s`}</span>
+                <span>{`${answerTimeStatistic.averageDuration.toFixed(
+                  2
+                )}s`}</span>
                 <span>Thời gian / ques.</span>
               </div>
             </div>
@@ -113,11 +119,10 @@ function ScoredRoomBody(props) {
             <h2>Xem lại câu hỏi</h2>
             <p>Nhấp vào các câu hỏi để xem câu trả lời</p>
             <div className={classes.questions}>
-              {lesson.questions.map((question, index) => (
+              {answerTimeStatistic.questionAnswers.map((question, index) => (
                 <Question
                   key={question.id}
-                  question={question}
-                  questionAnswer={answerTime.questionAnswers[index]}
+                  questionAnswer={answerTimeStatistic.questionAnswers[index]}
                   questionIndex={index + 1}
                 />
               ))}

@@ -24,8 +24,8 @@ function AdminHeader(props) {
         <ul className={classes.rightNav}>
           <li>
             <Button to={"/"}>Nhập mã</Button>
-            <Button to={"/blog"}>Đăng nhập</Button>
-            <Button to={"/blog"}>Đăng ký</Button>
+            {/*<Button to={"/blog"}>Đăng nhập</Button>*/}
+            {/*<Button to={"/blog"}>Đăng ký</Button>*/}
           </li>
         </ul>
       </div>

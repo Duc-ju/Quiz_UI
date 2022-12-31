@@ -9,6 +9,44 @@ import Tag from "../../commonComponents/Tag";
 import { useContext } from "react";
 import { ModalContext } from "../../rootComponent/common/ModalContainer/ModalContext/modalContext";
 
+const lessonList = [
+  {
+    src: "https://quizizz.com/_media/quizzes/2da17524-b1e3-4126-be7d-0dbcd401a07b_400_400",
+    name: "Grade 1 Fall Math Test 1",
+    new: true,
+    numberOfQuestion: 10,
+    numberOfPlayed: 89,
+  },
+  {
+    src: "https://quizizz.com/_media/quizzes/513dfa2d-884c-4d3e-9458-d63979c7122a_400_400",
+    name: "TỨ GIÁC- HÌNH THANG CÂN",
+    new: false,
+    numberOfQuestion: 22,
+    numberOfPlayed: 12,
+  },
+  {
+    src: "https://quizizz.com/media/resource/gs/quizizz-media/quizzes/4bcf5a95-a02f-417d-9cff-49d2c4d10f25?w=400&h=400",
+    name: "Vòng quanh thế giới",
+    new: false,
+    numberOfQuestion: 8,
+    numberOfPlayed: 0,
+  },
+  {
+    src: "https://quizizz.com/_media/quizzes/7a3e981b-8d06-4110-b375-25d53690695d_400_400",
+    name: "Infinitives",
+    new: false,
+    numberOfQuestion: 20,
+    numberOfPlayed: 1006,
+  },
+  {
+    src: "https://quizizz.com/_media/quizzes/e6f5cf12-f8b6-4515-b6bd-da257d95db9c_400_400",
+    name: "Những câu hỏi hack não",
+    new: false,
+    numberOfQuestion: 16,
+    numberOfPlayed: 328,
+  },
+];
+
 function SliderLesson(props) {
   const { lessons = [], title, to, popup, ...restProps } = props;
   const settings = {
@@ -40,18 +78,16 @@ function SliderLesson(props) {
       </div>
       <div className={classes.listLesson}>
         <Slider {...settings}>
-          {new Array(10).fill(null).map((current, index) => (
+          {lessonList.map((lesson, index) => (
             <Lesson
               key={index}
-              src={
-                "https://quizizz.com/media/resource/gs/quizizz-media/quizzes/4bcf5a95-a02f-417d-9cff-49d2c4d10f25?w=400&h=400"
-              }
+              src={lesson.src}
               alt={"Quiz image"}
               type={"QUIZZ"}
               isNew={true}
-              name={"Vòng quanh thế giới"}
-              numberOfQuestion={10}
-              numberOfPlayed={160}
+              name={lesson.name}
+              numberOfQuestion={lesson.numberOfQuestion}
+              numberOfPlayed={lesson.numberOfPlayed}
               onClick={handleSelectLesson}
             />
           ))}
@@ -98,7 +134,7 @@ function Lesson(props) {
           <span>8 câu hỏi</span>
           <span>•</span>
           <span>
-            <span>{numberOfPlayed}</span> lần chơi
+            <span>{numberOfPlayed}</span> lần trả lời
           </span>
         </div>
       </Link>
