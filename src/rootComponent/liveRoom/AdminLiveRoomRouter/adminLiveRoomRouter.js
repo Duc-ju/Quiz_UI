@@ -14,10 +14,7 @@ function AdminLiveRoomRouter(props) {
         <Routes>
           <Route path={"/startV4"} element={<AdminLiveWaitingRoom />} />
           <Route path={"/playing-game"} element={<AdminLivePlayingRoom />} />
-          <Route
-            path={"/scored-game/:answerTimeId"}
-            element={<AdminLiveScoredRoom />}
-          />
+          <Route path={"/scored-game"} element={<AdminLiveScoredRoom />} />
           <Route path={"*"} element={<NotFoundPage />} />
         </Routes>
       </AdminLiveRoomController>

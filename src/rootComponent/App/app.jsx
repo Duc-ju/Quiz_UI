@@ -24,7 +24,7 @@ function App(props) {
             <Routes>
               <Route path={"/"} element={<Navigate to={"/admin/home"} />} />
               <Route
-                path={"/admin/quizz/:roomId/*"}
+                path={"/admin/quiz-room/:roomId/*"}
                 element={<AdminLiveRoomRouter />}
               />
               <Route

@@ -2,8 +2,12 @@ import axiosClient from "./axiosClient";
 
 const roomApi = {
   get: (id) => {
-    const url = `/lesson/lessons/${id}/`;
+    const url = `/room/rooms/${id}/`;
     return axiosClient.get(url);
+  },
+  add: (data) => {
+    const url = `/room/rooms/`;
+    return axiosClient.post(url, data);
   },
 };
 

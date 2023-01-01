@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./adminLiveWaitingRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { GrGroup } from "@react-icons/all-files/gr/GrGroup";
 import LoadingButton from "../../commonComponents/LoadingButton";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Button from "../../commonComponents/Button";
 import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
 import { ImQrcode } from "@react-icons/all-files/im/ImQrcode";
@@ -11,8 +11,12 @@ import { BsLink45Deg } from "@react-icons/all-files/bs/BsLink45Deg";
 import { IoTabletLandscape } from "@react-icons/all-files/io5/IoTabletLandscape";
 import { HiMail } from "@react-icons/all-files/hi/HiMail";
 import { GrList } from "@react-icons/all-files/gr/GrList";
+import fillRoomName from "../../logic/fillRoomName";
+import { LiveRoomContext } from "../../rootComponent/liveRoom/AdminLiveRoomRouter/context/adminLiveRoomProvider";
 
 function AdminLiveWaitingRoom(props) {
+  const { handleStartRoom } = useContext(LiveRoomContext);
+  const { roomId } = useParams();
   return (
     <div className={classes.root}>
       <div className={classes.top}>
@@ -35,7 +39,7 @@ function AdminLiveWaitingRoom(props) {
             <div>2. Nhập mã tham gia</div>
             <div className={classes.joinLinkContainer}>
               <div>
-                <span>522780</span>
+                <span>{fillRoomName(roomId)}</span>
                 <Button>
                   <Icon>
                     <FiCopy />
@@ -87,7 +91,7 @@ function AdminLiveWaitingRoom(props) {
           <span>0</span>
         </span>
         <div className={classes.controller}>
-          <LoadingButton>Bắt đầu</LoadingButton>
+          <LoadingButton onClick={handleStartRoom}>Bắt đầu</LoadingButton>
           <h3>Chờ người khác tham gia ..</h3>
           <div className={classes.playerList}>
             {new Array(8).fill(null).map((x, index) => (

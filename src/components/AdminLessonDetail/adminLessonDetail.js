@@ -6,7 +6,6 @@ import { AiOutlineCopy } from "@react-icons/all-files/ai/AiOutlineCopy";
 import { AiOutlineDelete } from "@react-icons/all-files/ai/AiOutlineDelete";
 import { AiOutlinePrinter } from "@react-icons/all-files/ai/AiOutlinePrinter";
 import { AiOutlineSetting } from "@react-icons/all-files/ai/AiOutlineSetting";
-import { FiTarget } from "@react-icons/all-files/fi/FiTarget";
 import { BsPlay } from "@react-icons/all-files/bs/BsPlay";
 import { IoTabletLandscape } from "@react-icons/all-files/io5/IoTabletLandscape";
 import { FaGraduationCap } from "@react-icons/all-files/fa/FaGraduationCap";
@@ -29,6 +28,8 @@ import { toast } from "react-toastify";
 import RoomLoading from "../../commonComponents/RoomLoading";
 import { AuthContext } from "../../rootComponent/context/AuthProvider";
 import lessonLikeApi from "../../api/lessonLikeApi";
+import roomApi from "../../api/roomApi";
+import { useNavigate } from "react-router";
 
 function AdminLessonDetail(props) {
   const [lesson, setLesson] = useState(null);
@@ -54,6 +55,7 @@ function AdminLessonDetail(props) {
 function AdminLessonDetailBody(props) {
   const { lesson, setLesson } = props;
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const liked = !!lesson.lessonLikes.find(
     (lessonLike) => lessonLike.userId === user.id
   );
@@ -89,6 +91,20 @@ function AdminLessonDetailBody(props) {
         });
     }
   };
+
+  const handleCreateAsynchronousRoom = () => {
+    roomApi
+      .add({
+        lessonId: lesson.id,
+        userId: "1",
+      })
+      .then((response) => {
+        const room = response.data;
+        navigate(`/admin/quiz-room/${room.id}/startV4`);
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.topBlock}>
@@ -131,13 +147,13 @@ function AdminLessonDetailBody(props) {
             </div>
             <h3>{lesson.title}</h3>
             <div className={classes.statistic}>
-              <div>
-                <Icon>
-                  <FiTarget />
-                </Icon>
-                <span>86% Điểm trung bình</span>
-              </div>
-              <div>&#x2022;</div>
+              {/*<div>*/}
+              {/*  <Icon>*/}
+              {/*    <FiTarget />*/}
+              {/*  </Icon>*/}
+              {/*  <span>86% Điểm trung bình</span>*/}
+              {/*</div>*/}
+              {/*<div>&#x2022;</div>*/}
               <div>
                 <Icon>
                   <BsPlay />
@@ -157,7 +173,7 @@ function AdminLessonDetailBody(props) {
                 <Icon>
                   <IoTabletLandscape />
                 </Icon>
-                <span>Education</span>
+                <span>Giáo dục</span>
               </div>
             </div>
           </div>
@@ -210,7 +226,7 @@ function AdminLessonDetailBody(props) {
             <span>Host quiz</span>
           </div>
         </div>
-        <div>
+        <div onClick={handleCreateAsynchronousRoom}>
           <div>
             <Icon>
               <AiOutlineClockCircle />

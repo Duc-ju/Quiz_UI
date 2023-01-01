@@ -134,6 +134,10 @@
     cursor: pointer;
 }
 
+.controlBlock > *:hover {
+    transform: translateY(-2px);
+}
+
 .controlBlock > * > *:last-child {
     display: flex;
     flex-direction: column;

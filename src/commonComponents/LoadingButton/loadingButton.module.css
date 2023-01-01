@@ -10,6 +10,7 @@
     padding: 16px;
     justify-content: center;
     box-shadow: var(--button-primary-shadow);
+    cursor: pointer;
 }
 
 .root:hover {

@@ -126,7 +126,7 @@ function RoomProvider({ children }) {
       setAnswerList((answers) => data);
       handleNextQuestion();
     }
-    if (currentQuestionIdx == lesson.questions.length - 1) {
+    if (currentQuestionIdx === lesson.questions.length - 1) {
       submitAnswerTime();
     }
   };
