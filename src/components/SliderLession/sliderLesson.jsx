@@ -9,46 +9,8 @@ import Tag from "../../commonComponents/Tag";
 import { useContext } from "react";
 import { ModalContext } from "../../rootComponent/common/ModalContainer/ModalContext/modalContext";
 
-const lessonList = [
-  {
-    src: "https://quizizz.com/_media/quizzes/2da17524-b1e3-4126-be7d-0dbcd401a07b_400_400",
-    name: "Grade 1 Fall Math Test 1",
-    new: true,
-    numberOfQuestion: 10,
-    numberOfPlayed: 89,
-  },
-  {
-    src: "https://quizizz.com/_media/quizzes/513dfa2d-884c-4d3e-9458-d63979c7122a_400_400",
-    name: "TỨ GIÁC- HÌNH THANG CÂN",
-    new: false,
-    numberOfQuestion: 22,
-    numberOfPlayed: 12,
-  },
-  {
-    src: "https://quizizz.com/media/resource/gs/quizizz-media/quizzes/4bcf5a95-a02f-417d-9cff-49d2c4d10f25?w=400&h=400",
-    name: "Vòng quanh thế giới",
-    new: false,
-    numberOfQuestion: 8,
-    numberOfPlayed: 0,
-  },
-  {
-    src: "https://quizizz.com/_media/quizzes/7a3e981b-8d06-4110-b375-25d53690695d_400_400",
-    name: "Infinitives",
-    new: false,
-    numberOfQuestion: 20,
-    numberOfPlayed: 1006,
-  },
-  {
-    src: "https://quizizz.com/_media/quizzes/e6f5cf12-f8b6-4515-b6bd-da257d95db9c_400_400",
-    name: "Những câu hỏi hack não",
-    new: false,
-    numberOfQuestion: 16,
-    numberOfPlayed: 328,
-  },
-];
-
 function SliderLesson(props) {
-  const { lessons = [], title, to, popup, ...restProps } = props;
+  const { lessons = [], showPopup, title, to, Popup, ...restProps } = props;
   const settings = {
     dots: false,
     infinite: false,
@@ -57,8 +19,8 @@ function SliderLesson(props) {
     slidesToScroll: 4,
   };
   const { openModal, setClassName } = useContext(ModalContext);
-  const handleSelectLesson = (e) => {
-    openModal(popup);
+  const handleSelectLesson = (lesson) => {
+    openModal(<Popup lesson={lesson} />);
     setClassName(classes.modal);
   };
   return (
@@ -78,17 +40,19 @@ function SliderLesson(props) {
       </div>
       <div className={classes.listLesson}>
         <Slider {...settings}>
-          {lessonList.map((lesson, index) => (
+          {lessons.map((lesson) => (
             <Lesson
-              key={index}
-              src={lesson.src}
-              alt={"Quiz image"}
-              type={"QUIZZ"}
-              isNew={true}
-              name={lesson.name}
+              key={lesson.id}
+              image={lesson.image}
+              alt={lesson.title}
+              type={lesson.type}
+              // isNew={true}
+              title={lesson.title}
               numberOfQuestion={lesson.numberOfQuestion}
               numberOfPlayed={lesson.numberOfPlayed}
-              onClick={handleSelectLesson}
+              showPopup={showPopup}
+              to={`/admin/quiz/${lesson.id}`}
+              onClick={showPopup ? () => handleSelectLesson(lesson) : () => {}}
             />
           ))}
         </Slider>
@@ -107,37 +71,46 @@ function DivLesson({ children, ...restProps }) {
 
 function Lesson(props) {
   const {
-    src,
+    image,
     alt,
-    to,
+    showPopup,
     type,
     isNew,
-    name,
+    title,
     numberOfQuestion,
     numberOfPlayed,
     ...restProps
   } = props;
-  const RootTag = to ? LinkLesson : DivLesson;
+  const RootTag = showPopup ? DivLesson : LinkLesson;
   return (
     <RootTag className={classes.lessonRoot} {...restProps}>
-      <Link to={to} className={classes.lessonContainer}>
+      <div className={classes.lessonContainer}>
         <div className={classes.lessonImageContainer}>
-          <img src={src} alt={alt} />
+          {image && <img src={image} alt={alt} />}
+          {!image && (
+            <div className={classes.emptyImage}>
+              <img
+                src={
+                  "https://cf.quizizz.com/img/logos/new/logo_placeholder_sm.png"
+                }
+              />
+            </div>
+          )}
         </div>
         <div className={classes.lessonBody}>
           <div className={classes.tagContainer}>
             <Tag>QUIZZ</Tag>
           </div>
-          <h3>Vòng quanh thế giới</h3>
+          <h3>{title}</h3>
         </div>
         <div className={classes.lessonFooter}>
-          <span>8 câu hỏi</span>
+          <span>{`${numberOfQuestion} câu hỏi`}</span>
           <span>•</span>
           <span>
-            <span>{numberOfPlayed}</span> lần trả lời
+            <span>{numberOfPlayed}</span> lần luyện tập
           </span>
         </div>
-      </Link>
+      </div>
     </RootTag>
   );
 }

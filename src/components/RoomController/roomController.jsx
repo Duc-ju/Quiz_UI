@@ -11,6 +11,8 @@ import { RiArrowGoForwardFill } from "@react-icons/all-files/ri/RiArrowGoForward
 import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
 import mergeClassNames from "merge-class-names";
 import RoomLoading from "../../commonComponents/RoomLoading";
+import { useNavigate } from "react-router";
+import RankStatistic from "./RankStatistic";
 
 function RoomController(props) {
   const { children } = props;
@@ -23,7 +25,9 @@ function RoomController(props) {
     point,
     handleGoToNextQuestion,
     handleGoToPreviousQuestion,
+    rankStatistic,
   } = useContext(RoomContext);
+  const navigate = useNavigate();
   const lastResult = checkLastQuestionResult();
   const rightClass = mergeClassNames(
     classes.correct,
@@ -41,6 +45,11 @@ function RoomController(props) {
         : 0
     }%`,
   };
+
+  const handleClose = () => {
+    navigate("/join");
+  };
+
   return (
     <div className={classes.root} style={progressStyle}>
       <div className={classes.header}>
@@ -48,7 +57,7 @@ function RoomController(props) {
           <span />
         </div>
         <div className={classes.left}>
-          <Button>
+          <Button onClick={handleClose}>
             <IoClose />
           </Button>
           <Button>
@@ -69,6 +78,7 @@ function RoomController(props) {
       </div>
       <div className={classes.main}>
         {fetching ? <RoomLoading /> : children}
+        {<RankStatistic rankStatistic={rankStatistic} />}
       </div>
       <div className={classes.footer}>
         <div className={classes.left}></div>

@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./leftNav.module.css";
 import { GrMapLocation } from "@react-icons/all-files/gr/GrMapLocation";
 import Icon from "../../../commonComponents/Icon";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { GiBookshelf } from "@react-icons/all-files/gi/GiBookshelf";
 import mergeClassNames from "merge-class-names";
 import { IoMdAnalytics } from "@react-icons/all-files/io/IoMdAnalytics";
@@ -10,14 +10,14 @@ import { IoMdAnalytics } from "@react-icons/all-files/io/IoMdAnalytics";
 function LeftNav(props) {
   return (
     <div className={classes.root}>
-      <div className={classes.logoSection}>
+      <Link className={classes.logoSection} to={"/admin/home"}>
         <img
           alt={"logo"}
           src={
             "https://cf.quizizz.com/img/quizizz_logos/purple-brandmark-600x164.png"
           }
         />
-      </div>
+      </Link>
       {/*<div className={classes.actionSection}>*/}
       {/*  <p>Có một tài khoản?</p>*/}
       {/*  <Button className={classes.loginButton}>Đăng nhập</Button>*/}

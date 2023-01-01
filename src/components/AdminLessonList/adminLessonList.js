@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./adminLessonList.module.css";
 import Icon from "../../commonComponents/Icon";
 import Button from "../../commonComponents/Button";
 import { AiFillFolderAdd } from "@react-icons/all-files/ai/AiFillFolderAdd";
 import Select from "react-select";
 import { HiOutlineMenu } from "@react-icons/all-files/hi/HiOutlineMenu";
-import { FaGraduationCap } from "@react-icons/all-files/fa/FaGraduationCap";
-import { GiBookshelf } from "@react-icons/all-files/gi/GiBookshelf";
 import { FaShare } from "@react-icons/all-files/fa/FaShare";
 import { useNavigate } from "react-router";
 import { BsFillPersonFill } from "@react-icons/all-files/bs/BsFillPersonFill";
@@ -16,6 +14,7 @@ import { FcLike } from "@react-icons/all-files/fc/FcLike";
 import { RiDraftLine } from "@react-icons/all-files/ri/RiDraftLine";
 import mergeClassNames from "merge-class-names";
 import { IoBag } from "@react-icons/all-files/io5/IoBag";
+import lessonApi from "../../api/lessonApi";
 
 const options = [
   { value: "latest", label: "Sắp xếp theo: Gần đây nhất" },
@@ -100,10 +99,23 @@ const lessonList = [
 ];
 
 function AdminLessonList(props) {
+  const [lessons, setLessons] = useState([]);
+  const [fetching, setFetching] = useState(false);
   const navigate = useNavigate();
 
-  const handleSelectLesson = () => {
-    navigate("/admin/quiz/5");
+  useEffect(() => {
+    setFetching(true);
+    lessonApi
+      .getAll()
+      .then((response) => {
+        setLessons(response.data);
+      })
+      .catch((e) => console.error(e))
+      .finally(() => setFetching(false));
+  }, []);
+
+  const handleSelectLesson = (id) => {
+    navigate(`/admin/quiz/${id}`);
   };
 
   return (
@@ -148,21 +160,32 @@ function AdminLessonList(props) {
           </div>
         </div>
         <div className={classes.lessons}>
-          {lessonList.map((lesson, index) => (
+          {lessons.map((lesson, index) => (
             <div
               className={classes.lesson}
               key={index}
-              onClick={handleSelectLesson}
+              onClick={() => handleSelectLesson(lesson.id)}
             >
               <div className={classes.questionImage} key={index}>
-                <img alt={"lesson-images"} src={lesson.image} />
+                {lesson.image && (
+                  <img alt={"lesson-images"} src={lesson.image} />
+                )}
+                {!lesson.image && (
+                  <div className={classes.emptyImage}>
+                    <img
+                      src={
+                        "https://cf.quizizz.com/img/logos/new/logo_placeholder_sm.png"
+                      }
+                    />
+                  </div>
+                )}
               </div>
               <div className={classes.lessonContent}>
                 <div className={classes.labelList}>
                   <span className={classes.type}>{lesson.type}</span>
-                  {lesson.draf && (
-                    <span className={classes.label}>Bản nháp</span>
-                  )}
+                  {/*{lesson.draf && (*/}
+                  {/*  <span className={classes.label}>Bản nháp</span>*/}
+                  {/*)}*/}
                 </div>
                 <h3>{lesson.title}</h3>
                 <div className={classes.infoList}>
@@ -170,20 +193,20 @@ function AdminLessonList(props) {
                     <Icon>
                       <HiOutlineMenu />
                     </Icon>
-                    <span>{`${lesson.numberOfQuestions} câu hỏi`}</span>
+                    <span>{`${lesson.numberOfQuestion} câu hỏi`}</span>
                   </div>
-                  <div>
-                    <Icon>
-                      <FaGraduationCap />
-                    </Icon>
-                    <span>{lesson.grade}</span>
-                  </div>
-                  <div>
-                    <Icon>
-                      <GiBookshelf />
-                    </Icon>
-                    <span>Education</span>
-                  </div>
+                  {/*<div>*/}
+                  {/*  <Icon>*/}
+                  {/*    <FaGraduationCap />*/}
+                  {/*  </Icon>*/}
+                  {/*  <span>{lesson.grade}</span>*/}
+                  {/*</div>*/}
+                  {/*<div>*/}
+                  {/*  <Icon>*/}
+                  {/*    <GiBookshelf />*/}
+                  {/*  </Icon>*/}
+                  {/*  <span>Education</span>*/}
+                  {/*</div>*/}
                 </div>
                 <div className={classes.lessonFooter}>
                   <div>

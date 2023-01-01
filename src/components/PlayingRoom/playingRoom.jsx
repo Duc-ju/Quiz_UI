@@ -36,7 +36,6 @@ function PlayingRoomContent(props) {
     handleAddAnswer,
     currentQuestionIdx,
     answerList,
-    setAnswerTime,
     setFetching,
     setPoint,
     answerTime,

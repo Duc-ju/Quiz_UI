@@ -3,14 +3,17 @@ import lessonApi from "../../../../api/lessonApi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import answerTimeApi from "../../../../api/answerTimeApi";
+import questionAnswerApi from "../../../../api/questionAnswerApi";
+import statisticApi from "../../../../api/statisticApi";
 
 export const RoomContext = React.createContext();
 
 function RoomProvider({ children }) {
-  const [lesson, setLesson] = useState();
+  const [lesson, setLesson] = useState(null);
   const [started, setStarted] = useState(false);
   const [answerTime, setAnswerTime] = useState();
   const [fetching, setFetching] = useState(false);
+  const [rankStatistic, setRankStatistic] = useState(null);
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [answerList, setAnswerList] = useState([]);
   const [count, setCount] = useState(-1);
@@ -37,17 +40,54 @@ function RoomProvider({ children }) {
     }
   }, [lessonId]);
   useEffect(() => {
-    setAnswerTime();
     setCurrentQuestionIdx(0);
     setAnswerList([]);
-    setCount(-1);
     setResultTime(-1);
     setStarted(false);
   }, [location.pathname]);
   const handleAddAnswer = (data) => {
-    setAnswerList((old) => {
-      return [...old, data];
-    });
+    questionAnswerApi
+      .add({
+        ...data,
+        answerTime: {
+          id: answerTime.id,
+        },
+      })
+      .then((response) => {
+        setAnswerList((old) => {
+          return [...old, response.data];
+        });
+      })
+      .catch((e) => console.error(e));
+    statisticApi
+      .getAfterQuestionRank(answerTime.id, data.questionId)
+      .then((response) => setRankStatistic(response.data))
+      .catch((e) => console.log(e));
+  };
+  console.log(count);
+  const handleStartRoom = () => {
+    const dataObject = {
+      lessonId: lesson.id,
+      userId: null,
+      socketId: null,
+      nickName: null,
+      room: null,
+      questionAnswers: [],
+    };
+    answerTimeApi
+      .add(dataObject)
+      .then((response) => {
+        setAnswerTime(response.data);
+        console.log(response.data);
+        setStarted(true);
+        navigate(`/join/game/${lesson.id}/playing-game/${response.data.id}`);
+        setCount(lesson.questions[0].duration);
+      })
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra");
+        console.log(e);
+        navigate(`/join/game/${lesson.id}/pre-game`);
+      });
   };
   const currentQuestion = (() => {
     if (
@@ -72,51 +112,36 @@ function RoomProvider({ children }) {
     setCount(-1);
   };
   const handleGoToNextQuestion = () => {
-    if (currentQuestionIdx !== lesson.questions.length - 1) {
-      setAnswerList((answers) => [
-        ...answers,
-        {
-          questionId: currentQuestion.id,
-          numberOfRightAnswer: currentQuestion.numberOfKeys,
-          point: 0,
-          questionAnswerParts: [],
-          duration: currentQuestion.duration,
-        },
-      ]);
+    const data = [
+      ...answerList,
+      {
+        questionId: currentQuestion.id,
+        numberOfRightAnswer: currentQuestion.numberOfKeys,
+        point: 0,
+        questionAnswerParts: [],
+        duration: currentQuestion.duration,
+      },
+    ];
+    if (currentQuestionIdx !== lesson.questions.length) {
+      setAnswerList((answers) => data);
       handleNextQuestion();
-    } else {
+    }
+    if (currentQuestionIdx == lesson.questions.length - 1) {
       submitAnswerTime();
     }
   };
 
   const submitAnswerTime = () => {
-    const dataObject = {
-      lessonId: lesson.id,
-      userId: null,
-      socketId: null,
-      nickName: null,
-      room: null,
-      questionAnswers: answerList.filter((answers) => !!answers),
-    };
-    setFetching(true);
-    answerTimeApi
-      .add(dataObject)
-      .then((response) => {
-        setAnswerTime(response.data);
-        navigate(`/join/game/${lesson.id}/scored-game/${response.data.id}`);
-        toast.info("Bạn đã hoàn thành bài kiểm tra!");
-      })
-      .catch((e) => {
-        toast.error("Có lỗi xảy ra");
-        console.log(e);
-        navigate(`/join/game/${lesson.id}/pre-game`);
-      })
-      .finally(() => setFetching(false));
+    navigate(`/join/game/${lesson.id}/scored-game/${answerTime.id}`);
+    toast.info("Bạn đã hoàn thành bài thi");
   };
 
   const handleGoToPreviousQuestion = () => {
     setCurrentQuestionIdx((old) => old - 1);
     setAnswerList((answers) => answers.slice(0, answers.length - 1));
+    questionAnswerApi
+      .delete(answerList[answerList.length - 1].id)
+      .catch((e) => console.log(e));
     setResultTime(-1);
     setCount(-1);
   };
@@ -163,6 +188,8 @@ function RoomProvider({ children }) {
         handleGoToNextQuestion,
         handleGoToPreviousQuestion,
         submitAnswerTime,
+        handleStartRoom,
+        rankStatistic,
       }}
     >
       {children}

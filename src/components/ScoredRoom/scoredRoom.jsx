@@ -16,7 +16,6 @@ function ScoredRoom(props) {
   const { setFetching } = useContext(RoomContext);
   const [answerTimeStatistic, setAnswerTimeStatistic] = useState(null);
   useEffect(() => {
-    console.log("re-render");
     if (answerTimeId) {
       statisticApi
         .getLessonTimeStatistic(answerTimeId)
@@ -90,7 +89,7 @@ function ScoredRoomBody(props) {
           <div className={classes.action}>
             <Button
               fullWidth={true}
-              to={`/join/game/${answerTimeStatistic.id}/pre-game`}
+              to={`/join/game/${answerTimeStatistic.lessonId}/pre-game`}
             >
               Bắt đầu lại
             </Button>

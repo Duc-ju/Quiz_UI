@@ -42,12 +42,16 @@ function QuestionDetail(props) {
         <div
           className={mergeClassNames(
             classes.titleContainer,
-            questionAnswer.questionAnswerParts.length > 0
+            questionAnswer.questionAnswerParts.filter(
+              (questionAnswerPart) => questionAnswerPart.selected
+            ).length > 0
               ? classes.hasAnswer
               : ""
           )}
         >
-          {questionAnswer.questionAnswerParts.length === 0 && (
+          {questionAnswer.questionAnswerParts.filter(
+            (questionAnswerPart) => questionAnswerPart.selected
+          ).length === 0 && (
             <span
               className={mergeClassNames(
                 classes.yourAnswer,
@@ -62,19 +66,22 @@ function QuestionDetail(props) {
         <span />
         <ul className={classes.answers}>
           {questionAnswer.questionAnswerParts.map((answer) => {
+            console.log(answer);
             return (
               <li key={answer.id}>
                 {answer.selected && (
                   <span
                     className={mergeClassNames(
                       classes.yourAnswer,
-                      answer.answerKey ? classes.rightColor : classes.wrongColor
+                      answer.rightAnswer && answer.selected
+                        ? classes.rightColor
+                        : classes.wrongColor
                     )}
                   >
                     Câu trả lời của bạn
                   </span>
                 )}
-                {answer.answerKey ? (
+                {answer.rightAnswer ? (
                   <Icon icon={<FaCheckCircle />} className={classes.checked} />
                 ) : (
                   <Icon icon={<FaDotCircle />} />

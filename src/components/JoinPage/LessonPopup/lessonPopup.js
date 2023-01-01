@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./lessonPopup.module.css";
 import Icon from "../../../commonComponents/Icon";
 import { AiOutlineShareAlt } from "@react-icons/all-files/ai/AiOutlineShareAlt";
 import Button from "../../../commonComponents/Button";
 import { BsPlayFill } from "@react-icons/all-files/bs/BsPlayFill";
 import { GrGroup } from "@react-icons/all-files/gr/GrGroup";
+import { useNavigate } from "react-router";
+import { ModalContext } from "../../../rootComponent/common/ModalContainer/ModalContext/modalContext";
 
 function LessonPopup(props) {
+  const { lesson } = props;
+  const navigate = useNavigate();
+  const { closeModal } = useContext(ModalContext);
+  const handlePractice = () => {
+    closeModal();
+    navigate(`join/game/${lesson.id}/pre-game`);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.imageHeader}>
@@ -23,12 +32,12 @@ function LessonPopup(props) {
           <span>Chia sẻ</span>
         </div>
         <div className={classes.topFooter}>
-          <span>21 câu hỏi</span>
-          <span>805 lần chơi</span>
+          <span>{`${lesson.numberOfQuestion} câu hỏi`}</span>
+          <span>{`${lesson.numberOfPlayed} lần luyện tập`}</span>
         </div>
       </div>
       <div className={classes.content}>
-        <h3 className={classes.title}>Đường thẳng song song - cắt nhau</h3>
+        <h3 className={classes.title}>{lesson.title}</h3>
         <div className={classes.split}>
           <div className={classes.avatar}>
             <span>
@@ -60,7 +69,9 @@ function LessonPopup(props) {
         </div>
       </div>
       <div className={classes.buttonContainer}>
-        <Button endIcon={<BsPlayFill />}>Thực hành</Button>
+        <Button onClick={handlePractice} endIcon={<BsPlayFill />}>
+          Thực hành
+        </Button>
         <Button endIcon={<GrGroup />}>Thực hành</Button>
       </div>
     </div>

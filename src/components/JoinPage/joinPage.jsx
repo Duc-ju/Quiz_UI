@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./joinPage.module.css";
 import Button from "../../commonComponents/Button";
 import { FcPlus } from "@react-icons/all-files/fc/FcPlus";
 import SliderLesson from "../SliderLession";
 import LessonPopup from "./LessonPopup";
+import categoryApi from "../../api/categoryApi";
 
 function JoinPage(props) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    categoryApi
+      .getAll()
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((e) => console.error(e));
+  }, []);
+
   return (
     <section className={classes.root}>
       <div className={classes.top}>
@@ -29,8 +41,15 @@ function JoinPage(props) {
         </div>
       </div>
       <div className={classes.lessonContainer}>
-        <SliderLesson popup={<LessonPopup />} title={"Khám phá theo chủ đề"} />
-        <SliderLesson popup={<LessonPopup />} title={"Mathematics"} />
+        {categories.map((category) => (
+          <SliderLesson
+            key={category.id}
+            showPopup={true}
+            title={category.name}
+            lessons={category.lessons}
+            Popup={LessonPopup}
+          />
+        ))}
       </div>
     </section>
   );

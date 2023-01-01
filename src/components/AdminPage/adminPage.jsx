@@ -44,22 +44,26 @@ function AdminPage(props) {
         </div>
         <div className={classes.listSubject}>
           <Slider {...settings}>
-            {categories.map((tag) => (
+            {categories.map((category) => (
               <SubjectItem
-                key={tag.id}
-                src={tag.image}
-                alt={tag.name}
-                label={tag.name}
+                key={category.id}
+                src={category.image}
+                alt={category.name}
+                label={category.name}
               />
             ))}
           </Slider>
         </div>
       </div>
       <div className={classes.mainPage}>
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
-        <SliderLesson title={"Ice breaker"} lessons={[]} />
+        {categories.map((category) => (
+          <SliderLesson
+            key={category.id}
+            showPopup={false}
+            title={category.name}
+            lessons={category.lessons}
+          />
+        ))}
       </div>
     </section>
   );

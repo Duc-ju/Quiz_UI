@@ -6,7 +6,7 @@ import Footer from "../common/Footer";
 import NotificationContainer from "../common/NotificationContainer";
 import ModalContainer from "../common/ModalContainer";
 import { ModalProvider } from "../common/ModalContainer/ModalContext/modalContext";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import LeftNav from "../admin/LeftNav";
 import JoinHeader from "../join/Joinheader";
 import JoinRouter from "../join/JoinRouter/joinRouter";
@@ -22,6 +22,7 @@ function App(props) {
         <BrowserRouter>
           <section className={classes.root}>
             <Routes>
+              <Route path={"/"} element={<Navigate to={"/admin/home"} />} />
               <Route
                 path={"/admin/quizz/:roomId/*"}
                 element={<AdminLiveRoomRouter />}

@@ -9,12 +9,9 @@ import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomPro
 import { useNavigate } from "react-router-dom";
 
 function WaitingRoom(props) {
-  const { lesson, setStarted } = useContext(RoomContext);
+  const { lesson, setStarted, handleStartRoom } = useContext(RoomContext);
   const navigate = useNavigate();
-  const handleStart = () => {
-    navigate(`/join/game/${lesson.id}/playing-game`);
-    setStarted(true);
-  };
+
   if (!lesson) return null;
   return (
     <section className={classes.root}>
@@ -65,7 +62,7 @@ function WaitingRoom(props) {
               <span>Kết thúc</span>
             </div>
             <h2>{`${lesson.numberOfQuestion} slide còn lại`}</h2>
-            <Button fullWidth onClick={handleStart}>
+            <Button fullWidth onClick={handleStartRoom}>
               Bắt đầu thôi
             </Button>
           </div>

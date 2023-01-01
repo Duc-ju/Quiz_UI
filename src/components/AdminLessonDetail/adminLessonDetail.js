@@ -142,7 +142,7 @@ function AdminLessonDetailBody(props) {
                 <Icon>
                   <BsPlay />
                 </Icon>
-                <span>{`${lesson.numberOfPlayed} lần chơi`}</span>
+                <span>{`${lesson.numberOfPlayed} lần trả lời`}</span>
               </div>
             </div>
             <div className={classes.statistic}>

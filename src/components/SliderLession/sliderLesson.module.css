@@ -1,5 +1,7 @@
 .lessonRoot {
     margin-bottom: 32px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .lessonTitle {
@@ -94,4 +96,18 @@
 .modal *[class*="closeButton"] * {
     color: white;
     stroke: white;
+}
+
+.emptyImage {
+    width: 240px;
+    height: 160px;
+    background-color: rgba(59, 130, 246, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyImage img {
+    width: 40px;
+    height: 40px;
 }
