@@ -12,7 +12,7 @@ import { IoTabletLandscape } from "@react-icons/all-files/io5/IoTabletLandscape"
 import { HiMail } from "@react-icons/all-files/hi/HiMail";
 import { GrList } from "@react-icons/all-files/gr/GrList";
 import fillRoomName from "../../logic/fillRoomName";
-import { LiveRoomContext } from "../../rootComponent/liveRoom/AdminLiveRoomRouter/context/adminLiveRoomProvider";
+import { LiveRoomContext } from "../../rootComponent/adminLiveRoom/AdminLiveRoomRouter/context/adminLiveRoomProvider";
 
 function AdminLiveWaitingRoom(props) {
   const { handleStartRoom, listActiveUser } = useContext(LiveRoomContext);

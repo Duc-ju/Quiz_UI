@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import classes from "./joinPage.module.css";
+import classes from "./studentHomePage.module.css";
 import Button from "../../commonComponents/Button";
 import { FcPlus } from "@react-icons/all-files/fc/FcPlus";
 import SliderLesson from "../SliderLession";
 import LessonPopup from "./LessonPopup";
 import categoryApi from "../../api/categoryApi";
 
-function JoinPage(props) {
+function StudentHomePage(props) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -55,4 +55,4 @@ function JoinPage(props) {
   );
 }
 
-export default JoinPage;
+export default StudentHomePage;

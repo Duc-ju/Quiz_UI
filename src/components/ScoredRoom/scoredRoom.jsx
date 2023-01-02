@@ -9,7 +9,7 @@ import Question from "./Question";
 import Suggestion from "./Suggestion";
 import { useParams } from "react-router-dom";
 import statisticApi from "../../api/statisticApi";
-import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
+import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 
 function ScoredRoom(props) {
   const { answerTimeId } = useParams();

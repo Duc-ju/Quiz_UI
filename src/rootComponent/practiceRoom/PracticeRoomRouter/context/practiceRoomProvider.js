@@ -8,7 +8,7 @@ import statisticApi from "../../../../api/statisticApi";
 
 export const RoomContext = React.createContext();
 
-function RoomProvider({ children }) {
+function PracticeRoomProvider({ children }) {
   const [lesson, setLesson] = useState(null);
   const [started, setStarted] = useState(false);
   const [answerTime, setAnswerTime] = useState();
@@ -197,4 +197,4 @@ function RoomProvider({ children }) {
   );
 }
 
-export default RoomProvider;
+export default PracticeRoomProvider;

@@ -1,21 +1,21 @@
 import React from "react";
-import classes from "./app.module.css";
-import AdminHeader from "../admin/AdminHeader";
-import AdminRouter from "../admin/AdminRouter";
+import classes from "./appRouter.module.css";
+import AdminHeader from "../adminPage/AdminHeader";
+import AdminRouter from "../adminPage/AdminRouter";
 import Footer from "../common/Footer";
 import NotificationContainer from "../common/NotificationContainer";
 import ModalContainer from "../common/ModalContainer";
 import { ModalProvider } from "../common/ModalContainer/ModalContext/modalContext";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import LeftNav from "../admin/LeftNav";
-import JoinHeader from "../join/Joinheader";
-import JoinRouter from "../join/JoinRouter/joinRouter";
+import LeftNav from "../adminPage/LeftNav";
+import JoinHeader from "../studentPage/Joinheader";
+import JoinRouter from "../studentPage/JoinRouter/joinRouter";
 import NotFoundPage from "../common/NotFoundPage";
-import RoomRouter from "../room/RoomRouter";
 import AuthProvider from "../context/AuthProvider";
-import AdminLiveRoomRouter from "../liveRoom/AdminLiveRoomRouter";
+import AdminLiveRoomRouter from "../adminLiveRoom/AdminLiveRoomRouter";
+import PracticeRoomRouter from "../practiceRoom/PracticeRoomRouter";
 
-function App(props) {
+function AppRouter(props) {
   return (
     <ModalProvider>
       <AuthProvider>
@@ -42,7 +42,10 @@ function App(props) {
                   </>
                 }
               />
-              <Route path={"/join/game/:lessonId/*"} element={<RoomRouter />} />
+              <Route
+                path={"/join/game/:lessonId/*"}
+                element={<PracticeRoomRouter />}
+              />
               <Route
                 path={"/join/*"}
                 element={
@@ -66,4 +69,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default AppRouter;

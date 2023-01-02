@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import classes from "./roomController.module.css";
+import classes from "./practiceRoomController.module.css";
 import Button from "../../commonComponents/Button";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { FaMusic } from "@react-icons/all-files/fa/FaMusic";
@@ -8,13 +8,13 @@ import { BsFullscreen } from "@react-icons/all-files/bs/BsFullscreen";
 import { AiFillSetting } from "@react-icons/all-files/ai/AiFillSetting";
 import { RiArrowGoBackFill } from "@react-icons/all-files/ri/RiArrowGoBackFill";
 import { RiArrowGoForwardFill } from "@react-icons/all-files/ri/RiArrowGoForwardFill";
-import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
+import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 import mergeClassNames from "merge-class-names";
 import RoomLoading from "../../commonComponents/RoomLoading";
 import { useNavigate } from "react-router";
 import RankStatistic from "./RankStatistic";
 
-function RoomController(props) {
+function PracticeRoomController(props) {
   const { children } = props;
   const {
     count,
@@ -106,4 +106,4 @@ function RoomController(props) {
   );
 }
 
-export default RoomController;
+export default PracticeRoomController;

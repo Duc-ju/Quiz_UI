@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import classes from "./waitingRoom.module.css";
+import classes from "./practiceWaitingRoom.module.css";
 import Button from "../../commonComponents/Button";
 import { FiShare2 } from "@react-icons/all-files/fi/FiShare2";
 import { BiRun } from "@react-icons/all-files/bi/BiRun";
 import { FaFlagCheckered } from "@react-icons/all-files/fa/FaFlagCheckered";
 import { FcVoicePresentation } from "@react-icons/all-files/fc/FcVoicePresentation";
-import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
+import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 import { useNavigate } from "react-router-dom";
 
-function WaitingRoom(props) {
+function PracticeWaitingRoom(props) {
   const { lesson, setStarted, handleStartRoom } = useContext(RoomContext);
   const navigate = useNavigate();
 
@@ -73,4 +73,4 @@ function WaitingRoom(props) {
   );
 }
 
-export default WaitingRoom;
+export default PracticeWaitingRoom;

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import classes from "./playingRoom.module.css";
-import { RoomContext } from "../../rootComponent/room/RoomRouter/context/roomProvider";
+import classes from "./practicePlayingRoom.module.css";
+import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PENDING_TIME } from "../../constant/gameConstant";
 import mergeClassNames from "merge-class-names";
 import LoadingIcon from "../../commonComponents/LoadingIcon";
 
-function PlayingRoom(props) {
+function PracticePlayingRoom(props) {
   const { lesson, currentQuestion, started } = useContext(RoomContext);
   const params = useParams();
   const navigate = useNavigate();
@@ -175,4 +175,4 @@ function Answer(props) {
   );
 }
 
-export default PlayingRoom;
+export default PracticePlayingRoom;
