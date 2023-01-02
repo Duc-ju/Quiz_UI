@@ -8,6 +8,7 @@ import {
   RECEIVE_LEFT_ROOM,
   RECEIVE_STATISTIC,
 } from "../../../common/messageType";
+import fillRoomName from "../../../../logic/fillRoomName";
 
 export const LiveRoomContext = React.createContext();
 
@@ -42,7 +43,7 @@ function AdminLiveRoomProvider({ children }) {
         console.log("Connected: " + frame);
 
         stompClient.subscribe(
-          "/topic/room-admin/" + roomId,
+          "/topic/room-admin/" + fillRoomName(roomId),
           function (message) {
             const messageBody = JSON.parse(message.body);
             console.log(messageBody);
@@ -68,7 +69,7 @@ function AdminLiveRoomProvider({ children }) {
 
   const handleStartRoom = () => {
     socket.send(
-      "/app/start-room/" + roomId,
+      "/app/start-room/" + fillRoomName(roomId),
       {},
       JSON.stringify({
         type: "",

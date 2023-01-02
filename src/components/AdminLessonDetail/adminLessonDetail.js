@@ -30,6 +30,7 @@ import { AuthContext } from "../../rootComponent/context/AuthProvider";
 import lessonLikeApi from "../../api/lessonLikeApi";
 import roomApi from "../../api/roomApi";
 import { useNavigate } from "react-router";
+import fillRoomName from "../../logic/fillRoomName";
 
 function AdminLessonDetail(props) {
   const [lesson, setLesson] = useState(null);
@@ -100,7 +101,7 @@ function AdminLessonDetailBody(props) {
       })
       .then((response) => {
         const room = response.data;
-        navigate(`/admin/quiz-room/${room.id}/startV4`);
+        navigate(`/admin/quiz-room/${fillRoomName(room.id)}/startV4`);
       })
       .catch((e) => console.log(e));
   };

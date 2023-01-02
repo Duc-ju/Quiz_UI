@@ -64,7 +64,7 @@ function PracticeRoomProvider({ children }) {
       .then((response) => setRankStatistic(response.data))
       .catch((e) => console.log(e));
   };
-  console.log(count);
+
   const handleStartRoom = () => {
     const dataObject = {
       lessonId: lesson.id,
@@ -80,13 +80,15 @@ function PracticeRoomProvider({ children }) {
         setAnswerTime(response.data);
         console.log(response.data);
         setStarted(true);
-        navigate(`/join/game/${lesson.id}/playing-game/${response.data.id}`);
+        navigate(
+          `/join/practice/${lesson.id}/playing-game/${response.data.id}`
+        );
         setCount(lesson.questions[0].duration);
       })
       .catch((e) => {
         toast.error("Có lỗi xảy ra");
         console.log(e);
-        navigate(`/join/game/${lesson.id}/pre-game`);
+        navigate(`/join/practice/${lesson.id}/pre-game`);
       });
   };
   const currentQuestion = (() => {
@@ -132,7 +134,7 @@ function PracticeRoomProvider({ children }) {
   };
 
   const submitAnswerTime = () => {
-    navigate(`/join/game/${lesson.id}/scored-game/${answerTime.id}`);
+    navigate(`/join/practice/${lesson.id}/scored-game/${answerTime.id}`);
     toast.info("Bạn đã hoàn thành bài thi");
   };
 

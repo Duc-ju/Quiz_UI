@@ -14,7 +14,7 @@ function LessonPopup(props) {
   const { closeModal } = useContext(ModalContext);
   const handlePractice = () => {
     closeModal();
-    navigate(`join/game/${lesson.id}/pre-game`);
+    navigate(`join/practice/${lesson.id}/pre-game`);
   };
   return (
     <div className={classes.root}>

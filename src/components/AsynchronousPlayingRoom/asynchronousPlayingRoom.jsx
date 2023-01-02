@@ -1,47 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
-import classes from "./practicePlayingRoom.module.css";
+import classes from "./asynchronousPlayingRoom.module.css";
 import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { PENDING_TIME } from "../../constant/gameConstant";
+import { useParams } from "react-router-dom";
 import mergeClassNames from "merge-class-names";
 import LoadingIcon from "../../commonComponents/LoadingIcon";
+import { AsynchronousRoomContext } from "../../rootComponent/asynchronousRoom/AsynchronousRoomRouter/context/asynchronousRoomProvider";
+import { toast } from "react-toastify";
+import { PENDING_TIME } from "../../constant/gameConstant";
 
-function PracticePlayingRoom(props) {
-  const { lesson, currentQuestion, started } = useContext(RoomContext);
-  const params = useParams();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!lesson || !started) {
-      navigate(`/join/practice/${params.lessonId}/pre-game`);
-      toast.error("Bạn cần tham gia bài kiểm tra từ đầu!");
-    }
-  }, [params.lessonId, navigate, lesson]);
-  if (!lesson || !currentQuestion) return null;
-  return (
-    <PlayingRoomContent lesson={lesson} currentQuestion={currentQuestion} />
-  );
+function AsynchronousPlayingRoom(props) {
+  const { currentQuestion } = useContext(RoomContext);
+  const {} = useParams();
+
+  if (currentQuestion) return null;
+  return <PlayingRoomContent currentQuestion={currentQuestion} />;
 }
 
 function PlayingRoomContent(props) {
-  const { lesson, currentQuestion } = props;
+  const { currentQuestion } = props;
   const [selected, setSelected] = useState();
   const [answered, setAnswered] = useState(false);
   const {
+    currentQuestionIdx,
     count,
     setCount,
     resultTime,
     setResultTime,
-    handleNextQuestion,
-    handleAddAnswer,
-    currentQuestionIdx,
-    answerList,
-    setFetching,
     setPoint,
-    answerTime,
-    submitAnswerTime,
-  } = useContext(RoomContext);
-  const navigate = useNavigate();
+    handleAddAnswer,
+  } = useContext(AsynchronousRoomContext);
 
   useEffect(() => {
     if (currentQuestion) {
@@ -99,33 +86,7 @@ function PlayingRoomContent(props) {
     setCount(0);
     setResultTime(PENDING_TIME);
   };
-  useEffect(() => {
-    let timeoutId = -1;
-    if (resultTime === 1) {
-      timeoutId = setTimeout(() => {
-        if (!currentQuestion.isLast) {
-          handleNextQuestion();
-        } else {
-          handleNextQuestion();
-          submitAnswerTime();
-        }
-      }, 1000);
-    } else if (resultTime > 1) {
-      timeoutId = setTimeout(() => {
-        setResultTime(resultTime - 1);
-      }, 1000);
-    }
-    return () => clearTimeout(timeoutId);
-  }, [
-    resultTime,
-    currentQuestion,
-    handleNextQuestion,
-    lesson.id,
-    navigate,
-    setResultTime,
-  ]);
 
-  if (!lesson) return null;
   return (
     <section className={classes.root}>
       <div className={classes.question}>
@@ -176,4 +137,4 @@ function Answer(props) {
   );
 }
 
-export default PracticePlayingRoom;
+export default AsynchronousPlayingRoom;

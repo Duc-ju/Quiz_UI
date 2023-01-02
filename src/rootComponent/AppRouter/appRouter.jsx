@@ -14,6 +14,7 @@ import NotFoundPage from "../common/NotFoundPage";
 import AuthProvider from "../context/AuthProvider";
 import AdminLiveRoomRouter from "../adminLiveRoom/AdminLiveRoomRouter";
 import PracticeRoomRouter from "../practiceRoom/PracticeRoomRouter";
+import AsynchronousRoomRouter from "../asynchronousRoom/AsynchronousRoomRouter";
 
 function AppRouter(props) {
   return (
@@ -43,8 +44,12 @@ function AppRouter(props) {
                 }
               />
               <Route
-                path={"/join/game/:lessonId/*"}
+                path={"/join/practice/:lessonId/*"}
                 element={<PracticeRoomRouter />}
+              />
+              <Route
+                path={"/join/asynchronous/:roomId/*"}
+                element={<AsynchronousRoomRouter />}
               />
               <Route
                 path={"/join/*"}

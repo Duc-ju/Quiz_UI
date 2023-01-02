@@ -89,7 +89,7 @@ function ScoredRoomBody(props) {
           <div className={classes.action}>
             <Button
               fullWidth={true}
-              to={`/join/game/${answerTimeStatistic.lessonId}/pre-game`}
+              to={`/join/practice/${answerTimeStatistic.lessonId}/pre-game`}
             >
               Bắt đầu lại
             </Button>
