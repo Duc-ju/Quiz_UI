@@ -15,7 +15,7 @@ import fillRoomName from "../../logic/fillRoomName";
 import { LiveRoomContext } from "../../rootComponent/liveRoom/AdminLiveRoomRouter/context/adminLiveRoomProvider";
 
 function AdminLiveWaitingRoom(props) {
-  const { handleStartRoom } = useContext(LiveRoomContext);
+  const { handleStartRoom, listActiveUser } = useContext(LiveRoomContext);
   const { roomId } = useParams();
   return (
     <div className={classes.root}>
@@ -88,22 +88,19 @@ function AdminLiveWaitingRoom(props) {
           <Icon>
             <GrGroup />
           </Icon>
-          <span>0</span>
+          <span>{listActiveUser.length}</span>
         </span>
         <div className={classes.controller}>
           <LoadingButton onClick={handleStartRoom}>Bắt đầu</LoadingButton>
-          <h3>Chờ người khác tham gia ..</h3>
+          {listActiveUser.length === 0 && <h3>Chờ người khác tham gia ..</h3>}
           <div className={classes.playerList}>
-            {new Array(8).fill(null).map((x, index) => (
+            {listActiveUser.map((activeUser, index) => (
               <div className={classes.player} key={index}>
-                <span className={classes.playerName}>Đức Ju</span>
+                <span className={classes.playerName}>
+                  {activeUser.nickname}
+                </span>
                 <span className={classes.avatar}>
-                  <img
-                    alt={"avatar"}
-                    src={
-                      "https://cf.quizizz.com/join/img/avatars/tablet_sm/monster33.png"
-                    }
-                  />
+                  <img alt={activeUser.nickname} src={activeUser.avatar} />
                 </span>
               </div>
             ))}

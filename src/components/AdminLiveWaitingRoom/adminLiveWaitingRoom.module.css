@@ -123,6 +123,11 @@
     row-gap: 32px;
 }
 
+.controller h3 {
+    font-size: 20px;
+    color: white;
+}
+
 .playerList {
     display: flex;
     flex-wrap: wrap;

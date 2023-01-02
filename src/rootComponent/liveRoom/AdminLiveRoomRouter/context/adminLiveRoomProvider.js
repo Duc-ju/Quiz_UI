@@ -3,6 +3,11 @@ import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useParams } from "react-router-dom";
 import roomApi from "../../../../api/roomApi";
+import {
+  RECEIVE_JOIN_ROOM,
+  RECEIVE_LEFT_ROOM,
+  RECEIVE_STATISTIC,
+} from "../../../common/messageType";
 
 export const LiveRoomContext = React.createContext();
 
@@ -10,7 +15,8 @@ function AdminLiveRoomProvider({ children }) {
   const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const [room, setRoom] = useState(null);
-  const [receivedMessage, setReceiveMessage] = useState(null);
+  const [statistic, setStatistic] = useState(null);
+  const [listActiveUser, setListActiveUser] = useState([]);
   const { roomId } = useParams();
   useEffect(() => {
     roomApi
@@ -39,8 +45,15 @@ function AdminLiveRoomProvider({ children }) {
           "/topic/room-admin/" + roomId,
           function (message) {
             const messageBody = JSON.parse(message.body);
-            setReceiveMessage(messageBody);
             console.log(messageBody);
+            switch (messageBody.type) {
+              case RECEIVE_STATISTIC:
+                setStatistic(messageBody.message);
+                break;
+              case RECEIVE_LEFT_ROOM:
+              case RECEIVE_JOIN_ROOM:
+                setListActiveUser(messageBody.message);
+            }
           }
         );
       }
@@ -68,6 +81,7 @@ function AdminLiveRoomProvider({ children }) {
     <LiveRoomContext.Provider
       value={{
         handleStartRoom,
+        listActiveUser,
       }}
     >
       {children}
