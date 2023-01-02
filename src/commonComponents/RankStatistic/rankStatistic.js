@@ -1,14 +1,17 @@
 import React from "react";
 import classes from "./rankStatistic.module.css";
-import Icon from "../../../commonComponents/Icon";
+import Icon from "../Icon";
 import { GrGroup } from "@react-icons/all-files/gr/GrGroup";
 import { AiFillFire } from "@react-icons/all-files/ai/AiFillFire";
 import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
 import mergeClassNames from "merge-class-names";
 
 function RankStatistic(props) {
-  const { rankStatistic } = props;
-  const rootClasses = mergeClassNames(classes.root);
+  const { rankStatistic, openStatistic } = props;
+  const rootClasses = mergeClassNames(
+    classes.root,
+    openStatistic ? classes.open : ""
+  );
   return (
     <div className={rootClasses}>
       <div className={classes.bottomContainer}>

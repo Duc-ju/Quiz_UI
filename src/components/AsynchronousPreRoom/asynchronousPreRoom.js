@@ -11,7 +11,7 @@ function AsynchronousPreRoom(props) {
     <div className={classes.root}>
       <div className={classes.container}>
         <h2>Tên của bạn là...</h2>
-        <div>
+        <div className={classes.inputContainer}>
           <input
             value={nickname}
             placeholder={"Nhập tên của bạn trong phòng thi"}
@@ -19,7 +19,11 @@ function AsynchronousPreRoom(props) {
             className={classes.input}
           />
         </div>
-        <LoadingButton onClick={() => handleConnectSocket(nickname)}>
+        <LoadingButton
+          className={classes.button}
+          onClick={() => handleConnectSocket(nickname)}
+          fullWidth={true}
+        >
           Bắt đầu
         </LoadingButton>
       </div>

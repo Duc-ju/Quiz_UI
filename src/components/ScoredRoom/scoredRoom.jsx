@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./scoredRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { BsFillPersonFill } from "@react-icons/all-files/bs/BsFillPersonFill";
@@ -9,11 +9,10 @@ import Question from "./Question";
 import Suggestion from "./Suggestion";
 import { useParams } from "react-router-dom";
 import statisticApi from "../../api/statisticApi";
-import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 
 function ScoredRoom(props) {
   const { answerTimeId } = useParams();
-  const { setFetching } = useContext(RoomContext);
+  const [fetching, setFetching] = useState(false);
   const [answerTimeStatistic, setAnswerTimeStatistic] = useState(null);
   useEffect(() => {
     if (answerTimeId) {
@@ -87,13 +86,15 @@ function ScoredRoomBody(props) {
             </div>
           </div>
           <div className={classes.action}>
-            <Button
-              fullWidth={true}
-              to={`/join/practice/${answerTimeStatistic.lessonId}/pre-game`}
-            >
-              Bắt đầu lại
-            </Button>
-            <Button fullWidth={true}>Xem lại</Button>
+            {
+              <Button
+                fullWidth={true}
+                to={`/join/practice/${answerTimeStatistic.lessonId}/pre-game`}
+              >
+                Bắt đầu lại
+              </Button>
+            }
+            {/*<Button fullWidth={true}>Xem lại</Button>*/}
           </div>
           <div className={classes.statistic}>
             <h3>Thống kê hiệu suất</h3>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./asynchronousRoomController.module.css";
 import Button from "../../commonComponents/Button";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
@@ -11,9 +11,14 @@ import RoomLoading from "../../commonComponents/RoomLoading";
 import { useNavigate } from "react-router";
 import { RiArrowGoBackFill } from "@react-icons/all-files/ri/RiArrowGoBackFill";
 import { RiArrowGoForwardFill } from "@react-icons/all-files/ri/RiArrowGoForwardFill";
+import { AsynchronousRoomContext } from "../../rootComponent/asynchronousRoom/AsynchronousRoomRouter/context/asynchronousRoomProvider";
+import RankStatistic from "../../commonComponents/RankStatistic";
 
 function AsynchronousRoomController(props) {
   const { children } = props;
+  const { currentQuestion, count, statistic, openStatistic } = useContext(
+    AsynchronousRoomContext
+  );
   const navigate = useNavigate();
   const rightClass = mergeClassNames(
     classes.correct
@@ -24,7 +29,12 @@ function AsynchronousRoomController(props) {
     // count === 0 && resultTime > 0 && !lastResult ? classes.pickStatus : ""
   );
   const progressStyle = {
-    "--progress-time": `60%`,
+    "--progress-time": `${
+      currentQuestion && count > 0
+        ? 100 -
+          ((currentQuestion.duration - count) / currentQuestion.duration) * 100
+        : 0
+    }%`,
   };
 
   const handleClose = () => {
@@ -59,7 +69,12 @@ function AsynchronousRoomController(props) {
       </div>
       <div className={classes.main}>
         {false ? <RoomLoading /> : children}
-        {/*{<RankStatistic rankStatistic={rankStatistic} />}*/}
+        {statistic && (
+          <RankStatistic
+            rankStatistic={statistic.chartStatistic}
+            openStatistic={openStatistic}
+          />
+        )}
       </div>
       <div className={classes.footer}>
         <div className={classes.left}></div>

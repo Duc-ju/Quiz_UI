@@ -2,7 +2,7 @@
     margin-top: 16px;
     padding: 16px;
     border-radius: 8px;
-    background-color: #f2f2f2;
+    background-color: rgba(255, 255, 255, .5);
     border-left: 8px solid var(--right-primary-color);
     cursor: pointer;
 }
@@ -36,7 +36,7 @@
 }
 
 .answers svg {
-    fill: rgba(0, 0, 0, .1);;
+    fill: white;
 }
 
 .answers > li {

@@ -12,7 +12,7 @@ import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter
 import mergeClassNames from "merge-class-names";
 import RoomLoading from "../../commonComponents/RoomLoading";
 import { useNavigate } from "react-router";
-import RankStatistic from "./RankStatistic";
+import RankStatistic from "../../commonComponents/RankStatistic";
 
 function PracticeRoomController(props) {
   const { children } = props;

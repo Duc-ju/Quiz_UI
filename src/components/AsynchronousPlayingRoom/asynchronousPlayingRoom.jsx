@@ -1,18 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import classes from "./asynchronousPlayingRoom.module.css";
-import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 import { useParams } from "react-router-dom";
 import mergeClassNames from "merge-class-names";
-import LoadingIcon from "../../commonComponents/LoadingIcon";
 import { AsynchronousRoomContext } from "../../rootComponent/asynchronousRoom/AsynchronousRoomRouter/context/asynchronousRoomProvider";
 import { toast } from "react-toastify";
 import { PENDING_TIME } from "../../constant/gameConstant";
+import fillRoomName from "../../logic/fillRoomName";
+import { useNavigate } from "react-router";
+import LoadingIcon from "../../commonComponents/LoadingIcon";
+import question from "../ScoredRoom/Question";
 
 function AsynchronousPlayingRoom(props) {
-  const { currentQuestion } = useContext(RoomContext);
+  const { currentQuestion } = useContext(AsynchronousRoomContext);
+  const navigate = useNavigate();
+  const { roomId } = useParams();
   const {} = useParams();
-
-  if (currentQuestion) return null;
+  useEffect(() => {
+    if (!currentQuestion) {
+      navigate(`/join/asynchronous/${fillRoomName(roomId)}/pre-game/nickname`);
+    }
+  });
+  if (!currentQuestion) {
+    return null;
+  }
   return <PlayingRoomContent currentQuestion={currentQuestion} />;
 }
 
@@ -34,6 +44,9 @@ function PlayingRoomContent(props) {
     if (currentQuestion) {
       setCount(currentQuestion.duration);
     }
+    setSelected();
+    setAnswered(false);
+    setResultTime(-1);
   }, [currentQuestion.id, setCount]);
 
   useEffect(() => {
@@ -96,7 +109,9 @@ function PlayingRoomContent(props) {
         </h2>
         {resultTime > 0 && (
           <div className={classes.loading}>
-            <div>{`Câu hỏi tiếp theo sẽ xuất hiện sau ${resultTime}s`}</div>
+            <div>{`Chờ câu hỏi tiếp theo trong ${
+              question.duration - count
+            }s`}</div>
             <LoadingIcon />
           </div>
         )}

@@ -3,9 +3,12 @@ import classes from "./asynchronousWaitingRoom.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { AsynchronousRoomContext } from "../../rootComponent/asynchronousRoom/AsynchronousRoomRouter/context/asynchronousRoomProvider";
 import fillRoomName from "../../logic/fillRoomName";
+import LoadingIcon from "../../commonComponents/LoadingIcon";
+import Icon from "../../commonComponents/Icon";
+import { GrGroup } from "@react-icons/all-files/gr/GrGroup";
 
 function AsynchronousWaitingRoom(props) {
-  const { room, nickname, listActiveUser } = useContext(
+  const { room, nickname, listActiveUser, starting } = useContext(
     AsynchronousRoomContext
   );
   const navigate = useNavigate();
@@ -33,7 +36,13 @@ function AsynchronousWaitingRoom(props) {
           </div>
         </div>
         <div className={classes.bottomSection}>
-          <h2>Chờ máy chủ khởi động</h2>
+          {!starting && <h2>Chờ máy chủ khởi động</h2>}
+          {starting && (
+            <div className={classes.loading}>
+              <LoadingIcon />
+              <h2>Đang tải câu hỏi đầu tiên</h2>
+            </div>
+          )}
         </div>
       </div>
       <div className={classes.footer}>
@@ -49,6 +58,12 @@ function AsynchronousWaitingRoom(props) {
           ))}
         </div>
       </div>
+      <span className={classes.countBadge}>
+        <Icon>
+          <GrGroup />
+        </Icon>
+        <span>{listActiveUser.length}</span>
+      </span>
     </section>
   );
 }

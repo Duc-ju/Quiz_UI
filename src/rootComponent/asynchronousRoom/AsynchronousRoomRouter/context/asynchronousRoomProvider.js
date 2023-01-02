@@ -4,6 +4,7 @@ import roomApi from "../../../../api/roomApi";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import {
+  RECEIVE_END_ROOM,
   RECEIVE_FIRST_QUESTION,
   RECEIVE_JOIN_ROOM,
   RECEIVE_LAST_QUESTION,
@@ -29,9 +30,11 @@ function AsynchronousRoomProvider({ children }) {
   const [statistic, setStatistic] = useState(null);
   const [listActiveUser, setListActiveUser] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(null);
-  const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
+  const [currentQuestionIdx, setCurrentQuestionIdx] = useState(-1);
   const [count, setCount] = useState(-1);
+  const [openStatistic, setOpenStatistic] = useState(false);
   const [resultTime, setResultTime] = useState(-1);
+  const [starting, setStarting] = useState(false);
   const [point, setPoint] = useState();
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -49,7 +52,7 @@ function AsynchronousRoomProvider({ children }) {
         socket.close();
       }
     };
-  }, []);
+  }, [socket]);
 
   const handleConnectSocket = (nickname) => {
     setNickname(nickname);
@@ -76,15 +79,23 @@ function AsynchronousRoomProvider({ children }) {
             switch (messageBody.type) {
               case RECEIVE_STATISTIC:
                 setStatistic(messageBody.message);
+                setOpenStatistic(true);
+                break;
               case RECEIVE_LEFT_ROOM:
               case RECEIVE_JOIN_ROOM:
                 setListActiveUser(messageBody.message);
+                break;
               case RECEIVE_START_ROOM:
                 handleStartRoom(messageBody.message);
+                break;
               case RECEIVE_QUESTION:
               case RECEIVE_LAST_QUESTION:
               case RECEIVE_FIRST_QUESTION:
                 handleReceiveQuestion(messageBody);
+                break;
+              case RECEIVE_END_ROOM:
+                handleEndRoom();
+                break;
             }
           }
         );
@@ -94,12 +105,26 @@ function AsynchronousRoomProvider({ children }) {
     toast.info("Bạn đã tham gia phòng " + fillRoomName(roomId));
   };
 
+  const handleEndRoom = () => {
+    setAnswerTime((oldAnswerTime) => {
+      navigate(
+        `/join/asynchronous/${fillRoomName(roomId)}/scored-game/${
+          oldAnswerTime.id
+        }`
+      );
+      return oldAnswerTime;
+    });
+    setOpenStatistic(false);
+  };
+
   const handleReceiveQuestion = (messageBody) => {
+    console.log("Receive and update question: ", messageBody.message);
     setCurrentQuestionIdx((old) => old + 1);
-    setCurrentQuestion(messageBody.message);
-    setStatistic(null);
+    setCurrentQuestion({ ...messageBody.message });
+    setOpenStatistic(false);
     setAnswerTime((oldAnswerTime) => {
       if (messageBody.type === RECEIVE_FIRST_QUESTION) {
+        setStarting(false);
         navigate(
           `/join/asynchronous/${fillRoomName(roomId)}/playing-game/${
             oldAnswerTime.id
@@ -111,6 +136,7 @@ function AsynchronousRoomProvider({ children }) {
   };
 
   const handleStartRoom = (pendingTime) => {
+    setStarting(true);
     console.log("Start room pending time: " + pendingTime);
     const dataObject = {
       lessonId: room.lessonId,
@@ -126,7 +152,6 @@ function AsynchronousRoomProvider({ children }) {
       .add(dataObject)
       .then((response) => {
         setAnswerTime(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -163,6 +188,9 @@ function AsynchronousRoomProvider({ children }) {
         point,
         setPoint,
         handleAddAnswer,
+        currentQuestion,
+        openStatistic,
+        starting,
       }}
     >
       {children}
