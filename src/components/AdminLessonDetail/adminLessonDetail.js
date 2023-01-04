@@ -25,19 +25,18 @@ import { FaDotCircle } from "@react-icons/all-files/fa/FaDotCircle";
 import { useParams } from "react-router-dom";
 import lessonApi from "../../api/lessonApi";
 import { toast } from "react-toastify";
-import RoomLoading from "../../commonComponents/RoomLoading";
 import { AuthContext } from "../../rootComponent/context/AuthProvider";
 import lessonLikeApi from "../../api/lessonLikeApi";
 import roomApi from "../../api/roomApi";
 import { useNavigate } from "react-router";
 import fillRoomName from "../../logic/fillRoomName";
+import AdminLessonDetailShimmer from "./AdminLessonDetailShimmer/adminLessonDetailShimmer";
 
 function AdminLessonDetail(props) {
   const [lesson, setLesson] = useState(null);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const params = useParams();
   useEffect(() => {
-    setFetching(true);
     lessonApi
       .getById(params.lessonId)
       .then((response) => {
@@ -48,7 +47,7 @@ function AdminLessonDetail(props) {
       })
       .finally(() => setFetching(false));
   }, [params.lessonId]);
-  if (!lesson && fetching) return <RoomLoading />;
+  if (fetching) return <AdminLessonDetailShimmer />;
   if (!lesson) return null;
   return <AdminLessonDetailBody lesson={lesson} setLesson={setLesson} />;
 }

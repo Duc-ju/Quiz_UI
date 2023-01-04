@@ -66,6 +66,7 @@
 
 .subjectRoot {
     cursor: pointer;
+    list-style-type: none;
 }
 
 .subjectContainer {

@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderLesson from "../SliderLession";
 import categoryApi from "../../api/categoryApi";
+import Skeleton from "react-loading-skeleton";
+import SliderShimmer from "../SliderLession/SliderShimmer";
 
 function AdminPage(props) {
   const settings = {
@@ -17,7 +19,8 @@ function AdminPage(props) {
     slidesToScroll: 6,
   };
 
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState();
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     categoryApi
@@ -25,7 +28,8 @@ function AdminPage(props) {
       .then((response) => {
         setCategories(response.data);
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+      .finally(() => setFetching(false));
   }, []);
 
   return (
@@ -44,26 +48,30 @@ function AdminPage(props) {
         </div>
         <div className={classes.listSubject}>
           <Slider {...settings}>
-            {categories.map((category) => (
-              <SubjectItem
-                key={category.id}
-                src={category.image}
-                alt={category.name}
-                label={category.name}
-              />
-            ))}
+            {categories &&
+              categories.map((category) => (
+                <SubjectItem
+                  key={category.id}
+                  src={category.image}
+                  alt={category.name}
+                  label={category.name}
+                />
+              ))}
+            {fetching && new Array(6).fill(null).map(() => <SubjectShimmer />)}
           </Slider>
         </div>
       </div>
       <div className={classes.mainPage}>
-        {categories.map((category) => (
-          <SliderLesson
-            key={category.id}
-            showPopup={false}
-            title={category.name}
-            lessons={category.lessons}
-          />
-        ))}
+        {categories &&
+          categories.map((category) => (
+            <SliderLesson
+              key={category.id}
+              showPopup={false}
+              title={category.name}
+              lessons={category.lessons}
+            />
+          ))}
+        {fetching && new Array(4).fill(null).map(() => <SliderShimmer />)}
       </div>
     </section>
   );
@@ -78,6 +86,21 @@ function SubjectItem(props) {
           <img src={src} alt={alt} className={classes.subjectImage} />
         </div>
         <span className={classes.subjectLabel}>{label}</span>
+      </div>
+    </li>
+  );
+}
+
+function SubjectShimmer() {
+  return (
+    <li className={classes.subjectRoot}>
+      <div className={classes.subjectContainer}>
+        <div className={classes.subjectImageContainer}>
+          <Skeleton circle height="64px" width={"64px"} />
+        </div>
+        <span className={classes.subjectLabel}>
+          <Skeleton width={70} />
+        </span>
       </div>
     </li>
   );

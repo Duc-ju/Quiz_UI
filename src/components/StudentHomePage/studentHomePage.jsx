@@ -5,9 +5,11 @@ import { FcPlus } from "@react-icons/all-files/fc/FcPlus";
 import SliderLesson from "../SliderLession";
 import LessonPopup from "./LessonPopup";
 import categoryApi from "../../api/categoryApi";
+import SliderShimmer from "../SliderLession/SliderShimmer";
 
 function StudentHomePage(props) {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     categoryApi
@@ -15,7 +17,8 @@ function StudentHomePage(props) {
       .then((response) => {
         setCategories(response.data);
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+      .finally(() => setFetching(false));
   }, []);
 
   return (
@@ -41,15 +44,17 @@ function StudentHomePage(props) {
         </div>
       </div>
       <div className={classes.lessonContainer}>
-        {categories.map((category) => (
-          <SliderLesson
-            key={category.id}
-            showPopup={true}
-            title={category.name}
-            lessons={category.lessons}
-            Popup={LessonPopup}
-          />
-        ))}
+        {categories &&
+          categories.map((category) => (
+            <SliderLesson
+              key={category.id}
+              showPopup={true}
+              title={category.name}
+              lessons={category.lessons}
+              Popup={LessonPopup}
+            />
+          ))}
+        {fetching && new Array(4).fill(null).map(() => <SliderShimmer />)}
       </div>
     </section>
   );

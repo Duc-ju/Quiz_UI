@@ -104,7 +104,6 @@
 }
 
 .questionImage {
-    background-color: rgb(136 84 192);
     width: 104px;
     height: 104px;
     border-radius: 2px;
@@ -213,4 +212,16 @@
 .emptyImage img {
     width: 40px;
     height: 40px;
+}
+
+.shimmer {
+
+}
+
+.shimmer .labelList {
+    margin-bottom: 8px;
+}
+
+.shimmer .infoList {
+    margin-top: 8px;
 }
