@@ -57,7 +57,10 @@ function AdminPage(props) {
                   label={category.name}
                 />
               ))}
-            {fetching && new Array(6).fill(null).map(() => <SubjectShimmer />)}
+            {fetching &&
+              new Array(6)
+                .fill(null)
+                .map((x, index) => <SubjectShimmer key={index} />)}
           </Slider>
         </div>
       </div>
@@ -71,7 +74,10 @@ function AdminPage(props) {
               lessons={category.lessons}
             />
           ))}
-        {fetching && new Array(4).fill(null).map(() => <SliderShimmer />)}
+        {fetching &&
+          new Array(4)
+            .fill(null)
+            .map((x, index) => <SliderShimmer key={index} />)}
       </div>
     </section>
   );

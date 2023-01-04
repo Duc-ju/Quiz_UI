@@ -24,8 +24,8 @@ function SliderShimmer(props) {
       </div>
       <div className={classes.listLesson}>
         <Slider {...settings}>
-          {new Array(5).fill(null).map(() => (
-            <LessonShimmer />
+          {new Array(5).fill(null).map((x, index) => (
+            <LessonShimmer key={index} />
           ))}
         </Slider>
       </div>
