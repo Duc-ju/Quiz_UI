@@ -1,8 +1,16 @@
 import axiosClient from "./axiosClient";
 
 const statisticApi = {
-  getLessonTimeStatistic: (id) => {
-    const url = `/room/statistic/answer-times/${id}/`;
+  getAnswerTimeStatistic: (answerTimeId) => {
+    const url = `/room/statistic/answer-times/${answerTimeId}/`;
+    return axiosClient.get(url);
+  },
+  getAllRoomStatistic: () => {
+    const url = `/room/statistic/rooms/`;
+    return axiosClient.get(url);
+  },
+  getRoomStatistic: (roomId) => {
+    const url = `/room/statistic/rooms/${roomId}`;
     return axiosClient.get(url);
   },
   getAfterQuestionRank: (answerTimeId, questionId) => {

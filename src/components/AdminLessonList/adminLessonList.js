@@ -163,10 +163,16 @@ function AdminLessonList(props) {
         <div className={classes.lessons}>
           {lessons &&
             lessons.map((lesson) => (
-              <Lesson lesson={lesson} handleSelectLesson={handleSelectLesson} />
+              <Lesson
+                key={lesson.id}
+                lesson={lesson}
+                handleSelectLesson={handleSelectLesson}
+              />
             ))}
           {fetching &&
-            new Array(8).fill(null).map((x, index) => <LessonShimmer />)}
+            new Array(8)
+              .fill(null)
+              .map((x, index) => <LessonShimmer key={index} />)}
         </div>
       </div>
     </div>

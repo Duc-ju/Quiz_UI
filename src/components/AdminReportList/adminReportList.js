@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./adminReportList.module.css";
 import Select from "react-select";
 import Icon from "../../commonComponents/Icon";
@@ -7,6 +7,8 @@ import Button from "../../commonComponents/Button";
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
+import statisticApi from "../../api/statisticApi";
+import fillRoomName from "../../logic/fillRoomName";
 
 const typeOptions = [
   { value: "all", label: "Tất cả các báo cáo" },
@@ -45,9 +47,21 @@ const reportList = [
 
 function AdminReportList(props) {
   const navigate = useNavigate();
+  const [reports, setReports] = useState();
   const [fetching, setFetching] = useState(true);
-  const handleChooseReport = () => {
-    navigate("/admin/reports/1/players");
+  useEffect(() => {
+    statisticApi
+      .getAllRoomStatistic()
+      .then((response) => {
+        setReports(response.data);
+      })
+      .catch((e) => console.error(e))
+      .finally(() => setFetching(false));
+  }, []);
+  console.log(reports);
+  const handleChooseReport = (id) => {
+    // navigate("/admin/reports/1/players");
+    navigate(`/admin/quiz-room/${fillRoomName(id)}/scored-game`);
   };
   return (
     <div className={classes.root}>
@@ -74,16 +88,19 @@ function AdminReportList(props) {
           <div></div>
         </div>
         <div className={classes.reportList}>
-          {reportList.map((report, index) => (
-            <Report
-              report={report}
-              handleChooseReport={handleChooseReport}
-              index={index}
-            />
-          ))}
-          {new Array(6).fill(null).map(() => (
-            <ReportShimmer />
-          ))}
+          {reports &&
+            reports.map((report, index) => (
+              <Report
+                key={report.id}
+                report={report}
+                handleChooseReport={() => handleChooseReport(report.id)}
+                index={index}
+              />
+            ))}
+          {fetching &&
+            new Array(6)
+              .fill(null)
+              .map((x, index) => <ReportShimmer key={index} />)}
         </div>
       </div>
     </div>
@@ -106,12 +123,14 @@ function Report(props) {
         </div>
       </div>
       <div className={classes.name}>
-        <h3>{report.title}</h3>
+        <h3>{report.lessonTitle}</h3>
         <span>Bắt đầu vào 20 tháng 12 - Hoàn thành 2 ngày trước </span>
       </div>
-      <div>{report.count}</div>
+      <div>{report.answerTimes.length}</div>
       <div>
-        <span className={classes.label}>{`${report.accuracy}%`}</span>
+        <span className={classes.label}>{`${(report.accuracy * 100).toFixed(
+          2
+        )}%`}</span>
       </div>
       <div></div>
       <div></div>

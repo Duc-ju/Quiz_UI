@@ -5,6 +5,8 @@ import { AiOutlineClockCircle } from "@react-icons/all-files/ai/AiOutlineClockCi
 import { FiTarget } from "@react-icons/all-files/fi/FiTarget";
 
 function QuestionDetail(props) {
+  const { question } = props;
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -23,11 +25,11 @@ function QuestionDetail(props) {
           </span>
         </div>
       </div>
-      <h3>Một con vịt có mấy chân?</h3>
+      <h3>{question.title}</h3>
       <div className={classes.answerList}>
-        {new Array(4).fill(null).map((x, index) => (
+        {question.questionAnswerParts.map((questionAnswerPart, index) => (
           <div className={classes.answer} key={index}>
-            <span>2</span>
+            <span>{questionAnswerPart.title}</span>
             <span className={classes.footer}>1 người chơi</span>
           </div>
         ))}

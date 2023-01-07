@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./adminLiveScoredRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { GiFireworkRocket } from "@react-icons/all-files/gi/GiFireworkRocket";
@@ -6,17 +6,46 @@ import Button from "../../commonComponents/Button";
 import Overview from "./Overview";
 import mergeClassNames from "merge-class-names";
 import QuestionList from "./QuestionList";
+import statisticApi from "../../api/statisticApi";
+import { useParams } from "react-router-dom";
+import RoomLoading from "../../commonComponents/RoomLoading";
 
 function AdminLiveScoredRoom(props) {
+  const [statistic, setStatistic] = useState();
+  const [fetching, setFetching] = useState(true);
+  const { roomId } = useParams();
+
+  useEffect(() => {
+    statisticApi
+      .getRoomStatistic(roomId)
+      .then((response) => {
+        setStatistic(response.data);
+      })
+      .catch((e) => console.error(e))
+      .finally(() => setFetching(false));
+  }, [roomId]);
+  console.log(statistic);
+  if (fetching || !statistic) return <RoomLoading />;
+  return <AdminLiveScoredRoomMain statistic={statistic} />;
+}
+
+function AdminLiveScoredRoomMain(props) {
   const [tab, setTab] = useState(0);
+  const { statistic } = props;
+  const progressStyle = {
+    "--accuracy-progress": `${statistic.accuracy * 100}%`,
+  };
+
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={progressStyle}>
       <div className={classes.mainResultContainer}>
         <div className={classes.mainResult}>
           <h3>Độ chính xác của lớp học</h3>
           <div className={classes.accuracy}>
             <div className={classes.bar}></div>
-            <div className={classes.barButton}>100%</div>
+            <div className={classes.barButton}>{`${(
+              statistic.accuracy * 100
+            ).toFixed(2)}%`}</div>
           </div>
           <div className={classes.percentList}>
             <span>0%</span>
@@ -62,8 +91,10 @@ function AdminLiveScoredRoom(props) {
             Câu hỏi
           </div>
         </div>
-        {tab === 0 && <Overview />}
-        {tab === 1 && <QuestionList />}
+        {tab === 0 && <Overview answerTimes={statistic.answerTimes} />}
+        {tab === 1 && (
+          <QuestionList questions={statistic.answerTimes[0].questionAnswers} />
+        )}
       </div>
     </div>
   );

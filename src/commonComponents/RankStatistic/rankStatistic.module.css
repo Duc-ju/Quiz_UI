@@ -110,6 +110,9 @@
 
 .players {
     padding-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
 }
 
 .player {

@@ -7,6 +7,7 @@ import Button from "../../../commonComponents/Button";
 import { AiOutlineMail } from "@react-icons/all-files/ai/AiOutlineMail";
 
 function Overview(props) {
+  const { answerTimes } = props;
   return (
     <div className={classes.playerContainer}>
       <div className={classes.playerHeader}>
@@ -25,16 +26,17 @@ function Overview(props) {
           <div></div>
           <div>Tên người tham gia</div>
           <div>Điểm số</div>
-          <div>Q1</div>
-          <div>Q2</div>
-          <div>Q3</div>
-          <div>Q4</div>
+          {new Array(answerTimes[0].questionAnswers.length)
+            .fill(null)
+            .map((x, index) => (
+              <div key={index}>{`Q${index + 1}`}</div>
+            ))}
           <div></div>
         </div>
         <div className={classes.players}>
-          {new Array(6).fill(null).map((x, index) => (
-            <div className={classes.player} key={index}>
-              <div>1</div>
+          {answerTimes.map((answerTime, index) => (
+            <div className={classes.player} key={answerTime.id}>
+              <div>{index + 1}</div>
               <div>
                 <span>
                   <img
@@ -44,29 +46,24 @@ function Overview(props) {
                     }
                   />
                 </span>
-                <spiv>Đức đây!</spiv>
+                <div>Đức đây!</div>
               </div>
-              <div>1800</div>
-              <div className={classes.right}>
-                <Icon>
-                  <FaCheck />
-                </Icon>
-              </div>
-              <div className={classes.wrong}>
-                <Icon>
-                  <GrClose />
-                </Icon>
-              </div>
-              <div className={classes.wrong}>
-                <Icon>
-                  <GrClose />
-                </Icon>
-              </div>
-              <div className={classes.wrong}>
-                <Icon>
-                  <GrClose />
-                </Icon>
-              </div>
+              <div>{answerTime.point}</div>
+              {answerTime.questionAnswers.map((questionAnswer) =>
+                questionAnswer.rightAnswer ? (
+                  <div className={classes.right} key={questionAnswer.id}>
+                    <Icon>
+                      <FaCheck />
+                    </Icon>
+                  </div>
+                ) : (
+                  <div className={classes.wrong} key={questionAnswer.id}>
+                    <Icon>
+                      <GrClose />
+                    </Icon>
+                  </div>
+                )
+              )}
               <div></div>
             </div>
           ))}

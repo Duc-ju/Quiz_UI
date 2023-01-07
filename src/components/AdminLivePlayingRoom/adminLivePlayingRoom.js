@@ -52,7 +52,7 @@ function AdminLivePlayingRoom(props) {
                       }
                     />
                   </span>
-                  <spiv>Đức đây!</spiv>
+                  <div>Đức đây!</div>
                 </div>
                 <div>
                   <div className={classes.progress}>

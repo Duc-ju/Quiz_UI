@@ -78,7 +78,12 @@ function PracticeRoomController(props) {
       </div>
       <div className={classes.main}>
         {fetching ? <RoomLoading /> : children}
-        {<RankStatistic rankStatistic={rankStatistic} />}
+        {
+          <RankStatistic
+            rankStatistic={rankStatistic}
+            openStatistic={resultTime > 0}
+          />
+        }
       </div>
       <div className={classes.footer}>
         <div className={classes.left}></div>

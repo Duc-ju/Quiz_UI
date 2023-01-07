@@ -17,7 +17,7 @@ function ScoredRoom(props) {
   useEffect(() => {
     if (answerTimeId) {
       statisticApi
-        .getLessonTimeStatistic(answerTimeId)
+        .getAnswerTimeStatistic(answerTimeId)
         .then((response) => {
           setAnswerTimeStatistic(response.data);
         })

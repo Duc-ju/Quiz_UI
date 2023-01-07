@@ -9,8 +9,9 @@ import QuestionDetail from "../QuestionDetail";
 
 function QuestionList(props) {
   const { openModal } = useContext(ModalContext);
-  const handleViewDetail = () => {
-    openModal(<QuestionDetail />);
+  const { questions } = props;
+  const handleViewDetail = (question) => {
+    openModal(<QuestionDetail question={question} />);
   };
   return (
     <div className={classes.root}>
@@ -19,16 +20,16 @@ function QuestionList(props) {
         <input type={"checkbox"} />
       </div>
       <div className={classes.shortcut}>
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
+        {new Array(questions.length).fill(null).map((x, index) => (
+          <span key={index}>{index + 1}</span>
+        ))}
       </div>
       <div className={classes.questions}>
-        {new Array(4).fill(null).map((x, index) => (
+        {questions.map((question, index) => (
           <div
             className={classes.question}
             key={index}
-            onClick={handleViewDetail}
+            onClick={() => handleViewDetail(question)}
           >
             <div className={classes.header}>
               <div>
@@ -50,14 +51,16 @@ function QuestionList(props) {
               </div>
             </div>
             <div className={classes.questionContent}>
-              <h3>1. Con vịt có mấy chân</h3>
+              <h3>{`${index + 1}. ${question.title}`}</h3>
               <div className={classes.answerList}>
-                {new Array(4).fill(null).map((x, index) => (
-                  <div className={classes.answer} key={index}>
-                    <Icon icon={<FaDotCircle />} />
-                    <span>2</span>
-                  </div>
-                ))}
+                {question.questionAnswerParts.map(
+                  (questionAnswerPart, index) => (
+                    <div className={classes.answer} key={index}>
+                      <Icon icon={<FaDotCircle />} />
+                      <span>{questionAnswerPart.title}</span>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>

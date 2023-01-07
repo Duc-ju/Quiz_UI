@@ -1,1 +1,1 @@
-export const PENDING_TIME = 5;
+export const PENDING_TIME = 8;
