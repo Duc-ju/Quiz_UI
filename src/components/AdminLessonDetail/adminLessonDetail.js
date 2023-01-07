@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./adminLessonDetail.module.css";
 import Button from "../../commonComponents/Button";
 import Icon from "../../commonComponents/Icon";
@@ -25,7 +25,6 @@ import { FaDotCircle } from "@react-icons/all-files/fa/FaDotCircle";
 import { useParams } from "react-router-dom";
 import lessonApi from "../../api/lessonApi";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../rootComponent/context/AuthProvider";
 import lessonLikeApi from "../../api/lessonLikeApi";
 import roomApi from "../../api/roomApi";
 import { useNavigate } from "react-router";
@@ -52,9 +51,12 @@ function AdminLessonDetail(props) {
   return <AdminLessonDetailBody lesson={lesson} setLesson={setLesson} />;
 }
 
+const user = {
+  id: "1",
+};
+
 function AdminLessonDetailBody(props) {
   const { lesson, setLesson } = props;
-  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const liked = !!lesson.lessonLikes.find(
     (lessonLike) => lessonLike.userId === user.id

@@ -66,8 +66,10 @@
     padding-left: 4px;
 }
 
-.rightNav {
-
+.rightNav li {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
 }
 
 .rightNav a:not(:last-child) {

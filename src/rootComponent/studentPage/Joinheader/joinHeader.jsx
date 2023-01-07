@@ -3,8 +3,20 @@ import classes from "./joinHeader.module.css";
 import Button from "../../../commonComponents/Button";
 import { FcSearch } from "@react-icons/all-files/fc/FcSearch";
 import { Link } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
 
 function JoinHeader(props) {
+  const { keycloak, initialized } = useKeycloak();
+  const handleLogin = () => {
+    keycloak.login();
+  };
+  const handleLogout = () => {
+    window.localStorage.removeItem("access");
+    keycloak.logout();
+  };
+  const handleRegister = () => {
+    keycloak.register();
+  };
   return (
     <section className={classes.root}>
       <div className={classes.container}>
@@ -33,8 +45,15 @@ function JoinHeader(props) {
         <ul className={classes.rightNav}>
           <li>
             <Button to={"/"}>Nhập mã</Button>
-            {/*<Button to={"/join/login"}>Đăng nhập</Button>*/}
-            {/*<Button to={"/join/register"}>Đăng ký</Button>*/}
+            {!keycloak.authenticated && (
+              <>
+                <Button onClick={handleLogin}>Đăng nhập</Button>
+                <Button onClick={handleRegister}>Đăng ký</Button>
+              </>
+            )}
+            {keycloak.authenticated && (
+              <Button onClick={handleLogout}>Đăng xuất</Button>
+            )}
           </li>
         </ul>
       </div>

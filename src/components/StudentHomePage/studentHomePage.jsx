@@ -54,7 +54,10 @@ function StudentHomePage(props) {
               Popup={LessonPopup}
             />
           ))}
-        {fetching && new Array(4).fill(null).map(() => <SliderShimmer />)}
+        {fetching &&
+          new Array(4)
+            .fill(null)
+            .map((x, index) => <SliderShimmer key={index} />)}
       </div>
     </section>
   );
