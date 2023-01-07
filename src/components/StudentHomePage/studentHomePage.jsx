@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./studentHomePage.module.css";
 import Button from "../../commonComponents/Button";
 import { FcPlus } from "@react-icons/all-files/fc/FcPlus";
@@ -6,20 +6,25 @@ import SliderLesson from "../SliderLession";
 import LessonPopup from "./LessonPopup";
 import categoryApi from "../../api/categoryApi";
 import SliderShimmer from "../SliderLession/SliderShimmer";
+import { AuthContext } from "../../rootComponent/private/AuthProvider";
 
 function StudentHomePage(props) {
   const [categories, setCategories] = useState(null);
   const [fetching, setFetching] = useState(true);
+  const { access } = useContext(AuthContext);
 
   useEffect(() => {
     categoryApi
       .getAll()
       .then((response) => {
         setCategories(response.data);
+        setFetching(false);
       })
-      .catch((e) => console.error(e))
-      .finally(() => setFetching(false));
-  }, []);
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra!");
+      })
+      .finally();
+  }, [access]);
 
   return (
     <section className={classes.root}>

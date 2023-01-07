@@ -9,6 +9,7 @@ import {
   RECEIVE_STATISTIC,
 } from "../../../common/messageType";
 import fillRoomName from "../../../../logic/fillRoomName";
+import { useKeycloak } from "@react-keycloak/web";
 
 export const LiveRoomContext = React.createContext();
 
@@ -18,6 +19,7 @@ function AdminLiveRoomProvider({ children }) {
   const [room, setRoom] = useState(null);
   const [statistic, setStatistic] = useState(null);
   const [listActiveUser, setListActiveUser] = useState([]);
+  const { keycloak } = useKeycloak();
   const { roomId } = useParams();
   useEffect(() => {
     roomApi
@@ -30,11 +32,10 @@ function AdminLiveRoomProvider({ children }) {
     const stompClient = Stomp.over(socket);
     stompClient.connect(
       {
-        userId: "1",
+        userId: keycloak.tokenParsed.sub,
         avatar:
           "https://scontent-hkg4-2.xx.fbcdn.net/v/t1.18169-1/12027587_1617365158530569_2122292052928066527_n.jpg?stp=dst-jpg_p320x320&_nc_cat=110&ccb=1-7&_nc_sid=7206a8&_nc_ohc=vse03D0cXRIAX9pZP4H&_nc_ht=scontent-hkg4-2.xx&oh=00_AfAD7Fu2ZK5_hE3Rw-X7FRecvdwtN7KsJFq4F47ooVVDfw&oe=63D91BC0",
-        nickname: "Đức Ju",
-        username: "trangduc",
+        username: keycloak.tokenParsed.name,
         admin: true,
       },
       function (frame) {

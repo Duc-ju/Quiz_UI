@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./scoredRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { BsFillPersonFill } from "@react-icons/all-files/bs/BsFillPersonFill";
@@ -9,26 +9,28 @@ import Question from "./Question";
 import Suggestion from "./Suggestion";
 import { useParams } from "react-router-dom";
 import statisticApi from "../../api/statisticApi";
+import { toast } from "react-toastify";
 
 function ScoredRoom(props) {
   const { answerTimeId } = useParams();
   const [fetching, setFetching] = useState(false);
   const [answerTimeStatistic, setAnswerTimeStatistic] = useState(null);
+  const { access } = useContext();
   useEffect(() => {
     if (answerTimeId) {
       statisticApi
         .getAnswerTimeStatistic(answerTimeId)
         .then((response) => {
           setAnswerTimeStatistic(response.data);
+          setFetching(false);
         })
         .catch((e) => {
+          toast.error("Có lỗi xảy ra!");
           console.error(e);
         })
-        .finally(() => {
-          setFetching(false);
-        });
+        .finally(() => {});
     }
-  }, [answerTimeId]);
+  }, [answerTimeId, access]);
   if (!answerTimeStatistic) return null;
   return <ScoredRoomBody answerTimeStatistic={answerTimeStatistic} />;
 }

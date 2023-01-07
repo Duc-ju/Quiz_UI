@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./adminReportList.module.css";
 import Select from "react-select";
 import Icon from "../../commonComponents/Icon";
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import Skeleton from "react-loading-skeleton";
 import statisticApi from "../../api/statisticApi";
 import fillRoomName from "../../logic/fillRoomName";
+import { AuthContext } from "../../rootComponent/private/AuthProvider";
+import { toast } from "react-toastify";
 
 const typeOptions = [
   { value: "all", label: "Tất cả các báo cáo" },
@@ -49,15 +51,22 @@ function AdminReportList(props) {
   const navigate = useNavigate();
   const [reports, setReports] = useState();
   const [fetching, setFetching] = useState(true);
+  const { access } = useContext(AuthContext);
+
   useEffect(() => {
     statisticApi
       .getAllRoomStatistic()
       .then((response) => {
         setReports(response.data);
+        setFetching(false);
       })
-      .catch((e) => console.error(e))
-      .finally(() => setFetching(false));
-  }, []);
+      .catch((e) => {
+        toast.info("Có lỗi xảy ra!");
+        console.error(e);
+      })
+      .finally();
+  }, [access]);
+
   console.log(reports);
   const handleChooseReport = (id) => {
     // navigate("/admin/reports/1/players");

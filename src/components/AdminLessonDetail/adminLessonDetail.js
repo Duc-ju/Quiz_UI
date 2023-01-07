@@ -40,11 +40,13 @@ function AdminLessonDetail(props) {
       .getById(params.lessonId)
       .then((response) => {
         setLesson(response.data);
+        setFetching(false);
       })
-      .catch(() => {
-        toast.error("Đã xảy ra lỗi khi tải bài học!");
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra!");
+        console.error(e);
       })
-      .finally(() => setFetching(false));
+      .finally();
   }, [params.lessonId]);
   if (fetching) return <AdminLessonDetailShimmer />;
   if (!lesson) return null;

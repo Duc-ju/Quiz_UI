@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./adminPage.module.css";
 import Icon from "../../commonComponents/Icon";
 import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
@@ -9,6 +9,8 @@ import SliderLesson from "../SliderLession";
 import categoryApi from "../../api/categoryApi";
 import Skeleton from "react-loading-skeleton";
 import SliderShimmer from "../SliderLession/SliderShimmer";
+import { AuthContext } from "../../rootComponent/private/AuthProvider";
+import { toast } from "react-toastify";
 
 function AdminPage(props) {
   const settings = {
@@ -21,16 +23,21 @@ function AdminPage(props) {
 
   const [categories, setCategories] = useState();
   const [fetching, setFetching] = useState(true);
+  const { access } = useContext(AuthContext);
 
   useEffect(() => {
     categoryApi
       .getAll()
       .then((response) => {
         setCategories(response.data);
+        setFetching(false);
       })
-      .catch((e) => console.error(e))
-      .finally(() => setFetching(false));
-  }, []);
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra!");
+        console.error(e);
+      })
+      .finally();
+  }, [access]);
 
   return (
     <section className={classes.root}>

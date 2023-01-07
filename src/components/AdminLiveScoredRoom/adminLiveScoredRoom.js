@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./adminLiveScoredRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { GiFireworkRocket } from "@react-icons/all-files/gi/GiFireworkRocket";
@@ -9,21 +9,28 @@ import QuestionList from "./QuestionList";
 import statisticApi from "../../api/statisticApi";
 import { useParams } from "react-router-dom";
 import RoomLoading from "../../commonComponents/RoomLoading";
+import { AuthContext } from "../../rootComponent/private/AuthProvider";
+import { toast } from "react-toastify";
 
 function AdminLiveScoredRoom(props) {
   const [statistic, setStatistic] = useState();
   const [fetching, setFetching] = useState(true);
   const { roomId } = useParams();
+  const { access } = useContext(AuthContext);
 
   useEffect(() => {
     statisticApi
       .getRoomStatistic(roomId)
       .then((response) => {
         setStatistic(response.data);
+        setFetching(false);
       })
-      .catch((e) => console.error(e))
-      .finally(() => setFetching(false));
-  }, [roomId]);
+      .catch((e) => {
+        toast.error("Có lỗi xảy ra!");
+        console.error(e);
+      })
+      .finally();
+  }, [roomId, access]);
   console.log(statistic);
   if (fetching || !statistic) return <RoomLoading />;
   return <AdminLiveScoredRoomMain statistic={statistic} />;
