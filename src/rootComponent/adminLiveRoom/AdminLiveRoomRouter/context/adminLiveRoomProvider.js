@@ -4,12 +4,15 @@ import SockJS from "sockjs-client";
 import { useParams } from "react-router-dom";
 import roomApi from "../../../../api/roomApi";
 import {
+  RECEIVE_END_ROOM,
   RECEIVE_JOIN_ROOM,
   RECEIVE_LEFT_ROOM,
+  RECEIVE_START_ROOM,
   RECEIVE_STATISTIC,
 } from "../../../common/messageType";
 import fillRoomName from "../../../../logic/fillRoomName";
 import { useKeycloak } from "@react-keycloak/web";
+import { useNavigate } from "react-router";
 
 export const LiveRoomContext = React.createContext();
 
@@ -21,6 +24,7 @@ function AdminLiveRoomProvider({ children }) {
   const [listActiveUser, setListActiveUser] = useState([]);
   const { keycloak } = useKeycloak();
   const { roomId } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     roomApi
       .get(roomId)
@@ -55,6 +59,13 @@ function AdminLiveRoomProvider({ children }) {
               case RECEIVE_LEFT_ROOM:
               case RECEIVE_JOIN_ROOM:
                 setListActiveUser(messageBody.message);
+                break;
+              case RECEIVE_START_ROOM:
+                handleReceiveStartRoom(messageBody.message);
+                break;
+              case RECEIVE_END_ROOM:
+                handleEndRoom();
+                break;
             }
           }
         );
@@ -77,6 +88,14 @@ function AdminLiveRoomProvider({ children }) {
         body: room.lessonId + "",
       })
     );
+  };
+
+  const handleReceiveStartRoom = () => {
+    navigate(`/admin/quiz-room/${fillRoomName(roomId)}/playing-game`);
+  };
+
+  const handleEndRoom = () => {
+    navigate(`/admin/quiz-room/${fillRoomName(roomId)}/scored-game`);
   };
 
   return (

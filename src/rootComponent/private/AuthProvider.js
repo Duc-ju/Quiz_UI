@@ -16,8 +16,6 @@ const AuthProvider = ({ children }) => {
     }
   }, [keycloak.token, keycloak.refreshToken]);
 
-  console.log(keycloak);
-
   return (
     <AuthContext.Provider value={{ access, refresh }}>
       {children}

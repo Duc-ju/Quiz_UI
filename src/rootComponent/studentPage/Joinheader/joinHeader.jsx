@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./joinHeader.module.css";
 import Button from "../../../commonComponents/Button";
 import { FcSearch } from "@react-icons/all-files/fc/FcSearch";
@@ -7,6 +7,7 @@ import { useKeycloak } from "@react-keycloak/web";
 
 function JoinHeader(props) {
   const { keycloak, initialized } = useKeycloak();
+  const [keyword, setKeyword] = useState("");
   const handleLogin = () => {
     keycloak.login();
   };
@@ -33,7 +34,12 @@ function JoinHeader(props) {
             <span className={classes.searchIcon}>
               <FcSearch />
             </span>
-            <input type={"text"} name={"search"} placeholder={"Tìm quizz"} />
+            <input
+              type={"text"}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder={"Tìm quizz"}
+            />
           </div>
           <div className={classes.selectContainer}>
             <select>
@@ -44,7 +50,7 @@ function JoinHeader(props) {
         </div>
         <ul className={classes.rightNav}>
           <li>
-            <Button to={"/"}>Nhập mã</Button>
+            <Button>Tham gia</Button>
             {!keycloak.authenticated && (
               <>
                 <Button onClick={handleLogin}>Đăng nhập</Button>

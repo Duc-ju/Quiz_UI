@@ -17,8 +17,12 @@ const statisticApi = {
     const url = `/room/statistic/answer-times/${answerTimeId}/questions/${questionId}/chart`;
     return axiosClient.get(url);
   },
-  getAnswerTimeRank: (answerTimeId) => {
-    const url = `/room/statistic/answer-times/${answerTimeId}/chart`;
+  getAnswerTimeRank: (lessonId) => {
+    const url = `/room/statistic/answer-times/${lessonId}/chart`;
+    return axiosClient.get(url);
+  },
+  getRoomRank: (roomId) => {
+    const url = `/room/statistic/rooms/${roomId}/chart`;
     return axiosClient.get(url);
   },
 };

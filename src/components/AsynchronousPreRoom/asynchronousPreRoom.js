@@ -1,12 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./asynchronousPreRoom.module.css";
 import LoadingButton from "../../commonComponents/LoadingButton";
 import { AsynchronousRoomContext } from "../../rootComponent/asynchronousRoom/AsynchronousRoomRouter/context/asynchronousRoomProvider";
 
 function AsynchronousPreRoom(props) {
-  const { handleConnectSocket } = useContext(AsynchronousRoomContext);
+  const { handleConnectSocket, handleDisconnectSocket } = useContext(
+    AsynchronousRoomContext
+  );
   const [nickname, setNickname] = useState("");
-  const handleConnectRoom = () => {};
+
+  useEffect(() => {
+    handleDisconnectSocket();
+  }, []);
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>

@@ -15,7 +15,7 @@ import RankStatistic from "../../commonComponents/RankStatistic";
 import RoomLoading from "../../commonComponents/RoomLoading";
 
 function ScoredRoom(props) {
-  const { answerTimeId, lessonId } = useParams();
+  const { answerTimeId, lessonId, roomId } = useParams();
   const [fetching, setFetching] = useState(false);
   const { access } = useContext(AuthContext);
   const [answerTimeStatistic, setAnswerTimeStatistic] = useState(null);
@@ -50,8 +50,20 @@ function ScoredRoom(props) {
           console.error(e);
         })
         .finally(() => {});
+    } else if (roomId) {
+      statisticApi
+        .getRoomRank(roomId)
+        .then((response) => {
+          setRankStatistic(response.data);
+          setOpenRankStatistic(true);
+        })
+        .catch((e) => {
+          toast.error("Có lỗi xảy ra!");
+          console.error(e);
+        })
+        .finally(() => {});
     }
-  }, [lessonId, access]);
+  }, [lessonId, roomId, access]);
   console.log(rankStatistic);
   if (fetching) return <RoomLoading />;
   if (!answerTimeStatistic) return null;

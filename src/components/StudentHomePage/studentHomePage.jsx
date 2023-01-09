@@ -7,11 +7,16 @@ import LessonPopup from "./LessonPopup";
 import categoryApi from "../../api/categoryApi";
 import SliderShimmer from "../SliderLession/SliderShimmer";
 import { AuthContext } from "../../rootComponent/private/AuthProvider";
+import fillRoomName from "../../logic/fillRoomName";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 function StudentHomePage(props) {
   const [categories, setCategories] = useState(null);
   const [fetching, setFetching] = useState(true);
   const { access } = useContext(AuthContext);
+  const [room, setRoom] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     categoryApi
@@ -25,15 +30,21 @@ function StudentHomePage(props) {
       })
       .finally();
   }, [access]);
-
+  const handleJoinRoom = () => {
+    navigate(`/join/asynchronous/${fillRoomName(room)}/pre-game/nickname`);
+  };
   return (
     <section className={classes.root}>
       <div className={classes.top}>
         <div className={classes.topContainer}>
           <div className={classes.topLeft}>
             <div className={classes.outline}>
-              <input type={"text"} name={"room-code"} />
-              <Button>THAM GIA</Button>
+              <input
+                type={"text"}
+                value={room}
+                onChange={(e) => setRoom(e.target.value)}
+              />
+              <Button onClick={handleJoinRoom}>THAM GIA</Button>
             </div>
           </div>
           <div className={classes.topRight}>

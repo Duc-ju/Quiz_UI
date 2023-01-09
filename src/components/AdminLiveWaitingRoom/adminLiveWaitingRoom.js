@@ -13,10 +13,35 @@ import { HiMail } from "@react-icons/all-files/hi/HiMail";
 import { GrList } from "@react-icons/all-files/gr/GrList";
 import fillRoomName from "../../logic/fillRoomName";
 import { LiveRoomContext } from "../../rootComponent/adminLiveRoom/AdminLiveRoomRouter/context/adminLiveRoomProvider";
+import { toast } from "react-toastify";
 
 function AdminLiveWaitingRoom(props) {
   const { handleStartRoom, listActiveUser } = useContext(LiveRoomContext);
   const { roomId } = useParams();
+  const handleCopyLink = () => {
+    navigator.clipboard
+      .writeText(
+        `http://localhost:3000/join/asynchronous/${fillRoomName(
+          roomId
+        )}/pre-game/nickname`
+      )
+      .then(() => {
+        toast.info("Đã copy link tham gia vào bộ nhớ tạm");
+      })
+      .catch(() => {
+        toast.error("Không thể copy link");
+      });
+  };
+  const handleCopyRoom = () => {
+    navigator.clipboard
+      .writeText(`${fillRoomName(roomId)}`)
+      .then(() => {
+        toast.info("Đã lưu mã phòng vào bộ nhớ tạm");
+      })
+      .catch(() => {
+        toast.error("Không thể copy tên phòng");
+      });
+  };
   return (
     <div className={classes.root}>
       <div className={classes.top}>
@@ -26,8 +51,14 @@ function AdminLiveWaitingRoom(props) {
             <div>1. Sử dụng bất kỳ thiết bị nào để mở</div>
             <div className={classes.joinLinkContainer}>
               <div>
-                <Link to={"/"}>joinmyquiz.com</Link>
-                <Button>
+                <Link
+                  to={`/join/asynchronous/${fillRoomName(
+                    roomId
+                  )}/pre-game/nickname`}
+                >
+                  joinmyquiz.com
+                </Link>
+                <Button onClick={handleCopyLink}>
                   <Icon>
                     <FiCopy />
                   </Icon>
@@ -40,7 +71,7 @@ function AdminLiveWaitingRoom(props) {
             <div className={classes.joinLinkContainer}>
               <div>
                 <span>{fillRoomName(roomId)}</span>
-                <Button>
+                <Button onClick={handleCopyRoom}>
                   <Icon>
                     <FiCopy />
                   </Icon>
