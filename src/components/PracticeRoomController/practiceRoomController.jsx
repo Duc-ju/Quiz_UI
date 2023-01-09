@@ -12,7 +12,6 @@ import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter
 import mergeClassNames from "merge-class-names";
 import RoomLoading from "../../commonComponents/RoomLoading";
 import { useNavigate } from "react-router";
-import RankStatistic from "../../commonComponents/RankStatistic";
 
 function PracticeRoomController(props) {
   const { children } = props;
@@ -25,7 +24,6 @@ function PracticeRoomController(props) {
     point,
     handleGoToNextQuestion,
     handleGoToPreviousQuestion,
-    rankStatistic,
   } = useContext(RoomContext);
   const navigate = useNavigate();
   const lastResult = checkLastQuestionResult();
@@ -78,12 +76,6 @@ function PracticeRoomController(props) {
       </div>
       <div className={classes.main}>
         {fetching ? <RoomLoading /> : children}
-        {
-          <RankStatistic
-            rankStatistic={rankStatistic}
-            openStatistic={resultTime > 0}
-          />
-        }
       </div>
       <div className={classes.footer}>
         <div className={classes.left}></div>

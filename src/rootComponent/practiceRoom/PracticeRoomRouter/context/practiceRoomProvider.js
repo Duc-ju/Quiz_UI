@@ -19,6 +19,7 @@ function PracticeRoomProvider({ children }) {
   const [count, setCount] = useState(-1);
   const [resultTime, setResultTime] = useState(-1);
   const [point, setPoint] = useState();
+  const [openRankStatistic, setOpenRankStatistic] = useState(true);
   const { lessonId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -134,6 +135,7 @@ function PracticeRoomProvider({ children }) {
   };
 
   const submitAnswerTime = () => {
+    setOpenRankStatistic(true);
     navigate(`/join/practice/${lesson.id}/scored-game/${answerTime.id}`);
     toast.info("Bạn đã hoàn thành bài thi");
   };
@@ -192,6 +194,9 @@ function PracticeRoomProvider({ children }) {
         submitAnswerTime,
         handleStartRoom,
         rankStatistic,
+        openRankStatistic,
+        setOpenRankStatistic,
+        setRankStatistic,
       }}
     >
       {children}

@@ -10,12 +10,17 @@ import Suggestion from "./Suggestion";
 import { useParams } from "react-router-dom";
 import statisticApi from "../../api/statisticApi";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../rootComponent/private/AuthProvider";
+import RankStatistic from "../../commonComponents/RankStatistic";
+import RoomLoading from "../../commonComponents/RoomLoading";
 
 function ScoredRoom(props) {
-  const { answerTimeId } = useParams();
+  const { answerTimeId, lessonId } = useParams();
   const [fetching, setFetching] = useState(false);
+  const { access } = useContext(AuthContext);
   const [answerTimeStatistic, setAnswerTimeStatistic] = useState(null);
-  const { access } = useContext();
+  const [rankStatistic, setRankStatistic] = useState(null);
+  const [openRankStatistic, setOpenRankStatistic] = useState(false);
   useEffect(() => {
     if (answerTimeId) {
       statisticApi
@@ -31,14 +36,52 @@ function ScoredRoom(props) {
         .finally(() => {});
     }
   }, [answerTimeId, access]);
+
+  useEffect(() => {
+    if (lessonId) {
+      statisticApi
+        .getAnswerTimeRank(lessonId)
+        .then((response) => {
+          setRankStatistic(response.data);
+          setOpenRankStatistic(true);
+        })
+        .catch((e) => {
+          toast.error("Có lỗi xảy ra!");
+          console.error(e);
+        })
+        .finally(() => {});
+    }
+  }, [lessonId, access]);
+  console.log(rankStatistic);
+  if (fetching) return <RoomLoading />;
   if (!answerTimeStatistic) return null;
-  return <ScoredRoomBody answerTimeStatistic={answerTimeStatistic} />;
+  return (
+    <ScoredRoomBody
+      answerTimeStatistic={answerTimeStatistic}
+      rankStatistic={rankStatistic}
+      openRankStatistic={openRankStatistic}
+      setOpenRankStatistic={setOpenRankStatistic}
+    />
+  );
 }
 
 function ScoredRoomBody(props) {
-  const { answerTimeStatistic } = props;
+  const {
+    answerTimeStatistic,
+    rankStatistic,
+    openRankStatistic,
+    setOpenRankStatistic,
+  } = props;
+
   return (
     <section className={classes.root}>
+      {
+        <RankStatistic
+          rankStatistic={rankStatistic}
+          openStatistic={openRankStatistic}
+          setOpenRankStatistic={setOpenRankStatistic}
+        />
+      }
       <div className={classes.row}>
         <div className={classes.left}>
           <h2>Bản tóm tắt</h2>
@@ -96,7 +139,9 @@ function ScoredRoomBody(props) {
                 Bắt đầu lại
               </Button>
             }
-            {/*<Button fullWidth={true}>Xem lại</Button>*/}
+            <Button fullWidth={true} onClick={() => setOpenRankStatistic(true)}>
+              Xem bảng xếp hạng
+            </Button>
           </div>
           <div className={classes.statistic}>
             <h3>Thống kê hiệu suất</h3>

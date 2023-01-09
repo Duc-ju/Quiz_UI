@@ -5,15 +5,26 @@ import { GrGroup } from "@react-icons/all-files/gr/GrGroup";
 import mergeClassNames from "merge-class-names";
 import { AiFillFire } from "@react-icons/all-files/ai/AiFillFire";
 import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
+import { TiTimes } from "@react-icons/all-files/ti/TiTimes";
+import Button from "../Button";
 
 function RankStatistic(props) {
-  const { rankStatistic, openStatistic } = props;
+  const { rankStatistic, openStatistic, setOpenRankStatistic } = props;
   const rootClasses = mergeClassNames(
     classes.root,
     openStatistic ? classes.open : ""
   );
+  if (!rankStatistic) return null;
   return (
     <div className={rootClasses}>
+      <Button
+        className={classes.closeBottom}
+        onClick={() => setOpenRankStatistic(false)}
+      >
+        <Icon>
+          <TiTimes />
+        </Icon>
+      </Button>
       <div className={classes.bottomContainer}>
         <div className={classes.tabList}>
           <div>Bảng xếp hạng</div>
@@ -61,7 +72,7 @@ function RankStatistic(props) {
                       <div></div>
                     </div>
                   </div>
-                  <div>600</div>
+                  <div className={classes.point}>{userRankStatistic.point}</div>
                   <div>
                     <Icon>
                       <FaTimes />

@@ -17,6 +17,10 @@ const statisticApi = {
     const url = `/room/statistic/answer-times/${answerTimeId}/questions/${questionId}/chart`;
     return axiosClient.get(url);
   },
+  getAnswerTimeRank: (answerTimeId) => {
+    const url = `/room/statistic/answer-times/${answerTimeId}/chart`;
+    return axiosClient.get(url);
+  },
 };
 
 export default statisticApi;
