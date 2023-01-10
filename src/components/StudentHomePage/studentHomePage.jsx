@@ -36,6 +36,11 @@ function StudentHomePage(props) {
       .finally();
   }, [access]);
   const handleJoinRoom = () => {
+    const integerCheck = /^\d+$/;
+    if (!integerCheck.test(room)) {
+      toast.error("Tên phòng không hợp lệ");
+      return;
+    }
     setRoomStatusFetching(true);
     roomApi
       .checkStarted(room)

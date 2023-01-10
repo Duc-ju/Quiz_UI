@@ -4,6 +4,8 @@ import Button from "../../../commonComponents/Button";
 import { FcSearch } from "@react-icons/all-files/fc/FcSearch";
 import { Link } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
+import { GrUserAdmin } from "@react-icons/all-files/gr/GrUserAdmin";
+import NoticeButton from "../../../commonComponents/NoticeButton";
 
 function JoinHeader(props) {
   const { keycloak, initialized } = useKeycloak();
@@ -24,6 +26,7 @@ function JoinHeader(props) {
         <Link to={"/join"} className={classes.logo}>
           <img src={`${process.env.PUBLIC_URL}/static/logo.png`} alt={"logo"} />
         </Link>
+        <Button>Xem lịch sử</Button>
         <div className={classes.searchInput}>
           <div className={classes.leftNav}>
             <span className={classes.searchIcon}>
@@ -53,7 +56,13 @@ function JoinHeader(props) {
               </>
             )}
             {keycloak.authenticated && (
-              <Button onClick={handleLogout}>Đăng xuất</Button>
+              <>
+                <NoticeButton />
+                <Button onClick={handleLogout}>Đăng xuất</Button>
+                <Button to={"/admin/home"} preIcon={<GrUserAdmin />}>
+                  Admin
+                </Button>
+              </>
             )}
           </li>
         </ul>

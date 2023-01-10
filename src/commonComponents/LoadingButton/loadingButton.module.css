@@ -11,10 +11,11 @@
     justify-content: center;
     box-shadow: var(--button-primary-shadow);
     cursor: pointer;
+    transform: translateY(-2px);
 }
 
 .root:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
 }
 
 .fullWidth {
@@ -23,4 +24,8 @@
 
 .root * {
     font-size: 20px;
+}
+
+.root.light {
+    background-color: var(--primary-color);
 }

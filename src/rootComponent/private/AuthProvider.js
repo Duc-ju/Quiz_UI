@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
       window.localStorage.setItem("access", keycloak.token);
       window.localStorage.setItem("refresh", keycloak.refreshToken);
     }
-  }, [keycloak.token, keycloak.refreshToken]);
+  }, [keycloak.tokenParsed, keycloak.token, keycloak.refreshToken]);
 
   return (
     <AuthContext.Provider value={{ access, refresh }}>

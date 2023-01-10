@@ -3,6 +3,8 @@ import classes from "./adminHeader.module.css";
 import Button from "../../../commonComponents/Button";
 import { FcSearch } from "@react-icons/all-files/fc/FcSearch";
 import { useKeycloak } from "@react-keycloak/web";
+import { AiOutlineUserSwitch } from "@react-icons/all-files/ai/AiOutlineUserSwitch";
+import NoticeButton from "../../../commonComponents/NoticeButton";
 
 function AdminHeader(props) {
   const { keycloak, initialized } = useKeycloak();
@@ -44,7 +46,13 @@ function AdminHeader(props) {
               </>
             )}
             {keycloak.authenticated && (
-              <Button onClick={handleLogout}>Đăng xuất</Button>
+              <>
+                <NoticeButton />
+                <Button onClick={handleLogout}>Đăng xuất</Button>
+                <Button to={"/join"} preIcon={<AiOutlineUserSwitch />}>
+                  Student
+                </Button>
+              </>
             )}
           </li>
         </ul>

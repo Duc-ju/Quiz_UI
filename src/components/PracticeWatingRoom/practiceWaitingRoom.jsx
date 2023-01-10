@@ -7,9 +7,11 @@ import { FaFlagCheckered } from "@react-icons/all-files/fa/FaFlagCheckered";
 import { FcVoicePresentation } from "@react-icons/all-files/fc/FcVoicePresentation";
 import { RoomContext } from "../../rootComponent/practiceRoom/PracticeRoomRouter/context/practiceRoomProvider";
 import { useNavigate } from "react-router-dom";
+import LoadingButton from "../../commonComponents/LoadingButton";
 
 function PracticeWaitingRoom(props) {
-  const { lesson, setStarted, handleStartRoom } = useContext(RoomContext);
+  const { lesson, setStarted, handleStartRoom, startFetching } =
+    useContext(RoomContext);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Phòng chờ";
@@ -64,9 +66,14 @@ function PracticeWaitingRoom(props) {
               <span>Kết thúc</span>
             </div>
             <h2>{`${lesson.numberOfQuestion} slide còn lại`}</h2>
-            <Button fullWidth onClick={handleStartRoom}>
+            <LoadingButton
+              light={true}
+              fetching={startFetching}
+              fullWidth
+              onClick={handleStartRoom}
+            >
               Bắt đầu thôi
-            </Button>
+            </LoadingButton>
           </div>
         </div>
         <div className={classes.thirdColumn}></div>

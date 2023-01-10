@@ -26,6 +26,10 @@ function AdminPage(props) {
   const { access } = useContext(AuthContext);
 
   useEffect(() => {
+    document.title = "Trang chủ admin";
+  }, []);
+
+  useEffect(() => {
     categoryApi
       .getAll()
       .then((response) => {

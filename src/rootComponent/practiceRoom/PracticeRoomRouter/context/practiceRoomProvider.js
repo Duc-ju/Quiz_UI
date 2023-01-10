@@ -13,6 +13,7 @@ function PracticeRoomProvider({ children }) {
   const [started, setStarted] = useState(false);
   const [answerTime, setAnswerTime] = useState();
   const [fetching, setFetching] = useState(false);
+  const [startFetching, setStartFetching] = useState(false);
   const [rankStatistic, setRankStatistic] = useState(null);
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [answerList, setAnswerList] = useState([]);
@@ -67,6 +68,7 @@ function PracticeRoomProvider({ children }) {
   };
 
   const handleStartRoom = () => {
+    setStartFetching(true);
     const dataObject = {
       lessonId: lesson.id,
       userId: null,
@@ -90,7 +92,8 @@ function PracticeRoomProvider({ children }) {
         toast.error("Có lỗi xảy ra");
         console.log(e);
         navigate(`/join/practice/${lesson.id}/pre-game`);
-      });
+      })
+      .finally(() => setStartFetching(false));
   };
   const currentQuestion = (() => {
     if (
@@ -197,6 +200,7 @@ function PracticeRoomProvider({ children }) {
         openRankStatistic,
         setOpenRankStatistic,
         setRankStatistic,
+        startFetching,
       }}
     >
       {children}

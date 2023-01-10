@@ -51,7 +51,6 @@ function ScoredRoom(props) {
         .getAnswerTimeRank(lessonId)
         .then((response) => {
           setRankStatistic(response.data);
-          setOpenRankStatistic(true);
         })
         .catch((e) => {
           toast.error("Có lỗi xảy ra!");
@@ -63,7 +62,6 @@ function ScoredRoom(props) {
         .getRoomRank(roomId)
         .then((response) => {
           setRankStatistic(response.data);
-          setOpenRankStatistic(true);
         })
         .catch((e) => {
           toast.error("Có lỗi xảy ra!");
