@@ -37,7 +37,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .header svg {
@@ -75,7 +75,7 @@
     display: flex;
     justify-content: space-between;
     padding: 12px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .correct, .wrong {

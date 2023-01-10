@@ -8,7 +8,6 @@ import { PENDING_TIME } from "../../constant/gameConstant";
 import fillRoomName from "../../logic/fillRoomName";
 import { useNavigate } from "react-router";
 import LoadingIcon from "../../commonComponents/LoadingIcon";
-import question from "../ScoredRoom/Question";
 
 function AsynchronousPlayingRoom(props) {
   const { currentQuestion } = useContext(AsynchronousRoomContext);
@@ -112,9 +111,7 @@ function PlayingRoomContent(props) {
         </h2>
         {resultTime > 0 && (
           <div className={classes.loading}>
-            <div>{`Chờ câu hỏi tiếp theo trong ${
-              question.duration - count
-            }s`}</div>
+            <div>Bạn hãy chờ mọi người cùng hoàn thành câu hỏi này.</div>
             <LoadingIcon />
           </div>
         )}

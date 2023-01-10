@@ -48,7 +48,7 @@ function Overview(props) {
                     }
                   />
                 </span>
-                <div>Đức đây!</div>
+                <div>{answerTime.nickName}</div>
               </div>
               <div>{answerTime.point}</div>
               {answerTime.questionAnswers.map((questionAnswer) =>
