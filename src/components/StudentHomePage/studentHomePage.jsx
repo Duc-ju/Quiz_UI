@@ -10,14 +10,19 @@ import { AuthContext } from "../../rootComponent/private/AuthProvider";
 import fillRoomName from "../../logic/fillRoomName";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import roomApi from "../../api/roomApi";
+import LoadingButton from "../../commonComponents/LoadingButton";
 
 function StudentHomePage(props) {
   const [categories, setCategories] = useState(null);
   const [fetching, setFetching] = useState(true);
   const { access } = useContext(AuthContext);
   const [room, setRoom] = useState("");
+  const [roomStatusFetching, setRoomStatusFetching] = useState(false);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    document.title = "Trang chủ student";
+  }, []);
   useEffect(() => {
     categoryApi
       .getAll()
@@ -31,7 +36,22 @@ function StudentHomePage(props) {
       .finally();
   }, [access]);
   const handleJoinRoom = () => {
-    navigate(`/join/asynchronous/${fillRoomName(room)}/pre-game/nickname`);
+    setRoomStatusFetching(true);
+    roomApi
+      .checkStarted(room)
+      .then((response) => {
+        if (response.data) {
+          toast.error(`Phòng thi ${fillRoomName(room)} đã kết thúc`);
+        } else {
+          navigate(
+            `/join/asynchronous/${fillRoomName(room)}/pre-game/nickname`
+          );
+        }
+      })
+      .catch(() => {
+        toast.error("Có lỗi xảy ra");
+      })
+      .finally(() => setRoomStatusFetching(false));
   };
   return (
     <section className={classes.root}>
@@ -40,11 +60,16 @@ function StudentHomePage(props) {
           <div className={classes.topLeft}>
             <div className={classes.outline}>
               <input
-                type={"text"}
+                type={"number"}
                 value={room}
                 onChange={(e) => setRoom(e.target.value)}
               />
-              <Button onClick={handleJoinRoom}>THAM GIA</Button>
+              <LoadingButton
+                fetching={roomStatusFetching}
+                onClick={handleJoinRoom}
+              >
+                THAM GIA
+              </LoadingButton>
             </div>
           </div>
           <div className={classes.topRight}>

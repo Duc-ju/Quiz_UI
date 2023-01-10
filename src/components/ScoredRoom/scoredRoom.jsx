@@ -39,6 +39,14 @@ function ScoredRoom(props) {
 
   useEffect(() => {
     if (lessonId) {
+      document.title = "Kết quả thực hành";
+    } else {
+      document.title = "Kết quả kiểm tra";
+    }
+  }, []);
+
+  useEffect(() => {
+    if (lessonId) {
       statisticApi
         .getAnswerTimeRank(lessonId)
         .then((response) => {

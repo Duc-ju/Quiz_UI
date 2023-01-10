@@ -42,6 +42,9 @@ function AdminLiveScoredRoomMain(props) {
   const progressStyle = {
     "--accuracy-progress": `${statistic.accuracy * 100}%`,
   };
+  useEffect(() => {
+    document.title = "Thống kê kết quả phòng thi";
+  }, []);
 
   return (
     <div className={classes.root} style={progressStyle}>

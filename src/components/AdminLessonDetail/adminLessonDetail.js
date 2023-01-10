@@ -36,6 +36,9 @@ function AdminLessonDetail(props) {
   const [fetching, setFetching] = useState(true);
   const params = useParams();
   useEffect(() => {
+    document.title = "Chi tiết bộ câu hỏi";
+  }, []);
+  useEffect(() => {
     lessonApi
       .getById(params.lessonId)
       .then((response) => {
@@ -104,6 +107,7 @@ function AdminLessonDetailBody(props) {
       })
       .then((response) => {
         const room = response.data;
+        toast.info("Tạo phòng thành công");
         navigate(`/admin/quiz-room/${fillRoomName(room.id)}/startV4`);
       })
       .catch((e) => console.log(e));

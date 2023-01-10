@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import classes from "./practiceWaitingRoom.module.css";
 import Button from "../../commonComponents/Button";
 import { FiShare2 } from "@react-icons/all-files/fi/FiShare2";
@@ -11,7 +11,9 @@ import { useNavigate } from "react-router-dom";
 function PracticeWaitingRoom(props) {
   const { lesson, setStarted, handleStartRoom } = useContext(RoomContext);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    document.title = "Phòng chờ";
+  }, []);
   if (!lesson) return null;
   return (
     <section className={classes.root}>

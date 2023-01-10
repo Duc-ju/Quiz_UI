@@ -9,6 +9,10 @@ const roomApi = {
     const url = `/room/rooms/`;
     return axiosClient.post(url, data);
   },
+  checkStarted: (roomId) => {
+    const url = `/room/rooms/${roomId}/check-started`;
+    return axiosClient.get(url);
+  },
 };
 
 export default roomApi;

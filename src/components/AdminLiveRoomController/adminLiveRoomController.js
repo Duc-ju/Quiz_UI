@@ -15,9 +15,7 @@ function RoomController(props) {
         <div className={classes.headerLeft}>
           <Link to={"/admin/home"} className={classes.logoContainer}>
             <img
-              src={
-                "https://cf.quizizz.com/img/quizizz_logos/white-brandmark-600x164.png"
-              }
+              src={`${process.env.PUBLIC_URL}/static/logo2.png`}
               alt={"quizz-logo"}
             />
           </Link>

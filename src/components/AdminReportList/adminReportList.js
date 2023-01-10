@@ -67,6 +67,10 @@ function AdminReportList(props) {
       .finally();
   }, [access]);
 
+  useEffect(() => {
+    document.title = "Danh sách thống kê";
+  }, []);
+
   console.log(reports);
   const handleChooseReport = (id) => {
     // navigate("/admin/reports/1/players");

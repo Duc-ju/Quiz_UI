@@ -12,6 +12,9 @@ function PracticePlayingRoom(props) {
   const params = useParams();
   const navigate = useNavigate();
   useEffect(() => {
+    document.title = "Làm bài luyện tập";
+  }, []);
+  useEffect(() => {
     if (!lesson || !started) {
       navigate(`/join/practice/${params.lessonId}/pre-game`);
       toast.error("Bạn cần tham gia bài kiểm tra từ đầu!");

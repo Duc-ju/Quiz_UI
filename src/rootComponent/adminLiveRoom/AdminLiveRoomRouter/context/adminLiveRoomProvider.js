@@ -103,6 +103,9 @@ function AdminLiveRoomProvider({ children }) {
       value={{
         handleStartRoom,
         listActiveUser,
+        statistic,
+        socket,
+        room,
       }}
     >
       {children}

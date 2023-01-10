@@ -22,12 +22,7 @@ function JoinHeader(props) {
     <section className={classes.root}>
       <div className={classes.container}>
         <Link to={"/join"} className={classes.logo}>
-          <img
-            src={
-              "https://cf.quizizz.com/img/quizizz_logos/purple-brandmark-600x164.png"
-            }
-            alt={"logo"}
-          />
+          <img src={`${process.env.PUBLIC_URL}/static/logo.png`} alt={"logo"} />
         </Link>
         <div className={classes.searchInput}>
           <div className={classes.leftNav}>
@@ -50,7 +45,7 @@ function JoinHeader(props) {
         </div>
         <ul className={classes.rightNav}>
           <li>
-            <Button>Tham gia</Button>
+            <Button>Tìm kiếm</Button>
             {!keycloak.authenticated && (
               <>
                 <Button onClick={handleLogin}>Đăng nhập</Button>

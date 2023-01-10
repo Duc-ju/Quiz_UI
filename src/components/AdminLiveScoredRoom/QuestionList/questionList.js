@@ -6,6 +6,7 @@ import { FaDotCircle } from "@react-icons/all-files/fa/FaDotCircle";
 import Icon from "../../../commonComponents/Icon";
 import { ModalContext } from "../../../rootComponent/common/ModalContainer/ModalContext/modalContext";
 import QuestionDetail from "../QuestionDetail";
+import Skeleton from "react-loading-skeleton";
 
 function QuestionList(props) {
   const { openModal } = useContext(ModalContext);
@@ -13,6 +14,7 @@ function QuestionList(props) {
   const handleViewDetail = (question) => {
     openModal(<QuestionDetail question={question} />);
   };
+  if (!questions) return <QuestionListShimmer />;
   return (
     <div className={classes.root}>
       <div className={classes.rootHeader}>
@@ -61,6 +63,64 @@ function QuestionList(props) {
                     </div>
                   )
                 )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function QuestionListShimmer() {
+  return (
+    <div className={classes.root}>
+      <div className={classes.rootHeader}>
+        <span>Chưa có thông tin thông tin thống kê</span>
+      </div>
+      <div className={classes.shortcut}>
+        {new Array(5).fill(null).map((x, index) => (
+          <span key={index}>
+            <Skeleton width={"32px"} height={"32px"} />
+          </span>
+        ))}
+      </div>
+      <div className={classes.questions}>
+        {new Array(5).fill(null).map((question, index) => (
+          <div className={classes.question} key={index}>
+            <div className={classes.header}>
+              <div>
+                <Skeleton width={"120px"} height={"42px"} />
+              </div>
+              <div>
+                <div>
+                  <span>
+                    <Skeleton width={"120px"} height={"20px"} />
+                  </span>
+                  <span>
+                    <Skeleton width={"80px"} height={"20px"} />
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <Skeleton width={"100px"} height={"20px"} />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className={classes.questionContent}>
+              <h3>
+                <Skeleton width={"350px"} height={"20px"} />
+              </h3>
+              <div className={classes.answerList}>
+                {new Array(4).fill(null).map((x, index) => (
+                  <div className={classes.answer} key={index}>
+                    <Icon icon={<FaDotCircle />} />
+                    <span>
+                      <Skeleton width={"100px"} height={"20px"} />
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -11,12 +11,7 @@ function LeftNav(props) {
   return (
     <div className={classes.root}>
       <Link className={classes.logoSection} to={"/admin/home"}>
-        <img
-          alt={"logo"}
-          src={
-            "https://cf.quizizz.com/img/quizizz_logos/purple-brandmark-600x164.png"
-          }
-        />
+        <img alt={"logo"} src={`${process.env.PUBLIC_URL}/static/logo.png`} />
       </Link>
       {/*<div className={classes.actionSection}>*/}
       {/*  <p>Có một tài khoản?</p>*/}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import classes from "./asynchronousWaitingRoom.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { AsynchronousRoomContext } from "../../rootComponent/asynchronousRoom/AsynchronousRoomRouter/context/asynchronousRoomProvider";
@@ -13,6 +13,9 @@ function AsynchronousWaitingRoom(props) {
   );
   const navigate = useNavigate();
   const { roomId } = useParams();
+  useEffect(() => {
+    document.title = "Phòng chờ";
+  }, []);
   if (!room || !nickname) {
     navigate(`/join/asynchronous/${fillRoomName(roomId)}/pre-game/nickname`);
     return null;

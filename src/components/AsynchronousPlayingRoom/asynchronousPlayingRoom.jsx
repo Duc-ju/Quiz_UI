@@ -20,6 +20,9 @@ function AsynchronousPlayingRoom(props) {
       navigate(`/join/asynchronous/${fillRoomName(roomId)}/pre-game/nickname`);
     }
   });
+  useEffect(() => {
+    document.title = "Làm bài kiểm tra";
+  }, []);
   if (!currentQuestion) {
     return null;
   }

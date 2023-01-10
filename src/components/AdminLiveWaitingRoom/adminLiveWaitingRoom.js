@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import classes from "./adminLiveWaitingRoom.module.css";
 import Icon from "../../commonComponents/Icon";
 import { GrGroup } from "@react-icons/all-files/gr/GrGroup";
@@ -14,10 +14,33 @@ import { GrList } from "@react-icons/all-files/gr/GrList";
 import fillRoomName from "../../logic/fillRoomName";
 import { LiveRoomContext } from "../../rootComponent/adminLiveRoom/AdminLiveRoomRouter/context/adminLiveRoomProvider";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
+import roomApi from "../../api/roomApi";
 
 function AdminLiveWaitingRoom(props) {
   const { handleStartRoom, listActiveUser } = useContext(LiveRoomContext);
   const { roomId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Phòng chờ";
+  }, []);
+
+  useEffect(() => {
+    roomApi
+      .checkStarted(roomId)
+      .then((response) => {
+        if (response.data) {
+          toast.error(`Phòng thi ${fillRoomName(roomId)} đã kết thúc`);
+          navigate("/admin/home");
+        }
+      })
+      .catch(() => {
+        toast.error("Có lỗi xảy ra");
+      })
+      .finally(() => {});
+  }, []);
+
   const handleCopyLink = () => {
     navigator.clipboard
       .writeText(
