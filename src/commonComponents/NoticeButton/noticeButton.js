@@ -11,7 +11,7 @@ function NoticeButton(props) {
     (notification) => notification.userRead === false
   ).length;
   return (
-    <Button onClick={toggleNotification}>
+    <Button onClick={toggleNotification} id={"noticeButton"}>
       <span className={classes.noticeButton}>
         {countNotRead > 0 && (
           <span className={classes.quantity}>{countNotRead}</span>

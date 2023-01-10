@@ -26,7 +26,7 @@ function JoinHeader(props) {
         <Link to={"/join"} className={classes.logo}>
           <img src={`${process.env.PUBLIC_URL}/static/logo.png`} alt={"logo"} />
         </Link>
-        <Button>Xem lịch sử</Button>
+        <Button to={"/join/history"}>Xem lịch sử</Button>
         <div className={classes.searchInput}>
           <div className={classes.leftNav}>
             <span className={classes.searchIcon}>

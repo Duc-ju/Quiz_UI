@@ -25,6 +25,10 @@ const statisticApi = {
     const url = `/room/statistic/rooms/${roomId}/chart`;
     return axiosClient.get(url);
   },
+  getAllAnswerTime: (userId) => {
+    const url = `/room/statistic/users/${userId}/answer-times`;
+    return axiosClient.get(url);
+  },
 };
 
 export default statisticApi;

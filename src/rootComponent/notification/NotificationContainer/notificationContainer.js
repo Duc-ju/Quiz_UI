@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import classes from "./notificationContainer.module.css";
 import Icon from "../../../commonComponents/Icon";
 import { FcInfo } from "@react-icons/all-files/fc/FcInfo";
@@ -8,9 +8,25 @@ import mergeClassNames from "merge-class-names";
 
 function NotificationContainer(props) {
   const { notifications, open, setOpen } = useContext(NotificationContext);
+  const ref = useRef();
   const rootClass = mergeClassNames(classes.root, open ? classes.open : "");
+  useEffect(() => {
+    const handleCloseNotification = (e) => {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        !document.getElementById("noticeButton")?.contains(e.target)
+      ) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("click", handleCloseNotification);
+    return () => {
+      window.removeEventListener("click", handleCloseNotification);
+    };
+  }, [ref]);
   return (
-    <section className={rootClass}>
+    <section className={rootClass} ref={ref}>
       <div className={classes.container}>
         {notifications &&
           notifications.map((notification) => (

@@ -59,6 +59,8 @@
 
 .lessonBody {
     padding: 10px 10px 14px;
+    width: 240px;
+    height: 100px;
 }
 
 .lessonBody h3 {

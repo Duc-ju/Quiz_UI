@@ -17,8 +17,8 @@ function AdminPage(props) {
     dots: false,
     infinite: true,
     autoplay: false,
-    slidesToShow: 6,
-    slidesToScroll: 6,
+    slidesToShow: 5,
+    slidesToScroll: 3,
   };
 
   const [categories, setCategories] = useState();
